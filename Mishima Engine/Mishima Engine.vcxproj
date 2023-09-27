@@ -80,6 +80,12 @@
   <ItemGroup>
     <ClInclude Include="Game\Source\Application.h" />
     <ClInclude Include="Game\Source\Color.h" />
+    <ClInclude Include="Game\Source\External\imgui\imconfig.h" />
+    <ClInclude Include="Game\Source\External\imgui\imgui.h" />
+    <ClInclude Include="Game\Source\External\imgui\imgui_internal.h" />
+    <ClInclude Include="Game\Source\External\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Game\Source\External\imgui\imstb_textedit.h" />
+    <ClInclude Include="Game\Source\External\imgui\imstb_truetype.h" />
     <ClInclude Include="Game\Source\glmath.h" />
     <ClInclude Include="Game\Source\Globals.h" />
     <ClInclude Include="Game\Source\Light.h" />
@@ -155,6 +161,11 @@
   <ItemGroup>
     <ClCompile Include="Game\Source\Application.cpp" />
     <ClCompile Include="Game\Source\Color.cpp" />
+    <ClCompile Include="Game\Source\External\imgui\imgui.cpp" />
+    <ClCompile Include="Game\Source\External\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Game\Source\External\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Game\Source\External\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Game\Source\External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Source\glmath.cpp" />
     <ClCompile Include="Game\Source\Light.cpp" />
     <ClCompile Include="Game\Source\log.cpp" />

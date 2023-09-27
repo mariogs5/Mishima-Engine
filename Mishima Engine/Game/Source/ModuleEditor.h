@@ -4,6 +4,9 @@
 #define MODULE_EDITOR
 
 #include "Module.h"
+#include "../Source/External/imgui/imgui.h"
+#include "../Source/External/imgui/bakends/imgui_impl_sdl2.h"
+#include "../Source/External/imgui/bakends/imgui_impl_opengl3.h"
 
 class ModuleEditor : public Module
 {
