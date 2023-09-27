@@ -40,6 +40,9 @@
     <Filter Include="Externals\imgui">
       <UniqueIdentifier>{6fe8054a-46cd-4cfd-a9a8-9f0d757cb1ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Externals\imgui\bakends">
+      <UniqueIdentifier>{938365bf-12e6-4c74-9d40-bfe839595daf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\Source\Module.h">
@@ -277,6 +280,15 @@
     <ClInclude Include="Game\Source\External\imgui\imstb_truetype.h">
       <Filter>Externals\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3.h">
+      <Filter>Externals\imgui\bakends</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3_loader.h">
+      <Filter>Externals\imgui\bakends</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.h">
+      <Filter>Externals\imgui\bakends</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Source\ModuleCamera3D.cpp">
@@ -428,6 +440,12 @@
     </ClCompile>
     <ClCompile Include="Game\Source\External\imgui\imgui_widgets.cpp">
       <Filter>Externals\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3.cpp">
+      <Filter>Externals\imgui\bakends</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.cpp">
+      <Filter>Externals\imgui\bakends</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

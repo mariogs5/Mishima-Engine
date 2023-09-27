@@ -21,7 +21,8 @@ public:
 
 private:
 
-	bool show_demo_window;
+	bool UpdateAditionalWindows = false;
+	bool show_demo_window = true;
 
 };
 #endif // !MODULE_EDITOR

@@ -80,6 +80,9 @@
   <ItemGroup>
     <ClInclude Include="Game\Source\Application.h" />
     <ClInclude Include="Game\Source\Color.h" />
+    <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3.h" />
+    <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.h" />
     <ClInclude Include="Game\Source\External\imgui\imconfig.h" />
     <ClInclude Include="Game\Source\External\imgui\imgui.h" />
     <ClInclude Include="Game\Source\External\imgui\imgui_internal.h" />
@@ -161,6 +164,8 @@
   <ItemGroup>
     <ClCompile Include="Game\Source\Application.cpp" />
     <ClCompile Include="Game\Source\Color.cpp" />
+    <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.cpp" />
     <ClCompile Include="Game\Source\External\imgui\imgui.cpp" />
     <ClCompile Include="Game\Source\External\imgui\imgui_demo.cpp" />
     <ClCompile Include="Game\Source\External\imgui\imgui_draw.cpp" />
