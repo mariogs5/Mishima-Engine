@@ -222,9 +222,6 @@
     <ClInclude Include="Game\Source\External\MathGeoLib\include\Math\MathTypes.h">
       <Filter>Externals\MathGeoLib\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Source\Externals\MathGeoLib\include\Math\MatrixProxy.h">
-      <Filter>Externals\MathGeoLib\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Source\External\MathGeoLib\include\Math\myassert.h">
       <Filter>Externals\MathGeoLib\Math</Filter>
     </ClInclude>
@@ -254,6 +251,10 @@
     </ClInclude>
     <ClInclude Include="Game\Source\glmath.h">
       <Filter>Externals</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Source\External\MathGeoLib\include\Math\MatrixProxy.h" />
+    <ClInclude Include="Game\Source\ModuleEditor.h">
+      <Filter>Sources\Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +389,9 @@
     </ClCompile>
     <ClCompile Include="Game\Source\glmath.cpp">
       <Filter>Externals</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Source\ModuleEditor.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

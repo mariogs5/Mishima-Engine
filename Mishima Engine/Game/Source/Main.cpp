@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "Application.h"
 #include "Globals.h"
+#include "ModuleInput.h"
 
 #include "../Source/External/SDL/include/SDL.h"
 #pragma comment( lib, "Game/Source/External/SDL/libx86/SDL2.lib" )
