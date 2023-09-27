@@ -19,6 +19,10 @@ public:
 	void DrawEditor();
 	bool CleanUp();
 
+private:
+
+	bool show_demo_window;
+
 };
 #endif // !MODULE_EDITOR
 

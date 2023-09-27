@@ -12,13 +12,15 @@ ModuleEditor::~ModuleEditor()
 bool ModuleEditor::Init()
 {
 	bool ret = true;
+
+	show_demo_window = true;
 	return ret;
 
 }
 
 void ModuleEditor::DrawEditor()
 {
-    
+	ImGui::ShowDemoWindow(&show_demo_window);
 }
 
 bool ModuleEditor::CleanUp()
