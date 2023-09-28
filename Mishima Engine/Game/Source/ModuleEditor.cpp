@@ -2,6 +2,9 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 
+#include <iostream>
+#include "vector"
+
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -47,12 +50,18 @@ bool ModuleEditor::Init()
     ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
     ImGui_ImplOpenGL3_Init();
 
+    mFPS.reserve(30);
+
 	return ret;
 
 }
 
 void ModuleEditor::DrawEditor()
 {
+    //FPS
+
+    UpdateFPS(aFPS);
+
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -60,9 +69,47 @@ void ModuleEditor::DrawEditor()
 
     //-------------------------------------------Editor Code-----------------------------------------------------------------------------------//
 
-    ImGui::ShowDemoWindow(&show_demo_window);
+    //ImGui::SeparatorText("Fullscreen:");   Titulo separador
+     
+    //ImGui::Text("dear imgui says hello! (%s) (%d)");   Texto
 
+    //ImGui::ShowDemoWindow();
 
+    if (ImGui::BeginMainMenuBar()) 
+    {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("File")) 
+            {
+
+            }
+
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+
+    ImGui::Begin("Configuration", &show_FPS_window, ImGuiWindowFlags_MenuBar);
+
+    if (ImGui::CollapsingHeader("Resources"))
+    {
+        float samples[100];
+        for (int n = 0; n < 100; n++)
+            samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
+
+        ImGui::PlotHistogram("FPS", samples, mFPS.size(), 0, "", 0.0f, 1.0f, ImVec2(300, 100));
+    }
+
+    if (ImGui::CollapsingHeader("Window")) 
+    {
+        ImGui::BulletText("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
+
+       /* if (ImGui::Checkbox("Fullscreen",&fullscreen)) 
+        {
+            App->window->SetFullscreen(fullscreen)
+        }*/
+    }
+    ImGui::End();
     //-------------------------------------------End of Editor Code---------------------------------------------------------------------------//
 
     // Rendering
@@ -89,4 +136,24 @@ bool ModuleEditor::CleanUp()
     ImGui::DestroyContext();
 
 	return true;
+}
+
+void ModuleEditor::UpdateFPS(const float aFPS)
+{
+    if (mFPS.size() < 30) 
+    {
+        mFPS.push_back(aFPS);
+    }
+    else 
+    {
+        for (unsigned int i = 0; i < mFPS.size(); i++) 
+        {
+            if (i + 1 < mFPS.size()) 
+            {
+                float copy = mFPS[i + 1];
+                mFPS[i] = copy;
+            }
+        }
+        mFPS[mFPS.capacity() - 1] = aFPS;
+    }
 }

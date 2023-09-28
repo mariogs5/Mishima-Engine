@@ -19,11 +19,19 @@ public:
 	void DrawEditor();
 	bool CleanUp();
 
+	void UpdateFPS(const float aFPS);
+
 private:
 
 	bool UpdateAditionalWindows = false;
-	bool show_demo_window = true;
 
+	//FPS LOG
+	bool show_FPS_window = true;
+	float aFPS; //Current FPS
+	std::vector <float> mFPS; //Vector of FPS
+
+	//Fullscreen
+	bool fullscreen;
 };
 #endif // !MODULE_EDITOR
 
