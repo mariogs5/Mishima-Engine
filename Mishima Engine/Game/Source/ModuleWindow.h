@@ -18,6 +18,8 @@ public:
 	bool Init();
 	bool CleanUp();
 
+	void EnableFullscreen();
+
 	void SetTitle(const char* title);
 
 public:

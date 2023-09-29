@@ -19,19 +19,33 @@ public:
 	void DrawEditor();
 	bool CleanUp();
 
-	void UpdateFPS(const float aFPS);
+	// imgui Funcions
+	void MainMenuBar();
+	void ConfigurationWindow();
+
+	// Resources
+	void UpdateFPS(const float currentFPS);
+	void UpdateMS(const float currentMS);
+	void UpdateDT(const float currentDT);
+
+	//Fullscreen
+	bool fullscreen = false;
 
 private:
 
 	bool UpdateAditionalWindows = false;
 
-	//FPS LOG
-	bool show_FPS_window = true;
-	float aFPS; //Current FPS
-	std::vector <float> mFPS; //Vector of FPS
+	// Resources
+	float currentFPS; //Current FPS
+	std::vector <float> vectorFPS; //Vector of FPS
+	float currentMS; //Current MS
+	std::vector <float> vectorMS; //Vector of MS
+	float currentDT; //Current DT
+	std::vector <float> vectorDT; //Vector of DT
 
-	//Fullscreen
-	bool fullscreen;
+	bool configWindow = true;
+	
+	
 };
 #endif // !MODULE_EDITOR
 

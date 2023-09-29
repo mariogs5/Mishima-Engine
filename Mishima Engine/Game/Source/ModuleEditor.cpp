@@ -51,7 +51,9 @@ bool ModuleEditor::Init()
     ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
     ImGui_ImplOpenGL3_Init();
 
-    mFPS.reserve(30);
+    vectorFPS.reserve(30); //FPS vector
+    vectorMS.reserve(30); //MS vector
+    vectorDT.reserve(30); //DT vector
 
 	return ret;
 
@@ -59,10 +61,6 @@ bool ModuleEditor::Init()
 
 void ModuleEditor::DrawEditor()
 {
-    //FPS
-    aFPS = App->FPS();
-    UpdateFPS(aFPS);
-
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -74,43 +72,11 @@ void ModuleEditor::DrawEditor()
      
     //ImGui::Text("dear imgui says hello! (%s) (%d)");   Texto
 
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 
-    if (ImGui::BeginMainMenuBar()) 
-    {
-        if (ImGui::BeginMenu("File"))
-        {
-            if (ImGui::MenuItem("File")) 
-            {
+    MainMenuBar();
+    ConfigurationWindow();
 
-            }
-
-            ImGui::EndMenu();
-        }
-        ImGui::EndMainMenuBar();
-    }
-
-    ImGui::Begin("Configuration", &show_FPS_window, ImGuiWindowFlags_MenuBar);
-
-    if (ImGui::CollapsingHeader("Resources"))
-    {
-    /*    float samples[100];
-        for (int n = 0; n < 100; n++)
-            samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);*/
-
-        ImGui::PlotHistogram("FPS", &mFPS[0], mFPS.size(), 0, "", 0.0f, 100.0f, ImVec2(300, 100));
-    }
-
-    if (ImGui::CollapsingHeader("Window")) 
-    {
-        ImGui::Text("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
-
-       /* if (ImGui::Checkbox("Fullscreen",&fullscreen)) 
-        {
-            App->window->SetFullscreen(fullscreen)
-        }*/
-    }
-    ImGui::End();
     //-------------------------------------------End of Editor Code---------------------------------------------------------------------------//
 
     // Rendering
@@ -139,22 +105,122 @@ bool ModuleEditor::CleanUp()
 	return true;
 }
 
-void ModuleEditor::UpdateFPS(const float aFPS)
+// imgui Funcions
+void ModuleEditor::MainMenuBar()
 {
-    if (mFPS.size() < 30) 
+    if (ImGui::BeginMainMenuBar())
     {
-        mFPS.push_back(aFPS);
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("File"))
+            {
+
+            }
+
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+}
+
+void ModuleEditor :: ConfigurationWindow()
+{
+    //Update current FPS and vector
+    currentFPS = App->FPS();
+    UpdateFPS(currentFPS);
+
+    //Update current MS and vector
+    currentMS = App->MS();
+    UpdateMS(currentMS);
+
+    //Update current DT and vector
+    currentDT = App->DT();
+    UpdateDT(currentDT);
+
+    ImGui::Begin("Configuration", &configWindow, ImGuiWindowFlags_MenuBar);
+
+    if (ImGui::CollapsingHeader("Resources"))
+    {
+        ImGui::PlotHistogram("", &vectorFPS[0], vectorFPS.size(), 0, "Framerate", 0.0f, 200.0f, ImVec2(300, 80));
+        ImGui::PlotHistogram("", &vectorMS[0], vectorMS.size(), 0, "Milliseconds", 0.0f, 10.0f, ImVec2(300, 80));
+        ImGui::PlotHistogram("", &vectorDT[0], vectorDT.size(), 0, "Delta Time", 0.0f, 0.01f, ImVec2(300, 80));
+    }
+
+    if (ImGui::CollapsingHeader("Window"))
+    {
+        ImGui::Text("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
+
+         if (ImGui::Checkbox("Fullscreen",&fullscreen))
+         {
+             //App->window->EnableFullscreen();
+         }
+    }
+
+    if (ImGui::CollapsingHeader("Hardware"))
+    {
+       // Hardware used
+    }
+    ImGui::End();
+}
+
+
+// Resources Funcions
+void ModuleEditor::UpdateFPS(const float currentFPS)
+{
+    if (vectorFPS.size() < 30)
+    {
+        vectorFPS.push_back(currentFPS);
     }
     else 
     {
-        for (unsigned int i = 0; i < mFPS.size(); i++) 
+        for (unsigned int i = 0; i < vectorFPS.size(); i++)
         {
-            if (i + 1 < mFPS.size()) 
+            if (i + 1 < vectorFPS.size())
             {
-                float copy = mFPS[i + 1];
-                mFPS[i] = copy;
+                float copy = vectorFPS[i + 1];
+                vectorFPS[i] = copy;
             }
         }
-        mFPS[mFPS.capacity() - 1] = aFPS;
+        vectorFPS[vectorFPS.capacity() - 1] = currentFPS;
+    }
+}
+
+void ModuleEditor::UpdateMS(const float currentMS) 
+{
+    if (vectorMS.size() < 30)
+    {
+        vectorMS.push_back(currentMS);
+    }
+    else
+    {
+        for (unsigned int i = 0; i < vectorMS.size(); i++)
+        {
+            if (i + 1 < vectorMS.size())
+            {
+                float copy = vectorMS[i + 1];
+                vectorMS[i] = copy;
+            }
+        }
+        vectorMS[vectorMS.capacity() - 1] = currentMS;
+    }
+}
+
+void ModuleEditor::UpdateDT(const float currentDT)
+{
+    if (vectorDT.size() < 30)
+    {
+        vectorDT.push_back(currentDT);
+    }
+    else
+    {
+        for (unsigned int i = 0; i < vectorDT.size(); i++)
+        {
+            if (i + 1 < vectorDT.size())
+            {
+                float copy = vectorDT[i + 1];
+                vectorDT[i] = copy;
+            }
+        }
+        vectorDT[vectorDT.capacity() - 1] = currentDT;
     }
 }
