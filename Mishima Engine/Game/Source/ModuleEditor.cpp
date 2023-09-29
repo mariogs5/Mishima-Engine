@@ -1,6 +1,7 @@
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "Application.h"
 
 #include <iostream>
 #include "vector"
@@ -59,7 +60,7 @@ bool ModuleEditor::Init()
 void ModuleEditor::DrawEditor()
 {
     //FPS
-
+    aFPS = App->FPS();
     UpdateFPS(aFPS);
 
     // Start the Dear ImGui frame
@@ -73,7 +74,7 @@ void ModuleEditor::DrawEditor()
      
     //ImGui::Text("dear imgui says hello! (%s) (%d)");   Texto
 
-    //ImGui::ShowDemoWindow();
+    ImGui::ShowDemoWindow();
 
     if (ImGui::BeginMainMenuBar()) 
     {
@@ -93,16 +94,16 @@ void ModuleEditor::DrawEditor()
 
     if (ImGui::CollapsingHeader("Resources"))
     {
-        float samples[100];
+    /*    float samples[100];
         for (int n = 0; n < 100; n++)
-            samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);
+            samples[n] = sinf(n * 0.2f + ImGui::GetTime() * 1.5f);*/
 
-        ImGui::PlotHistogram("FPS", samples, mFPS.size(), 0, "", 0.0f, 1.0f, ImVec2(300, 100));
+        ImGui::PlotHistogram("FPS", &mFPS[0], mFPS.size(), 0, "", 0.0f, 100.0f, ImVec2(300, 100));
     }
 
     if (ImGui::CollapsingHeader("Window")) 
     {
-        ImGui::BulletText("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
+        ImGui::Text("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
 
        /* if (ImGui::Checkbox("Fullscreen",&fullscreen)) 
         {
