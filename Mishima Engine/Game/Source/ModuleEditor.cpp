@@ -75,7 +75,10 @@ void ModuleEditor::DrawEditor()
     //ImGui::ShowDemoWindow();
 
     MainMenuBar();
-    ConfigurationWindow();
+    if (configWindow) 
+    {
+        ConfigurationWindow();
+    }
 
     //-------------------------------------------End of Editor Code---------------------------------------------------------------------------//
 
@@ -112,9 +115,9 @@ void ModuleEditor::MainMenuBar()
     {
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::MenuItem("File"))
+            if (ImGui::MenuItem("Configuration"))
             {
-
+                configWindow = true;
             }
 
             ImGui::EndMenu();
@@ -148,17 +151,19 @@ void ModuleEditor :: ConfigurationWindow()
 
     if (ImGui::CollapsingHeader("Window"))
     {
-        ImGui::Text("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are here!");
-
          if (ImGui::Checkbox("Fullscreen",&fullscreen))
          {
              App->window->EnableFullscreen(fullscreen);
          }
     }
 
-    if (ImGui::CollapsingHeader("Hardware"))
+    if (ImGui::CollapsingHeader("Hardware & Drivers"))
     {
-       // Hardware used
+        ImGui::BulletText("Vendor: % s", glGetString(GL_VENDOR));
+        ImGui::BulletText("Renderer: %s", glGetString(GL_RENDERER));
+        ImGui::BulletText("OpenGL version supported %s", glGetString(GL_VERSION));
+        ImGui::BulletText("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+        ImGui::BulletText("Using Glew %s", glewGetString(GLEW_VERSION));
     }
 
     if (ImGui::CollapsingHeader("About"))

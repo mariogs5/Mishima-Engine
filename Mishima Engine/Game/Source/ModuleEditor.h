@@ -43,7 +43,7 @@ private:
 	float currentDT; //Current DT
 	std::vector <float> vectorDT; //Vector of DT
 
-	bool configWindow = true;
+	bool configWindow = false;
 	
 	
 };

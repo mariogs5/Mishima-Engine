@@ -7,6 +7,9 @@
 #include "../Source/External/MathGeoLib/include/Math/float4x4.h"
 #include "Primitive.h"
 
+#include "../Source/External/Glew/include/glew.h"
+#include "../Source/External/SDL\include\SDL_opengl.h"
+
 //todo: REMOVE this before 1st delivery!!
 #include "glmath.h"
 
