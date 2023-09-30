@@ -152,7 +152,7 @@ void ModuleEditor :: ConfigurationWindow()
 
          if (ImGui::Checkbox("Fullscreen",&fullscreen))
          {
-             //App->window->EnableFullscreen();
+             App->window->EnableFullscreen(fullscreen);
          }
     }
 
@@ -160,6 +160,16 @@ void ModuleEditor :: ConfigurationWindow()
     {
        // Hardware used
     }
+
+    if (ImGui::CollapsingHeader("About"))
+    {
+        //Name of the engine
+        //Name of authors with link to github
+        //Libraries used in real time with link to the web
+        //Text of the license 
+
+    }
+
     ImGui::End();
 }
 

@@ -94,7 +94,7 @@ void ModuleWindow::SetTitle(const char* title)
 	SDL_SetWindowTitle(window, title);
 }
 
-void ModuleWindow::EnableFullscreen() 
+void ModuleWindow::EnableFullscreen(bool fullscreen)
 {
 
 }
