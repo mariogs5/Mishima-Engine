@@ -18,8 +18,6 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	void EnableFullscreen(bool fullscreen);
-
 	void SetTitle(const char* title);
 
 public:
@@ -29,7 +27,9 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
 
-	Uint32 flags;
+	int width;
+	int height;
+
 };
 
 #endif // __ModuleWindow_H__

@@ -55,7 +55,7 @@ int main(int argc, char ** argv)
 		{
 			int update_return = App->Update();
 
-			if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_UP)
+			if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_UP || App->input->quit)
 			{
 				state = MAIN_FINISH;
 			}

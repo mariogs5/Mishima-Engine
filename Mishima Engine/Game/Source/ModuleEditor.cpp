@@ -61,6 +61,15 @@ bool ModuleEditor::Init()
 
 void ModuleEditor::DrawEditor()
 {
+    //Toggle Fullscreen
+    if (fullscreen) 
+    {
+        SDL_SetWindowFullscreen(App->window->window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    }
+    else 
+    {
+        SDL_SetWindowFullscreen(App->window->window, 0);
+    }
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -151,10 +160,11 @@ void ModuleEditor :: ConfigurationWindow()
 
     if (ImGui::CollapsingHeader("Window"))
     {
-         if (ImGui::Checkbox("Fullscreen",&fullscreen))
-         {
-             App->window->EnableFullscreen(fullscreen);
-         }
+        ImGui::Checkbox("Fullscreen", &fullscreen);
+        ImGui::SliderInt("Window Width", &App->window->width, 100, 1920);
+        ImGui::SliderInt("Window Height", &App->window->height, 100, 1080);
+
+        SDL_SetWindowSize(App->window->window, App->window->width, App->window->height);
     }
 
     if (ImGui::CollapsingHeader("Hardware & Drivers"))
@@ -173,6 +183,120 @@ void ModuleEditor :: ConfigurationWindow()
         //Libraries used in real time with link to the web
         //Text of the license 
 
+    }
+
+    if (ImGui::CollapsingHeader("Open GL settings"))
+    {
+        ImGui::SeparatorText("Enable / Disable Open GL settings");
+
+        if (ImGui::BeginTable("", 2))
+        {
+            ImGui::TableNextColumn();
+            if (ImGui::Checkbox("Lighting calculations", &lightCalc))
+            {
+                if (lightCalc)
+                {
+                    glEnable(GL_LIGHTING);
+                }
+                else
+                {
+                    glDisable(GL_LIGHTING);
+                }
+            }
+
+            ImGui::TableNextColumn(); 
+            if (ImGui::Checkbox("Normalize Normals", &normalize))
+            {
+                if (normalize)
+                {
+                    glEnable(GL_NORMALIZE);
+                }
+                else
+                {
+                    glDisable(GL_NORMALIZE);
+                }
+            }
+
+            ImGui::TableNextColumn();
+            if (ImGui::Checkbox("Backface Culling", &culling))
+            {
+                if (culling)
+                {
+                    glEnable(GL_CULL_FACE);
+                }
+                else
+                {
+                    glDisable(GL_CULL_FACE);
+                }
+            }
+
+            ImGui::TableNextColumn();
+            if (ImGui::Checkbox("Depth Test", &depthTest))
+            {
+                if (depthTest)
+                {
+                    glEnable(GL_DEPTH_TEST);
+                }
+                else
+                {
+                    glDisable(GL_DEPTH_TEST);
+                }
+            }
+
+            ImGui::TableNextColumn();
+            if (ImGui::Checkbox("2D tecture mapping", &textureMapping))
+            {
+                if (textureMapping)
+                {
+                    glEnable(GL_TEXTURE_2D);
+                }
+                else
+                {
+                    glDisable(GL_TEXTURE_2D);
+                }
+            }
+
+            ImGui::TableNextColumn();
+            if (ImGui::Checkbox("Color material", &colorMaterial))
+            {
+                if (colorMaterial)
+                {
+                    glEnable(GL_COLOR_MATERIAL);
+                }
+                else
+                {
+                    glDisable(GL_COLOR_MATERIAL);
+                }
+            }
+
+            ImGui::TableNextColumn();
+            if (ImGui::Checkbox("Alpha blendig", &blend))
+            {
+                if (blend)
+                {
+                    glEnable(GL_BLEND);
+                }
+                else
+                {
+                    glDisable(GL_BLEND);
+                }
+            }
+
+            ImGui::TableNextColumn();
+            if (ImGui::Checkbox("Wireframe", &wireframe))
+            {
+                if (wireframe)
+                {
+                    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                }
+                else
+                {
+                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                }
+            }
+
+            ImGui::EndTable();
+        }
     }
 
     ImGui::End();

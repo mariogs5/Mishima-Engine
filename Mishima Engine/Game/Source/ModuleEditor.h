@@ -31,6 +31,7 @@ public:
 	//Fullscreen
 	bool fullscreen = false;
 
+
 private:
 
 	bool UpdateAditionalWindows = false;
@@ -44,6 +45,16 @@ private:
 	std::vector <float> vectorDT; //Vector of DT
 
 	bool configWindow = false;
+
+	//Open GL settings
+	bool culling;
+	bool depthTest;
+	bool lightCalc;
+	bool colorMaterial;
+	bool textureMapping;
+	bool blend;
+	bool normalize;
+	bool wireframe = false;
 	
 	
 };
