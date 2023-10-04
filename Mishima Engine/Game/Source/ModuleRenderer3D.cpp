@@ -146,15 +146,19 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	//Grid.Render();
+	Grid.Render();
 
 	//Draw Test
-	glLineWidth(2.0f);
+	/*glLineWidth(2.0f);
 	glBegin(GL_TRIANGLES);
 	glVertex3d(0, 0, 0);
 	glVertex3d(1, 0, 0);
 	glVertex3d(0, 1, 0);
-	glEnd();
+	glEnd();*/
+
+	//Mostrar una Esfera (sin acabar)
+	/*CSphere s(1.0f, 20, 20);
+	s.Render();*/
 
 	//Mostrar un cubo
 	/*Cube c(1, 1, 1);

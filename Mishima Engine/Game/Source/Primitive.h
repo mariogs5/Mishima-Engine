@@ -84,3 +84,15 @@ public:
 	float3 normal;
 	float constant;
 };
+
+class CSphere : public Primitive
+{
+public:
+	CSphere();
+	CSphere(float radius, int stacks, int slices);
+	void InnerRender() const;
+public:
+	float rad;
+	int stacks;
+	int slices;
+};

@@ -255,3 +255,38 @@ void CPlane::InnerRender() const
 
 	glEnd();
 }
+
+CSphere::CSphere(float radius, int stacks, int slices) : Primitive(), rad(radius), stacks(stacks), slices(slices)
+{
+	type = PrimitiveTypes::Primitive_Sphere;
+}
+
+void CSphere::InnerRender()const 
+{
+	glBegin(GL_TRIANGLES);
+
+	for (int i = 0; i <= stacks; ++i) {
+		float phi = static_cast<float>(i) * PI / static_cast<float>(stacks);
+		float phiNext = static_cast<float>(i + 1) * PI / static_cast<float>(stacks);
+
+		for (int j = 0; j <= slices; ++j) {
+			float theta = static_cast<float>(j) * 2.0f * PI / static_cast<float>(slices);
+
+			// Calculate the vertex positions
+			float x1 = rad * sin(phi) * cos(theta);
+			float y1 = rad * cos(phi);
+			float z1 = rad * sin(phi) * sin(theta);
+
+			float x2 = rad * sin(phiNext) * cos(theta);
+			float y2 = rad * cos(phiNext);
+			float z2 = rad * sin(phiNext) * sin(theta);
+
+			// Draw the vertices
+			glVertex3f(x1, y1, z1);
+			glVertex3f(x2, y2, z2);
+		}
+	}
+
+	glEnd();
+}
+
