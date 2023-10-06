@@ -289,6 +289,9 @@
     <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.h">
       <Filter>Externals\imgui\bakends</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Source\ImportModel.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Source\ModuleCamera3D.cpp">
@@ -446,6 +449,9 @@
     </ClCompile>
     <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.cpp">
       <Filter>Externals\imgui\bakends</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Source\ImportModel.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
