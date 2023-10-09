@@ -2,6 +2,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "Application.h"
+#include "External/SDL/include/SDL.h"
 
 #include <iostream>
 #include "vector"
@@ -169,17 +170,59 @@ void ModuleEditor :: ConfigurationWindow()
 
     if (ImGui::CollapsingHeader("Hardware & Drivers"))
     {
-        ImGui::BulletText("Vendor: % s", glGetString(GL_VENDOR));
-        ImGui::BulletText("Renderer: %s", glGetString(GL_RENDERER));
+        int CPUCache;
+        int CPUCount;
+        int RAMUsage;
+        GLint totalMemory;
+        GLint availableMemory;
+        GLint evictedMemory;
+
+        glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &totalMemory);
+        glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &availableMemory);
+        glGetIntegerv(GL_GPU_MEMORY_INFO_EVICTED_MEMORY_NVX, &evictedMemory);
+        CPUCount = SDL_GetCPUCount();
+        CPUCache = SDL_GetCPUCacheLineSize();
+        RAMUsage = SDL_GetSystemRAM();
+        
+        
+        SDL_version sdlVersion;
+        SDL_GetVersion(&sdlVersion);
+        
+        ImGui::SeparatorText("DRIVERS");
         ImGui::BulletText("OpenGL version supported %s", glGetString(GL_VERSION));
         ImGui::BulletText("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
         ImGui::BulletText("Using Glew %s", glewGetString(GLEW_VERSION));
+        ImGui::BulletText("Using SDL %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
+
+        ImGui::SeparatorText("HARDWARE IN USE");
+        ImGui::BulletText("Vendor: % s", glGetString(GL_VENDOR));
+        ImGui::BulletText("Renderer: %s", glGetString(GL_RENDERER));
+        ImGui::BulletText("VRAM Budget: %d MB", totalMemory / 1000);
+        ImGui::BulletText("VRAM Available: %d MB", availableMemory / 1000);
+        ImGui::BulletText("VRAM Usage: %d MB", evictedMemory / 1000);
+        ImGui::BulletText("CPU Cache in use: %d in bytes", CPUCache);
+        ImGui::BulletText("CPU cores: %d", CPUCount);
+        ImGui::BulletText("RAM in use: %d in mb", RAMUsage / 100);
     }
 
     if (ImGui::CollapsingHeader("About"))
     {
+        
         //Name of the engine
+        ImGui::BulletText("Mishima Engine");
         //Name of authors with link to github
+        ImGui::SeparatorText("AUTHORS");
+        ImGui::BulletText("Mario Garcia:");
+        //if (ImGui::IsItemClicked())
+        //{
+        //    BrowserLink(https://github.com/Ludo-pixel);
+        //}
+        //ImGui::BulletText("Victor Gil:");
+        //if (ImGui::IsItemClicked()) 
+        //{
+        //    BrowserLink(https://github.com/Ludo-pixel);
+        //}
+
         //Libraries used in real time with link to the web
         //Text of the license 
 

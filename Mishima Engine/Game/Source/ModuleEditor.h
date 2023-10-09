@@ -34,6 +34,10 @@ public:
 
 private:
 
+	void ModuleEditor::BrowserLink(const char* url)
+	{
+		HINSTANCE result = ShellExecute(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
+	}
 	bool UpdateAditionalWindows = false;
 
 	// Resources
