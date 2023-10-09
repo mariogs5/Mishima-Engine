@@ -31,13 +31,10 @@ public:
 	//Fullscreen
 	bool fullscreen = false;
 
-
 private:
 
-	void ModuleEditor::BrowserLink(const char* url)
-	{
-		HINSTANCE result = ShellExecute(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
-	}
+	void ModuleEditor::BrowserLink(const char* url);
+
 	bool UpdateAditionalWindows = false;
 
 	// Resources

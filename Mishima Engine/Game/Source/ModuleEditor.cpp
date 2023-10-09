@@ -3,6 +3,7 @@
 #include "ModuleRenderer3D.h"
 #include "Application.h"
 #include "External/SDL/include/SDL.h"
+#include <fstream>
 
 #include <iostream>
 #include "vector"
@@ -212,20 +213,19 @@ void ModuleEditor :: ConfigurationWindow()
         ImGui::BulletText("Mishima Engine");
         //Name of authors with link to github
         ImGui::SeparatorText("AUTHORS");
-        ImGui::BulletText("Mario Garcia:");
-        //if (ImGui::IsItemClicked())
-        //{
-        //    BrowserLink(https://github.com/Ludo-pixel);
-        //}
-        //ImGui::BulletText("Victor Gil:");
-        //if (ImGui::IsItemClicked()) 
-        //{
-        //    BrowserLink(https://github.com/Ludo-pixel);
-        //}
 
-        //Libraries used in real time with link to the web
-        //Text of the license 
-
+        ImGui::BulletText("Mario Garcia: ");
+        ImGui::SameLine(); ImGui::Text("[github link]");
+        if (ImGui::IsItemClicked())
+        {
+            BrowserLink("https://github.com/Mariogs5");
+        }
+        ImGui::BulletText("Victor Gil: ");
+        ImGui::SameLine(); ImGui::Text("[github link]");
+        if (ImGui::IsItemClicked()) 
+        {
+            BrowserLink("https://github.com/Ludo-pixel");
+        }
     }
 
     if (ImGui::CollapsingHeader("Open GL settings"))
@@ -406,3 +406,9 @@ void ModuleEditor::UpdateDT(const float currentDT)
         vectorDT[vectorDT.capacity() - 1] = currentDT;
     }
 }
+
+void ModuleEditor::BrowserLink(const char* url)
+{
+    HINSTANCE result = ShellExecute(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
+}
+
