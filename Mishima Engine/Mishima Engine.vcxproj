@@ -91,7 +91,6 @@
     <ClInclude Include="Game\Source\External\imgui\imstb_truetype.h" />
     <ClInclude Include="Game\Source\glmath.h" />
     <ClInclude Include="Game\Source\Globals.h" />
-    <ClInclude Include="Game\Source\ImportModel.h" />
     <ClInclude Include="Game\Source\Light.h" />
     <ClInclude Include="Game\Source\External\MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="Game\Source\External\MathGeoLib\include\Geometry\AABB.h" />
@@ -153,6 +152,7 @@
     <ClInclude Include="Game\Source\External\MathGeoLib\include\Math\sse_mathfun.h" />
     <ClInclude Include="Game\Source\External\MathGeoLib\include\Math\TransformOps.h" />
     <ClInclude Include="Game\Source\External\MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="Game\Source\Mesh.h" />
     <ClInclude Include="Game\Source\ModuleCamera3D.h" />
     <ClInclude Include="Game\Source\ModuleEditor.h" />
     <ClInclude Include="Game\Source\ModuleRenderer3D.h" />
@@ -173,7 +173,6 @@
     <ClCompile Include="Game\Source\External\imgui\imgui_tables.cpp" />
     <ClCompile Include="Game\Source\External\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Source\glmath.cpp" />
-    <ClCompile Include="Game\Source\ImportModel.cpp" />
     <ClCompile Include="Game\Source\Light.cpp" />
     <ClCompile Include="Game\Source\log.cpp" />
     <ClCompile Include="Game\Source\Main.cpp" />
@@ -209,6 +208,7 @@
     <ClCompile Include="Game\Source\External\MathGeoLib\include\Math\SSEMath.cpp" />
     <ClCompile Include="Game\Source\External\MathGeoLib\include\Math\TransformOps.cpp" />
     <ClCompile Include="Game\Source\External\MathGeoLib\include\Time\Clock.cpp" />
+    <ClCompile Include="Game\Source\Mesh.cpp" />
     <ClCompile Include="Game\Source\ModuleCamera3D.cpp" />
     <ClCompile Include="Game\Source\ModuleEditor.cpp" />
     <ClCompile Include="Game\Source\ModuleInput.cpp" />

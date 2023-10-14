@@ -289,7 +289,7 @@
     <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.h">
       <Filter>Externals\imgui\bakends</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Source\ImportModel.h">
+    <ClInclude Include="Game\Source\Mesh.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
@@ -450,7 +450,7 @@
     <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.cpp">
       <Filter>Externals\imgui\bakends</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Source\ImportModel.cpp">
+    <ClCompile Include="Game\Source\Mesh.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
