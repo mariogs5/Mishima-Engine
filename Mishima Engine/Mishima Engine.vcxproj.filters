@@ -453,6 +453,12 @@
     <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.cpp">
       <Filter>Externals\imgui\bakends</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Source\Mesh.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Source\Model.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Game\Source\External\MathGeoLib\include\Geometry\KDTree.inl">

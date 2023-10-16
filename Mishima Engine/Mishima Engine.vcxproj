@@ -209,6 +209,8 @@
     <ClCompile Include="Game\Source\External\MathGeoLib\include\Math\SSEMath.cpp" />
     <ClCompile Include="Game\Source\External\MathGeoLib\include\Math\TransformOps.cpp" />
     <ClCompile Include="Game\Source\External\MathGeoLib\include\Time\Clock.cpp" />
+    <ClCompile Include="Game\Source\Mesh.cpp" />
+    <ClCompile Include="Game\Source\Model.cpp" />
     <ClCompile Include="Game\Source\ModuleCamera3D.cpp" />
     <ClCompile Include="Game\Source\ModuleEditor.cpp" />
     <ClCompile Include="Game\Source\ModuleInput.cpp" />
