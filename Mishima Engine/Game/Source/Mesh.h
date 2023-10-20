@@ -39,6 +39,7 @@ public:
         setupMesh();
     }
     //void Draw(Shader& shader);
+    void DrawMesh();
 
 private:
 
