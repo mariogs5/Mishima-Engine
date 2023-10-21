@@ -4,6 +4,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleInput.h"
 
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -121,6 +122,7 @@ bool ModuleRenderer3D::Init()
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Grid.axis = true;
+	/*myModel.loadModel("Assets/BakerHouse.fbx");*/
 
 	return ret;
 }
@@ -146,7 +148,22 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	if (App->input->loadDirectory) {
+		Model tempModel;
+		tempModel.loadModel(App->input->dropped_filedir);
+		Models.push_back(tempModel);
+		App->input->loadDirectory = false;
+	}
+
 	Grid.Render();
+
+	for (int i = 0; i < Models.size(); i++) 
+	{
+		Models[i].Draw();
+	}
+
+	//Dibujar modelo (Assimp)
+	/*myModel.Draw();*/
 
 	//Draw Test
 	/*glLineWidth(2.0f);
@@ -161,8 +178,8 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	s.Render();*/
 
 	//Mostrar un cubo
-	Cube c(1, 1, 1);
-	c.Render();
+	//Cube c(1, 1, 1);
+	//c.Render();
 
 	App->editor->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);

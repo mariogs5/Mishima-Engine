@@ -60,6 +60,9 @@ public:
 
 	bool quit = false;
 
+	char* dropped_filedir;
+	bool loadDirectory = false;
+
 private:
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];

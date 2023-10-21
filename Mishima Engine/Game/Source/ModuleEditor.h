@@ -58,7 +58,7 @@ private:
 
 	// ImGui windows
 	bool configWindow = false;
-	bool consoleWindow = true;
+	bool consoleWindow = false;
 
 	//Open GL settings
 	bool culling;

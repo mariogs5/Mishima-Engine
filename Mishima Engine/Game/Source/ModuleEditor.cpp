@@ -134,6 +134,20 @@ void ModuleEditor::MainMenuBar()
 
             ImGui::EndMenu();
         }
+
+        if (ImGui::BeginMenu("Console"))
+        {
+            consoleWindow = true;
+
+            ImGui::EndMenu();
+        }
+
+        if (ImGui::BeginMenu("Delete Models"))
+        {
+            App->renderer3D->Models.clear();
+
+            ImGui::EndMenu();
+        }
         ImGui::EndMainMenuBar();
     }
 }

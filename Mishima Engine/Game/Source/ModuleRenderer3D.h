@@ -10,6 +10,8 @@
 #include "../Source/External/Glew/include/glew.h"
 #include "../Source/External/SDL\include\SDL_opengl.h"
 
+#include "Model.h"
+
 //todo: REMOVE this before 1st delivery!!
 #include "glmath.h"
 
@@ -29,6 +31,9 @@ public:
 	void OnResize(int width, int height);
 
 public:
+
+	Model myModel;
+	std::vector<Model> Models;
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
