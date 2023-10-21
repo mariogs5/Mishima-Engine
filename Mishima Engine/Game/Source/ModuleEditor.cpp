@@ -3,11 +3,6 @@
 #include "ModuleRenderer3D.h"
 #include "Application.h"
 #include "External/SDL/include/SDL.h"
-#include <fstream>
-
-#include <iostream>
-#include "vector"
-
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -86,6 +81,12 @@ void ModuleEditor::DrawEditor()
     //ImGui::ShowDemoWindow();
 
     MainMenuBar();
+
+    if (consoleWindow) 
+    {
+        Console();
+    }
+
     if (configWindow) 
     {
         ConfigurationWindow();
@@ -412,3 +413,13 @@ void ModuleEditor::BrowserLink(const char* url)
     HINSTANCE result = ShellExecute(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
 }
 
+void ModuleEditor::Console()
+{
+    ImGui::Begin("Console", &consoleWindow, ImGuiWindowFlags_MenuBar);
+
+    for (int i = 0; i < consoleText.size(); i++) 
+    {
+        ImGui::Text(consoleText[i].c_str());
+    }
+    ImGui::End();
+}

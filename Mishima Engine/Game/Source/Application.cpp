@@ -7,8 +7,12 @@
 #include "ModuleCamera3D.h"
 #include "ModuleEditor.h"
 
+extern Application* externalapp = nullptr;
+
 Application::Application()
 {
+	externalapp = this;
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	renderer3D = new ModuleRenderer3D(this);

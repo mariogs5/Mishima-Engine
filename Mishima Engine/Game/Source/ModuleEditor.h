@@ -8,6 +8,12 @@
 #include "../Source/External/imgui/bakends/imgui_impl_sdl2.h"
 #include "../Source/External/imgui/bakends/imgui_impl_opengl3.h"
 
+#include <fstream>
+
+#include <iostream>
+#include <vector>
+#include <string>
+
 class ModuleEditor : public Module
 {
 public:
@@ -22,15 +28,20 @@ public:
 	// imgui Funcions
 	void MainMenuBar();
 	void ConfigurationWindow();
+	void Console();
 
 	// Resources
 	void UpdateFPS(const float currentFPS);
 	void UpdateMS(const float currentMS);
 	void UpdateDT(const float currentDT);
 
+	// Console
+	void PrintConsole(const char file[]);
+
 	//Fullscreen
 	bool fullscreen = false;
 
+	std::vector <std::string> consoleText;
 private:
 
 	void ModuleEditor::BrowserLink(const char* url);
@@ -45,7 +56,9 @@ private:
 	float currentDT; //Current DT
 	std::vector <float> vectorDT; //Vector of DT
 
+	// ImGui windows
 	bool configWindow = false;
+	bool consoleWindow = true;
 
 	//Open GL settings
 	bool culling;
