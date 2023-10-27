@@ -103,7 +103,30 @@ update_status ModuleCamera3D::Update(float dt)
 		Position = Reference + Z * Position.Length();
 	}
 
-	LookAt(Reference);
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) 
+	{
+		Reference = float3(0.0f, 0.0f, 0.0f);
+
+		LookAt(Reference);
+	}
+	else {
+
+		Reference = Position;
+	}
+	
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
+	{
+		int dx = -App->input->GetMouseXMotion();
+		int dy = -App->input->GetMouseYMotion();
+
+		float Sensitivity = 0.35f * dt;
+
+		if (dx != 0) 
+		{
+			float DeltaX = (float)dx * Sensitivity;
+			//Acabar
+		}
+	}
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
