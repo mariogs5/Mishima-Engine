@@ -42,24 +42,27 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) 
+	{
+		float3 newPos(0, 0, 0);
+		float speed = 3.0f * dt;
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+			speed = 8.0f * dt;
 
-	float3 newPos(0,0,0);
-	float speed = 3.0f * dt;
-	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 8.0f * dt;
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
 
-	if(App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
 
 
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
-	Position += newPos;
-	Reference += newPos;
+		Position += newPos;
+		Reference += newPos;
+	}
+	
 
 	// Mouse motion ----------------
 
@@ -114,18 +117,30 @@ update_status ModuleCamera3D::Update(float dt)
 		Reference = Position;
 	}
 	
-	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
 	{
+		float3 newPos(0, 0, 0);
+
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
 
-		float Sensitivity = 0.35f * dt;
+		float speed = 3.0f * dt;
 
 		if (dx != 0) 
 		{
-			float DeltaX = (float)dx * Sensitivity;
+			float DeltaX = (float)dx * speed;
+			newPos.x += DeltaX;
 			//Acabar
 		}
+
+		if (dy != 0)
+		{
+			float DeltaY = (float)dy * speed;
+			newPos.y += DeltaY;
+			//Acabar
+		}
+
+		Position += newPos;
 	}
 
 	// Recalculate matrix -------------
