@@ -58,6 +58,11 @@ public:
 		return mouse_y_motion;
 	}
 
+	int GetMouseScrollMotion() const 
+	{
+		return mouse_z;
+	}
+
 	bool quit = false;
 
 	char* dropped_filedir;

@@ -42,15 +42,15 @@ update_status ModuleCamera3D::Update(float dt)
 {
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE) 
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		float3 newPos(0, 0, 0);
 		float speed = 3.0f * dt;
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			speed = 8.0f * dt;
 
-		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) newPos.y += speed;
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos.y -= speed;
 
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
@@ -66,7 +66,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	// Mouse motion ----------------
 
-	if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
@@ -106,7 +106,7 @@ update_status ModuleCamera3D::Update(float dt)
 		Position = Reference + Z * Position.Length();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) 
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
 	{
 		Reference = float3(0.0f, 0.0f, 0.0f);
 
@@ -116,8 +116,28 @@ update_status ModuleCamera3D::Update(float dt)
 
 		Reference = Position;
 	}
+
+	// Zoom in & out
+
+	/*if (App->input->GetMouseButton(SDL_BUTTON_X1) == KEY_REPEAT || App->input->GetMouseButton(SDL_BUTTON_X2) == KEY_REPEAT)
+	{
+		float3 newPos(0, 0, 0);
+
+		int dz = App->input->GetMouseScrollMotion();
+		float speed = 3.0f * dt;
+
+		if (dz != 0)
+		{
+			float DeltaZ = (float)dz * speed;
+			newPos.z += DeltaZ;
+		}
+
+		Position += newPos;
+	}*/
 	
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
+	// 2D camera (not working)
+
+	/*if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
 	{
 		float3 newPos(0, 0, 0);
 
@@ -130,18 +150,16 @@ update_status ModuleCamera3D::Update(float dt)
 		{
 			float DeltaX = (float)dx * speed;
 			newPos.x += DeltaX;
-			//Acabar
 		}
 
 		if (dy != 0)
 		{
 			float DeltaY = (float)dy * speed;
 			newPos.y += DeltaY;
-			//Acabar
 		}
 
 		Position += newPos;
-	}
+	}*/
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
