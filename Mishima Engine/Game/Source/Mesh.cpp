@@ -35,11 +35,31 @@ void Mesh::setupMesh()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
-void Mesh::DrawMesh() {
-
+void Mesh::DrawMesh() 
+{
     // draw mesh
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+}
+
+void DevILInit()
+{
+    ilInit();
+    iluInit();
+    ilutInit();
+    ilutRenderer(ILUT_OPENGL);
+}
+
+void Mesh::ImportTextures(const char* path) 
+{
+    ILuint imageID;
+    ilGenImages(1, &imageID);
+    ilBindImage(imageID);
+    ilLoadImage(path);
+
+    //DO COSITAS
+
+    ilDeleteImages(1, &imageID);
 }
 

@@ -118,6 +118,8 @@ bool ModuleRenderer3D::Init()
 		glewInit();
 	}
 
+	// DevIL init
+
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
@@ -191,6 +193,9 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
+	Models.clear();
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	SDL_GL_DeleteContext(context);
 
 	return true;
@@ -211,3 +216,5 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+

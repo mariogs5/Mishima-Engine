@@ -66,7 +66,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	// Mouse motion ----------------
 
-	if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT || App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
@@ -118,22 +118,18 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 
 	// Zoom in & out
+	
+	if (App->input->GetMouseZ() != 0) {
 
-	/*if (App->input->GetMouseButton(SDL_BUTTON_X1) == KEY_REPEAT || App->input->GetMouseButton(SDL_BUTTON_X2) == KEY_REPEAT)
-	{
 		float3 newPos(0, 0, 0);
+		float speed = 15.0f * dt;
 
-		int dz = App->input->GetMouseScrollMotion();
-		float speed = 3.0f * dt;
-
-		if (dz != 0)
-		{
-			float DeltaZ = (float)dz * speed;
-			newPos.z += DeltaZ;
-		}
+		if (App->input->GetMouseZ() > 0) newPos -= Z * speed;
+		if (App->input->GetMouseZ() < 0) newPos += Z * speed;
 
 		Position += newPos;
-	}*/
+		Reference += newPos;
+	}
 	
 	// 2D camera (not working)
 

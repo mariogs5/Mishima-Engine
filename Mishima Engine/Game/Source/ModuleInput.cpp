@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
+
 #include "../Source/External/imgui/bakends/imgui_impl_sdl2.h"
 
 #define MAX_KEYS 300
@@ -86,7 +87,7 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	mouse_x_motion = mouse_y_motion = 0;
 
-	SDL_Event e;
+
 	while(SDL_PollEvent(&e))
 	{
 		ImGui_ImplSDL2_ProcessEvent(&e);

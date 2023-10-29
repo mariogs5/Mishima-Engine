@@ -58,10 +58,7 @@ public:
 		return mouse_y_motion;
 	}
 
-	int GetMouseScrollMotion() const 
-	{
-		return mouse_z;
-	}
+	SDL_Event e;
 
 	bool quit = false;
 
