@@ -39,6 +39,8 @@ public:
 
 	void OnResize(int width, int height);
 
+	bool primCube = false;
+
 public:
 
 	Model myModel;

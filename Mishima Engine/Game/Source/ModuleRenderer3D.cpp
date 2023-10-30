@@ -159,6 +159,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	Grid.Render();
 
+	if (primCube) {
+
+		Cube c(1, 1, 1);
+		c.Render();
+	}
+
 	for (int i = 0; i < Models.size(); i++) 
 	{
 		Models[i].Draw();
@@ -178,10 +184,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	//Mostrar una Esfera (sin acabar)
 	/*CSphere s(1.0f, 20, 20);
 	s.Render();*/
-
-	//Mostrar un cubo
-	//Cube c(1, 1, 1);
-	//c.Render();
 
 	App->editor->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);

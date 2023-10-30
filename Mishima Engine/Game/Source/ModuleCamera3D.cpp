@@ -128,7 +128,6 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetMouseZ() < 0) newPos += Z * speed;
 
 		Position += newPos;
-		Reference += newPos;
 	}
 	
 	// 2D camera (not working)

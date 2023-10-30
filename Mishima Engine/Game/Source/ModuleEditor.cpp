@@ -1,6 +1,7 @@
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleInput.h"
 #include "Application.h"
 #include "External/SDL/include/SDL.h"
 
@@ -127,24 +128,47 @@ void ModuleEditor::MainMenuBar()
     {
         if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::MenuItem("Configuration"))
+
+            if (ImGui::MenuItem("Quit"))
             {
-                configWindow = true;
+                App->input->quit = true;
             }
 
             ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("Console"))
+        if (ImGui::BeginMenu("Window"))
         {
-            consoleWindow = true;
+            if (ImGui::MenuItem("Configuration"))
+            {
+                configWindow = true;
+            }
 
+            if (ImGui::MenuItem("Console"))
+            {
+                consoleWindow = true;
+            }
             ImGui::EndMenu();
         }
 
-        if (ImGui::BeginMenu("Delete Models"))
+        if (ImGui::BeginMenu("Models"))
         {
-            App->renderer3D->Models.clear();
+            if (ImGui::BeginMenu("Primitives")) 
+            {
+                ImGui::BulletText("Create Primitives");
+
+                if (ImGui::MenuItem("Cube"))
+                {
+                    //Crear un cubo
+                    App->renderer3D->primCube = true;
+                }
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::MenuItem("Delete Models"))
+            {
+                App->renderer3D->Models.clear();
+            }
 
             ImGui::EndMenu();
         }
