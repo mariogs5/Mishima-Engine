@@ -165,8 +165,19 @@ void ModuleEditor::MainMenuBar()
 
                 if (ImGui::MenuItem("Cube"))
                 {
-                    //Crear un cubo
                     App->renderer3D->primCube = true;
+                }
+                if (ImGui::MenuItem("Sphere"))
+                {
+                    App->renderer3D->primSphere = true;
+                }
+                if (ImGui::MenuItem("Cylinder"))
+                {
+                    App->renderer3D->primCylinder = true;
+                }
+                if (ImGui::MenuItem("Cone"))
+                {
+                    App->renderer3D->primCone = true;
                 }
                 ImGui::EndMenu();
             }

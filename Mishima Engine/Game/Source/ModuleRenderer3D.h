@@ -40,6 +40,9 @@ public:
 	void OnResize(int width, int height);
 
 	bool primCube = false;
+	bool primSphere = false;
+	bool primCylinder = false;
+	bool primCone = false;
 
 public:
 

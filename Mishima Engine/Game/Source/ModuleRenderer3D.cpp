@@ -124,7 +124,10 @@ bool ModuleRenderer3D::Init()
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Grid.axis = true;
-	/*myModel.loadModel("Assets/BakerHouse.fbx");*/
+
+	// Baker house 
+	myModel.loadModel("Assets/BakerHouse.fbx");
+	Models.push_back(myModel);
 
 	return ret;
 }
@@ -157,21 +160,44 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		App->input->loadDirectory = false;
 	}
 
-	Grid.Render();
-
+	// Primitive Cube
 	if (primCube) {
-
-		Cube c(1, 1, 1);
-		c.Render();
+		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+		Models.push_back(tempModel);
+		primCube = false;
 	}
+
+	// Primitive Sphere
+	if (primSphere) {
+		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+		Models.push_back(tempModel);
+		primSphere = false;
+	}
+
+	// Primitive Cylinder
+	if (primCylinder) {
+		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+		Models.push_back(tempModel);
+		primCylinder = false;
+	}
+
+	// Primitive Cone
+	if (primCone) {
+		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+		Models.push_back(tempModel);
+		primCone = primCone;
+	}
+
+	Grid.Render();
 
 	for (int i = 0; i < Models.size(); i++) 
 	{
 		Models[i].Draw();
 	}
-
-	//Dibujar modelo (Assimp)
-	/*myModel.Draw();*/
 
 	//Draw Test
 	/*glLineWidth(2.0f);
