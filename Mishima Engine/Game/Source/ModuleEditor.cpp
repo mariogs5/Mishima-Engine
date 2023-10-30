@@ -3,7 +3,13 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleInput.h"
 #include "Application.h"
+#include <iostream>
+#include <fstream>
+#include <string>
 #include "External/SDL/include/SDL.h"
+#include "External/Assimp/include/version.h"
+#include "External/DevIL/include/il.h"
+
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -208,8 +214,9 @@ void ModuleEditor :: ConfigurationWindow()
         SDL_SetWindowSize(App->window->window, App->window->width, App->window->height);
     }
 
-    if (ImGui::CollapsingHeader("Hardware & Drivers"))
+    if (ImGui::CollapsingHeader("Hardware"))
     {
+        //get hardware usage, cache, count...
         int CPUCache;
         int CPUCount;
         int RAMUsage;
@@ -224,16 +231,6 @@ void ModuleEditor :: ConfigurationWindow()
         CPUCache = SDL_GetCPUCacheLineSize();
         RAMUsage = SDL_GetSystemRAM();
         
-        
-        SDL_version sdlVersion;
-        SDL_GetVersion(&sdlVersion);
-        
-        ImGui::SeparatorText("DRIVERS");
-        ImGui::BulletText("OpenGL version supported %s", glGetString(GL_VERSION));
-        ImGui::BulletText("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-        ImGui::BulletText("Using Glew %s", glewGetString(GLEW_VERSION));
-        ImGui::BulletText("Using SDL %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
-
         ImGui::SeparatorText("HARDWARE IN USE");
         ImGui::BulletText("Vendor: % s", glGetString(GL_VENDOR));
         ImGui::BulletText("Renderer: %s", glGetString(GL_RENDERER));
@@ -250,21 +247,63 @@ void ModuleEditor :: ConfigurationWindow()
         
         //Name of the engine
         ImGui::BulletText("Mishima Engine");
+        ImGui::Text("A 3D Game Engine that works somehow");
         //Name of authors with link to github
         ImGui::SeparatorText("AUTHORS");
 
         ImGui::BulletText("Mario Garcia: ");
-        ImGui::SameLine(); ImGui::Text("[github link]");
+        ImGui::SameLine(); ImGui::Text("[github]");
         if (ImGui::IsItemClicked())
         {
             BrowserLink("https://github.com/Mariogs5");
         }
         ImGui::BulletText("Victor Gil: ");
-        ImGui::SameLine(); ImGui::Text("[github link]");
+        ImGui::SameLine(); ImGui::Text("[github]");
         if (ImGui::IsItemClicked()) 
         {
             BrowserLink("https://github.com/Ludo-pixel");
         }
+
+        //get libraries versions
+        SDL_version sdlVersion;
+        SDL_GetVersion(&sdlVersion);
+
+        int AiMajor = aiGetVersionMajor();
+        int AiMinor = aiGetVersionMinor();
+        int AiPatch = aiGetVersionRevision();
+
+        ILuint version = ilGetInteger(IL_VERSION_NUM);
+        int DevILpatch = version;
+
+        ImGui::SeparatorText("LIBRARIES");
+        ImGui::BulletText("OpenGL version supported %s", glGetString(GL_VERSION));
+        ImGui::BulletText("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+        ImGui::BulletText("Using Glew %s", glewGetString(GLEW_VERSION));
+        ImGui::BulletText("Using SDL %d.%d.%d", sdlVersion.major, sdlVersion.minor, sdlVersion.patch);
+        ImGui::BulletText("Using Assimp %d.%d.%d", AiMajor, AiMinor, AiPatch);
+        ImGui::BulletText("Using DevIL %d", DevILpatch);
+        ImGui::BulletText("Using ImGui %s", IMGUI_VERSION);
+        ImGui::BulletText("Using MathGeoLib");
+
+        
+        //std::string fileContent;
+
+        //std::ifstream inputFile("../../LICENSE");
+
+        //if (inputFile.is_open()) {
+        //    // Step 2: Read the file and load its content into a string
+        //    std::string line;
+        //    while (std::getline(inputFile, line)) {
+        //        fileContent += line + "\n";
+        //    }
+        //    inputFile.close();
+        //}
+        //else {
+        //    fileContent = "Failed to open the file.";
+
+        //ImGui::SeparatorText("LICENSE");
+        //ImGui::Text(fileContent.c_str());
+
     }
 
     if (ImGui::CollapsingHeader("Open GL settings"))
