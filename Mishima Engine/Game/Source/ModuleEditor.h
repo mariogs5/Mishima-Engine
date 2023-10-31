@@ -42,6 +42,9 @@ public:
 	bool fullscreen = false;
 
 	std::vector <std::string> consoleText;
+	std::string ReadMyFile(const std::string& filename);
+	std::string License;
+
 private:
 
 	void ModuleEditor::BrowserLink(const char* url);
