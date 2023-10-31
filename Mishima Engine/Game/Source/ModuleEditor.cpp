@@ -295,26 +295,11 @@ void ModuleEditor :: ConfigurationWindow()
         ImGui::BulletText("Using DevIL %d", DevILpatch);
         ImGui::BulletText("Using ImGui %s", IMGUI_VERSION);
         ImGui::BulletText("Using MathGeoLib");
-
-        
-        //std::string fileContent;
-
-        //std::ifstream inputFile("../../LICENSE");
-
-        //if (inputFile.is_open()) {
-        //    // Step 2: Read the file and load its content into a string
-        //    std::string line;
-        //    while (std::getline(inputFile, line)) {
-        //        fileContent += line + "\n";
-        //    }
-        //    inputFile.close();
-        //}
-        //else {
-        //    fileContent = "Failed to open the file.";
-
-        //ImGui::SeparatorText("LICENSE");
-        //ImGui::Text(fileContent.c_str());
-
+       
+        //"../../LICENSE"
+        License = ReadMyFile("../../LICENSE");
+        ImGui::SeparatorText("LICENSE");
+        ImGui::TextWrapped("%s", License.c_str());
     }
 
     if (ImGui::CollapsingHeader("Open GL settings"))
@@ -510,4 +495,19 @@ void ModuleEditor::Console()
         ImGui::Text(consoleText[i].c_str());
     }
     ImGui::End();
+}
+
+std::string ModuleEditor::ReadMyFile(const std::string& filename)
+{
+    std::ifstream file(filename);
+
+    if (!file.is_open())
+    {
+        return "Error: Unable to open file.";
+    }
+
+    std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+    file.close();
+    return fileContents;
 }
