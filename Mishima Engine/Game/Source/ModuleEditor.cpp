@@ -81,6 +81,8 @@ void ModuleEditor::DrawEditor()
 
     //-------------------------------------------Editor Code-----------------------------------------------------------------------------------//
 
+    ImGui::DockSpaceOverViewport(NULL, ImGuiDockNodeFlags_PassthruCentralNode);
+    
     //ImGui::SeparatorText("Fullscreen:");   Titulo separador
      
     //ImGui::Text("dear imgui says hello! (%s) (%d)");   Texto
@@ -217,7 +219,7 @@ void ModuleEditor :: ConfigurationWindow()
     currentDT = App->DT();
     UpdateDT(currentDT);
 
-    ImGui::Begin("Configuration", &configWindow, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Configuration", &configWindow, ImGuiWindowFlags_DockNodeHost);
 
     if (ImGui::CollapsingHeader("Resources"))
     {
@@ -430,7 +432,7 @@ void ModuleEditor :: ConfigurationWindow()
 
 void ModuleEditor::Console()
 {
-    ImGui::Begin("Console", &consoleWindow, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Console", &consoleWindow, ImGuiWindowFlags_DockNodeHost);
 
     for (int i = 0; i < consoleText.size(); i++)
     {
