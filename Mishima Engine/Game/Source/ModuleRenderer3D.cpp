@@ -155,41 +155,47 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	if (App->input->loadDirectory) {
+	/*if (App->input->loadDirectory) {
 
 		Model tempModel;
 		tempModel.loadModel(App->input->dropped_filedir);
 		Models.push_back(tempModel);
 		App->input->loadDirectory = false;
-	}
+	}*/
 
 	// Drag and Drop Models & Textures
-	/*if (App->input->loadDirectory) {
-		if (GetFileExtension(App->input->dropped_filedir) == "fbx") {
+	if (App->input->loadDirectory) {
+		isFBX= std::strcmp(GetFileExtension(App->input->dropped_filedir), "fbx");
+		isTexture = std::strcmp(GetFileExtension(App->input->dropped_filedir), "png");
+
+		if (isFBX == 0) {
 
 			Model tempModel;
 			tempModel.loadModel(App->input->dropped_filedir);
 			Models.push_back(tempModel);
+			LOG("FBX load successful");
+			isFBX = 0;
 			App->input->loadDirectory = false;
 		}
-		else if (GetFileExtension(App->input->dropped_filedir) == "png") {
+		if (isTexture == 0) {
 
 			Texture tempTexture;
 			tempTexture.LoadTexture(App->input->dropped_filedir);
-			Textures.push_back(tempTexture);
+			//Textures.push_back(tempTexture);
+			LOG("Texture load successful");
+			isTexture = 0;
 			App->input->loadDirectory = false;
 		}
 		else {
 
-			LOG("Unable to load the file");
 			App->input->loadDirectory = false;
 		}
-	}*/
+	}
 
 	// Primitive Cube
 	if (primCube) {
 		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+		tempModel.loadModel("Assets/Primitives/Cube.fbx");
 		Models.push_back(tempModel);
 		primCube = false;
 	}
@@ -197,7 +203,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	// Primitive Sphere
 	if (primSphere) {
 		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+		tempModel.loadModel("Assets/Primitives/Sphere.fbx");
 		Models.push_back(tempModel);
 		primSphere = false;
 	}
@@ -205,7 +211,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	// Primitive Cylinder
 	if (primCylinder) {
 		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+		tempModel.loadModel("Assets/Primitives/Cylinder.fbx");
 		Models.push_back(tempModel);
 		primCylinder = false;
 	}
@@ -213,9 +219,25 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	// Primitive Cone
 	if (primCone) {
 		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/Cone.fbx");
+		Models.push_back(tempModel);
+		primCone = false;
+	}
+
+	// Primitive Torus
+	if (primTorus) {
+		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/Torus.fbx");
+		Models.push_back(tempModel);
+		primTorus = false;
+	}
+
+	// Primitive BakerHouse
+	if (primBakerHouse) {
+		Model tempModel;
 		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
 		Models.push_back(tempModel);
-		primCone = primCone;
+		primBakerHouse = false;
 	}
 
 	Grid.Render();
@@ -277,12 +299,9 @@ void ModuleRenderer3D::OnResize(int width, int height)
 const char* ModuleRenderer3D::GetFileExtension(const char* filePath) {
 	const char* lastDot = strrchr(filePath, '.');
 	if (lastDot != nullptr) {
-		LOG("Valid File Dropped");
-		LOG(lastDot + 1);
 		return lastDot + 1;
 	}
 	LOG("Invalid File Dropped");
-
 	App->input->loadDirectory = false;
 	return ""; // Return an empty string if no extension is found.
 }

@@ -179,6 +179,16 @@ void ModuleEditor::MainMenuBar()
                 {
                     App->renderer3D->primCone = true;
                 }
+                if (ImGui::MenuItem("Torus"))
+                {
+                    App->renderer3D->primTorus = true;
+                }
+
+                ImGui::BulletText("Engine Models");
+                if (ImGui::MenuItem("Backer House"))
+                {
+                    App->renderer3D->primBakerHouse = true;
+                }
                 ImGui::EndMenu();
             }
 
@@ -296,7 +306,6 @@ void ModuleEditor :: ConfigurationWindow()
         ImGui::BulletText("Using ImGui %s", IMGUI_VERSION);
         ImGui::BulletText("Using MathGeoLib");
        
-        //"../../LICENSE"
         License = ReadMyFile("../../LICENSE");
         ImGui::SeparatorText("LICENSE");
         ImGui::TextWrapped("%s", License.c_str());
@@ -419,6 +428,16 @@ void ModuleEditor :: ConfigurationWindow()
     ImGui::End();
 }
 
+void ModuleEditor::Console()
+{
+    ImGui::Begin("Console", &consoleWindow, ImGuiWindowFlags_MenuBar);
+
+    for (int i = 0; i < consoleText.size(); i++)
+    {
+        ImGui::Text(consoleText[i].c_str());
+    }
+    ImGui::End();
+}
 
 // Resources Funcions
 void ModuleEditor::UpdateFPS(const float currentFPS)
@@ -484,17 +503,6 @@ void ModuleEditor::UpdateDT(const float currentDT)
 void ModuleEditor::BrowserLink(const char* url)
 {
     HINSTANCE result = ShellExecute(nullptr, "open", url, nullptr, nullptr, SW_SHOWNORMAL);
-}
-
-void ModuleEditor::Console()
-{
-    ImGui::Begin("Console", &consoleWindow, ImGuiWindowFlags_MenuBar);
-
-    for (int i = 0; i < consoleText.size(); i++) 
-    {
-        ImGui::Text(consoleText[i].c_str());
-    }
-    ImGui::End();
 }
 
 std::string ModuleEditor::ReadMyFile(const std::string& filename)
