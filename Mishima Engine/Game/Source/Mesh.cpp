@@ -43,23 +43,5 @@ void Mesh::DrawMesh()
     glBindVertexArray(0);
 }
 
-void DevILInit()
-{
-    ilInit();
-    iluInit();
-    ilutInit();
-    ilutRenderer(ILUT_OPENGL);
-}
 
-void Mesh::ImportTextures(const char* path) 
-{
-    ILuint imageID;
-    ilGenImages(1, &imageID);
-    ilBindImage(imageID);
-    ilLoadImage(path);
-
-    //DO COSITAS
-
-    ilDeleteImages(1, &imageID);
-}
 

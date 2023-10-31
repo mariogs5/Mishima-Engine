@@ -20,6 +20,7 @@
 #pragma comment (lib, "Game/Source/External/Devil/libx86/ILUT.lib")
 
 #include "Model.h"
+#include "Texture.h"
 
 //todo: REMOVE this before 1st delivery!!
 #include "glmath.h"
@@ -39,6 +40,8 @@ public:
 
 	void OnResize(int width, int height);
 
+	const char* GetFileExtension(const char* filePath);
+
 	bool primCube = false;
 	bool primSphere = false;
 	bool primCylinder = false;
@@ -46,7 +49,9 @@ public:
 
 public:
 
+	Texture myTexture;
 	Model myModel;
+	std::vector<Texture> Textures;
 	std::vector<Model> Models;
 
 	Light lights[MAX_LIGHTS];

@@ -119,6 +119,7 @@ bool ModuleRenderer3D::Init()
 	}
 
 	// DevIL init
+	myTexture.DevILInit();
 
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -127,6 +128,7 @@ bool ModuleRenderer3D::Init()
 
 	// Baker house 
 	myModel.loadModel("Assets/BakerHouse.fbx");
+	//myTexture.LoadTexture("Assets/Baker_House.png");
 	Models.push_back(myModel);
 
 	return ret;
@@ -154,11 +156,35 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 	if (App->input->loadDirectory) {
+
 		Model tempModel;
 		tempModel.loadModel(App->input->dropped_filedir);
 		Models.push_back(tempModel);
 		App->input->loadDirectory = false;
 	}
+
+	// Drag and Drop Models & Textures
+	/*if (App->input->loadDirectory) {
+		if (GetFileExtension(App->input->dropped_filedir) == "fbx") {
+
+			Model tempModel;
+			tempModel.loadModel(App->input->dropped_filedir);
+			Models.push_back(tempModel);
+			App->input->loadDirectory = false;
+		}
+		else if (GetFileExtension(App->input->dropped_filedir) == "png") {
+
+			Texture tempTexture;
+			tempTexture.LoadTexture(App->input->dropped_filedir);
+			Textures.push_back(tempTexture);
+			App->input->loadDirectory = false;
+		}
+		else {
+
+			LOG("Unable to load the file");
+			App->input->loadDirectory = false;
+		}
+	}*/
 
 	// Primitive Cube
 	if (primCube) {
@@ -194,11 +220,14 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	Grid.Render();
 
+	myTexture.ActivateTexture();
+
 	for (int i = 0; i < Models.size(); i++) 
 	{
 		Models[i].Draw();
 	}
 
+	myTexture.DeActivateTexture();
 	//Draw Test
 	/*glLineWidth(2.0f);
 	glBegin(GL_TRIANGLES);
@@ -243,6 +272,19 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+const char* ModuleRenderer3D::GetFileExtension(const char* filePath) {
+	const char* lastDot = strrchr(filePath, '.');
+	if (lastDot != nullptr) {
+		LOG("Valid File Dropped");
+		LOG(lastDot + 1);
+		return lastDot + 1;
+	}
+	LOG("Invalid File Dropped");
+
+	App->input->loadDirectory = false;
+	return ""; // Return an empty string if no extension is found.
 }
 
 
