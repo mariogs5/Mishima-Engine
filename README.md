@@ -14,7 +14,7 @@ Mishima Engine es un humilde motor creado para la asignatura de Game Engine.
 
 -Main Bar with the follow characteristics: 
 
-  -File -> Option to shut down the engine
+    -File -> Option to shut down the engine
   
 
   -Configuration window:
