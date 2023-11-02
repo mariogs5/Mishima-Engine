@@ -163,6 +163,7 @@
     <ClInclude Include="Game\Source\Primitive.h" />
     <ClInclude Include="Game\Source\Texture.h" />
     <ClInclude Include="Game\Source\Timer.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Source\Application.cpp" />
@@ -228,6 +229,14 @@
     <None Include="Game\Source\External\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
     <None Include="Game\Source\External\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="Game\Source\External\MathGeoLib\include\Math\Matrix.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Mishima Engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\41VApAg2qpL (1).ico" />
+    <Image Include="..\..\..\..\Desktop\41VApAg2qpL.png" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

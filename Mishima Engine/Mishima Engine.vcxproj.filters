@@ -298,6 +298,7 @@
     <ClInclude Include="Game\Source\Texture.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Source\ModuleCamera3D.cpp">
@@ -485,5 +486,13 @@
     <None Include="Game\Source\External\MathGeoLib\include\Math\Matrix.inl">
       <Filter>Externals\MathGeoLib\Math</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Mishima Engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Desktop\41VApAg2qpL.png" />
+    <Image Include="icon1.ico" />
+    <Image Include="..\..\..\..\Desktop\41VApAg2qpL (1).ico" />
   </ItemGroup>
 </Project>
