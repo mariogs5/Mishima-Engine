@@ -17,12 +17,14 @@ public:
 
     //Texture import
     void DevILInit();
-    void LoadTexture(const char* path);
+    void LoadTexture(std::string path);
     void ActivateTexture();
     void DeActivateTexture();
 
 
 private:
-
+    unsigned int width;
+    unsigned int height;
+    std::string path;
     unsigned int textureID;
 };

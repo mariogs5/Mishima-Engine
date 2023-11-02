@@ -1,4 +1,5 @@
 #include "Texture.h"
+#include "Application.h"
 
 void Texture::DevILInit()
 {
@@ -6,14 +7,15 @@ void Texture::DevILInit()
     iluInit();
     ilutInit();
     ilutRenderer(ILUT_OPENGL);
+    LOG("DevIl initialized");
 }
 
-void Texture::LoadTexture(const char* path)
+void Texture::LoadTexture(std::string path)
 {
     ILuint imageID;
     ilGenImages(1, &imageID);
     ilBindImage(imageID);
-    if (ilLoadImage(path)) 
+    if (ilLoadImage(path.c_str())) 
     {
         ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
         glGenTextures(1, &textureID);

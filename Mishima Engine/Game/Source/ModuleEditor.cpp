@@ -191,6 +191,14 @@ void ModuleEditor::MainMenuBar()
                 {
                     App->renderer3D->primBakerHouse = true;
                 }
+                if (ImGui::MenuItem("Aranara"))
+                {
+                    App->renderer3D->primAranara = true;
+                }
+                if (ImGui::MenuItem("Zhongli"))
+                {
+                    App->renderer3D->primZhongli = true;
+                }
                 ImGui::EndMenu();
             }
 
@@ -219,7 +227,7 @@ void ModuleEditor :: ConfigurationWindow()
     currentDT = App->DT();
     UpdateDT(currentDT);
 
-    ImGui::Begin("Configuration", &configWindow, ImGuiWindowFlags_DockNodeHost);
+    ImGui::Begin("Configuration", &configWindow);
 
     if (ImGui::CollapsingHeader("Resources"))
     {
@@ -432,7 +440,7 @@ void ModuleEditor :: ConfigurationWindow()
 
 void ModuleEditor::Console()
 {
-    ImGui::Begin("Console", &consoleWindow, ImGuiWindowFlags_DockNodeHost);
+    ImGui::Begin("Console", &consoleWindow);
 
     for (int i = 0; i < consoleText.size(); i++)
     {
@@ -521,3 +529,4 @@ std::string ModuleEditor::ReadMyFile(const std::string& filename)
     file.close();
     return fileContents;
 }
+

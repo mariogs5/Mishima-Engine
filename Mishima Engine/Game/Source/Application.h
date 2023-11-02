@@ -9,6 +9,7 @@ class ModuleInput;
 class ModuleRenderer3D;
 class ModuleCamera3D;
 class ModuleEditor;
+class ModuleScene;
 
 #include<vector>
 
@@ -20,6 +21,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleEditor* editor;
+	ModuleScene* scene;
 
 private:
 

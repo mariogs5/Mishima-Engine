@@ -48,9 +48,8 @@ public:
 	bool primCone = false;
 	bool primTorus = false;
 	bool primBakerHouse = false;
-
-	int isTexture = 0;
-	int isFBX = 0;
+	bool primAranara = false;
+	bool primZhongli = false;
 
 public:
 

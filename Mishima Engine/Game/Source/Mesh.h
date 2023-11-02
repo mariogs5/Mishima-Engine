@@ -36,10 +36,10 @@ public:
     //void Draw(Shader& shader);
     void DrawMesh();
 
-private:
-
     //  render data
     unsigned int VAO, VBO, EBO;
+
+private:
 
     void setupMesh();
 };

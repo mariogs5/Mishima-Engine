@@ -4,6 +4,7 @@
 #define MODULE_EDITOR
 
 #include "Module.h"
+#include "GameObject.h"
 #include "../Source/External/imgui/imgui.h"
 #include "../Source/External/imgui/bakends/imgui_impl_sdl2.h"
 #include "../Source/External/imgui/bakends/imgui_impl_opengl3.h"
@@ -38,6 +39,8 @@ public:
 	// Console
 	void PrintConsole(const char file[]);
 
+	void DrawHierarchy(std::vector<GameObject*> list);
+
 	//Fullscreen
 	bool fullscreen = false;
 
@@ -60,7 +63,7 @@ private:
 	std::vector <float> vectorDT; //Vector of DT
 
 	// ImGui windows
-	bool configWindow = false;
+	bool configWindow = true;
 	bool consoleWindow = true;
 
 	//Open GL settings

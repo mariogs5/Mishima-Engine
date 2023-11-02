@@ -127,8 +127,8 @@ bool ModuleRenderer3D::Init()
 	Grid.axis = true;
 
 	// Baker house 
-	myModel.loadModel("Assets/BakerHouse.fbx");
-	//myTexture.LoadTexture("Assets/Baker_House.png");
+	myModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+	myTexture.LoadTexture("Assets/Primitives/Baker_House.png");
 	Models.push_back(myModel);
 
 	return ret;
@@ -165,25 +165,29 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 	// Drag and Drop Models & Textures
 	if (App->input->loadDirectory) {
-		isFBX= std::strcmp(GetFileExtension(App->input->dropped_filedir), "fbx");
-		isTexture = std::strcmp(GetFileExtension(App->input->dropped_filedir), "png");
 
-		if (isFBX == 0) {
+		if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "fbx") == 0) {
 
 			Model tempModel;
 			tempModel.loadModel(App->input->dropped_filedir);
 			Models.push_back(tempModel);
 			LOG("FBX load successful");
-			isFBX = 0;
 			App->input->loadDirectory = false;
 		}
-		if (isTexture == 0) {
+		if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "FBX") == 0) {
+
+			Model tempModel;
+			tempModel.loadModel(App->input->dropped_filedir);
+			Models.push_back(tempModel);
+			LOG("FBX load successful");
+			App->input->loadDirectory = false;
+		}
+		if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "png") == 0) {
 
 			Texture tempTexture;
 			tempTexture.LoadTexture(App->input->dropped_filedir);
 			//Textures.push_back(tempTexture);
 			LOG("Texture load successful");
-			isTexture = 0;
 			App->input->loadDirectory = false;
 		}
 		else {
@@ -238,6 +242,22 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
 		Models.push_back(tempModel);
 		primBakerHouse = false;
+	}
+
+	// Primitive Aranara
+	if (primAranara) {
+		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/aranara.fbx");
+		Models.push_back(tempModel);
+		primAranara = false;
+	}
+
+	// Primitive Zhongli
+	if (primZhongli) {
+		Model tempModel;
+		tempModel.loadModel("Assets/Primitives/ze+hongli.fbx");
+		Models.push_back(tempModel);
+		primZhongli = false;
 	}
 
 	Grid.Render();

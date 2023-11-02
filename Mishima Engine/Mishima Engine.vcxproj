@@ -26,7 +26,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -80,6 +80,10 @@
   <ItemGroup>
     <ClInclude Include="Game\Source\Application.h" />
     <ClInclude Include="Game\Source\Color.h" />
+    <ClInclude Include="Game\Source\Component.h" />
+    <ClInclude Include="Game\Source\ComponentMesh.h" />
+    <ClInclude Include="Game\Source\ComponentTexture.h" />
+    <ClInclude Include="Game\Source\ComponentTransform.h" />
     <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3.h" />
     <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.h" />
@@ -89,6 +93,7 @@
     <ClInclude Include="Game\Source\External\imgui\imstb_rectpack.h" />
     <ClInclude Include="Game\Source\External\imgui\imstb_textedit.h" />
     <ClInclude Include="Game\Source\External\imgui\imstb_truetype.h" />
+    <ClInclude Include="Game\Source\GameObject.h" />
     <ClInclude Include="Game\Source\glmath.h" />
     <ClInclude Include="Game\Source\Globals.h" />
     <ClInclude Include="Game\Source\Light.h" />
@@ -159,6 +164,7 @@
     <ClInclude Include="Game\Source\ModuleRenderer3D.h" />
     <ClInclude Include="Game\Source\Module.h" />
     <ClInclude Include="Game\Source\ModuleInput.h" />
+    <ClInclude Include="Game\Source\ModuleScene.h" />
     <ClInclude Include="Game\Source\ModuleWindow.h" />
     <ClInclude Include="Game\Source\Primitive.h" />
     <ClInclude Include="Game\Source\Texture.h" />
@@ -168,6 +174,9 @@
   <ItemGroup>
     <ClCompile Include="Game\Source\Application.cpp" />
     <ClCompile Include="Game\Source\Color.cpp" />
+    <ClCompile Include="Game\Source\ComponentMesh.cpp" />
+    <ClCompile Include="Game\Source\ComponentTexture.cpp" />
+    <ClCompile Include="Game\Source\ComponentTransform.cpp" />
     <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Game\Source\External\imgui\bakends\imgui_impl_sdl2.cpp" />
     <ClCompile Include="Game\Source\External\imgui\imgui.cpp" />
@@ -175,6 +184,7 @@
     <ClCompile Include="Game\Source\External\imgui\imgui_draw.cpp" />
     <ClCompile Include="Game\Source\External\imgui\imgui_tables.cpp" />
     <ClCompile Include="Game\Source\External\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Game\Source\GameObject.cpp" />
     <ClCompile Include="Game\Source\glmath.cpp" />
     <ClCompile Include="Game\Source\Light.cpp" />
     <ClCompile Include="Game\Source\log.cpp" />
@@ -217,6 +227,7 @@
     <ClCompile Include="Game\Source\ModuleEditor.cpp" />
     <ClCompile Include="Game\Source\ModuleInput.cpp" />
     <ClCompile Include="Game\Source\ModuleRenderer3D.cpp" />
+    <ClCompile Include="Game\Source\ModuleScene.cpp" />
     <ClCompile Include="Game\Source\ModuleWindow.cpp" />
     <ClCompile Include="Game\Source\Primitive.cpp" />
     <ClCompile Include="Game\Source\Texture.cpp" />

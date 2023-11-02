@@ -107,7 +107,18 @@ update_status ModuleCamera3D::Update(float dt)
 		Position = Reference + Z * Position.Length();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT)
+	{
+		Reference = float3(0.0f, 0.0f, 0.0f);
+		Position = float3(0.0f, 10.0f, 5.0f);
+		LookAt(Reference);
+	}
+	else {
+
+		Reference = Position;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		Reference = float3(0.0f, 0.0f, 0.0f);
 
@@ -123,7 +134,7 @@ update_status ModuleCamera3D::Update(float dt)
 	if (App->input->GetMouseZ() != 0) {
 
 		float3 newPos(0, 0, 0);
-		float speed = 15.0f * dt;
+		float speed = 30.0f * dt;
 
 		if (App->input->GetMouseZ() > 0) newPos -= Z * speed;
 		if (App->input->GetMouseZ() < 0) newPos += Z * speed;
