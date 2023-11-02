@@ -33,4 +33,16 @@ Mishima Engine es un humilde motor creado para la asignatura de Game Engine.
     -Delete Models: Delete all the Models in the Scene.
     
 -Drag & Drop FBX Models.
+
 -Load an initial texture without UV's.
+
+-Unity Like camera.
+
+## Camera Controls:
+
+    -While Right clicking, “WASD” fps-like movement and free look enabled.
+    -Mouse wheel zoom in and out.
+    -Alt+Left click to orbit the object.
+    -F to focus the camera around the geometry and reset position.
+    -Holding SHIFT duplicates movement speed.
+
