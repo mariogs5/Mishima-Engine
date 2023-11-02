@@ -236,6 +236,7 @@
   <ItemGroup>
     <Image Include="..\..\..\..\Desktop\41VApAg2qpL (1).ico" />
     <Image Include="..\..\..\..\Desktop\41VApAg2qpL.png" />
+    <Image Include="Game\Assets\Icon\Mishima.ico" />
     <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

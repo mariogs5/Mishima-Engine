@@ -494,5 +494,6 @@
     <Image Include="..\..\..\..\Desktop\41VApAg2qpL.png" />
     <Image Include="icon1.ico" />
     <Image Include="..\..\..\..\Desktop\41VApAg2qpL (1).ico" />
+    <Image Include="Game\Assets\Icon\Mishima.ico" />
   </ItemGroup>
 </Project>
