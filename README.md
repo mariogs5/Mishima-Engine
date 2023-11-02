@@ -10,9 +10,9 @@ Mishima Engine es un humilde motor creado para la asignatura de Game Engine.
 
 ## Features:
 
-○ImGui window & docking implementation.
+--ImGui window & docking implementation.
 
-○Main Bar with the follow characteristics: 
+--Main Bar with the follow characteristics: 
 
     -File -> Option to shut down the engine
     -Configuration window:
