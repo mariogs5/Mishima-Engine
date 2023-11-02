@@ -1,6 +1,6 @@
 # Mishima Engine
 
-Mishima Engine es un humilde motor creado para la asignatura de Game Engine.
+Mishima Engine is a humble engine created for the Game Engine subject.
 
 ### Repository Link: [Mishima Engine](https://github.com/mariogs5/Mishima-Engine)
 
