@@ -10,11 +10,11 @@ Mishima Engine es un humilde motor creado para la asignatura de Game Engine.
 
 ## Features:
 
---ImGui window & docking implementation.
+- ImGui window & docking implementation.
 
---Main Bar with the follow characteristics: 
+- Main Bar with the follow characteristics: 
 
-    -File -> Option to shut down the engine
+    - File -> Option to shut down the engine
     -Configuration window:
         -Check Pc resources in real time.
         -Modify the Engine window settings.
@@ -26,11 +26,11 @@ Mishima Engine es un humilde motor creado para la asignatura de Game Engine.
         -Primitives: you can create primitives.
         -Delete Models: Delete all the Models in the Scene.
     
-○Drag & Drop FBX Models.
+- Drag & Drop FBX Models.
 
-○Load an initial texture without UV's.
+- Load an initial texture without UV's.
 
-○Unity Like camera.
+- Unity Like camera.
 
 ## Camera Controls:
 
