@@ -187,7 +187,7 @@ void ModuleEditor::MainMenuBar()
                 }
 
                 ImGui::BulletText("Engine Models");
-                if (ImGui::MenuItem("Backer House"))
+                if (ImGui::MenuItem("Baker House"))
                 {
                     App->renderer3D->primBakerHouse = true;
                 }
