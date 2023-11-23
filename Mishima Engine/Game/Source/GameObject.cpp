@@ -1,17 +1,46 @@
 #include "GameObject.h"
 #include <vector>
 
-GameObject::GameObject (std::string name)
+GameObject::GameObject(std::string name): name(name),active(true),parent(nullptr)
 {
+	transform = (ComponentTransform*)AddComponent(ComponentTypes::TRANSFORM);
 }
 
 // Destructor
 GameObject::~GameObject()
-{}
+{
+	transform = nullptr;
+
+	if (deleteGameObject && parent != nullptr) {
+		parent->DeleteChild(this);
+	}
+
+	for (size_t i = 0; i < components.size(); ++i)
+	{
+		Component* component = components[i];
+		if (component != nullptr)
+		{
+			delete components[i];
+			components[i] = nullptr;
+
+		}
+	}
+
+	for (size_t i = 0; i < Children.size(); ++i)
+	{
+		delete Children[i];
+		Children[i] = nullptr;
+	}
+
+}
 
 void GameObject::Update() 
 {
-
+	for (std::vector<Component*>::iterator co = components.begin(); co != components.end(); co++)
+	{
+		Component* component_update = *co;
+		component_update->Update();
+	}
 }
 
 bool GameObject::EnableGO()
@@ -34,18 +63,63 @@ bool GameObject::DisableGO()
     return false;
 }
 
-void GameObject::SetParent(GameObject* gameobject)
+bool GameObject::SetParent(GameObject* newParent)
 {
-    this->parent = gameobject;
+	if (parent != nullptr)
+	{
+		if (newParent->IsChildOf(this))
+		{
+			return false;
+		}
+		parent->DeleteChild(this);
+	}
+
+	parent = newParent;
+	newParent->Children.push_back(this);
+
+	return true;
 }
 
-GameObject* GameObject::AddChildren(GameObject* children) 
+bool GameObject::IsChildOf(GameObject* gameobject)
 {
-    if (Children.empty()) 
-    {
-        Children.push_back(children);
-    }
-    return children;
+	if (gameobject == this)
+	{
+		return true;
+	}
+	if (gameobject->Children.empty())
+	{
+		return false;
+	}
+	for (size_t i = 0; i < gameobject->Children.size(); i++)
+	{
+		if (IsChildOf(gameobject->Children[i]))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void GameObject::DeleteChild(GameObject* child)
+{
+	for (int i = 0; i < Children.size(); i++) {
+		if (Children[i] == child) {
+			Children.erase(Children.begin() + i);
+			child->parent = nullptr;
+		}
+	}
+}
+
+GameObject* GameObject::GetParent()
+{
+	return parent;
+}
+
+GameObject* GameObject::AddChildren(GameObject* children)
+{
+	children->SetParent(this);
+
+	return children;
 }
 
 Component* GameObject::AddComponent(ComponentTypes component) 
@@ -69,7 +143,9 @@ Component* GameObject::AddComponent(ComponentTypes component)
 	case(ComponentTypes::MESH):
 		ret = new ComponentMesh(this);
 		break;
-
+	/*case(ComponentTypes::CAMERA):
+		ret = new ComponentCamera(this);
+		break;*/
 	}
 	components.push_back(ret);
 	return ret;

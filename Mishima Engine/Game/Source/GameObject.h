@@ -4,10 +4,12 @@
 #include "Globals.h"
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "External/MathGeoLib/include/Math/Quat.h"
+#include "Application.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentTexture.h"
+#include "ComponentCamera.h"
 
 #include <vector>
 #include <string>
@@ -24,24 +26,29 @@ public:
 
 	void Update();
 
-	void SetParent(GameObject* gameobject);
-	GameObject* AddChildren(GameObject* children);
+	bool SetParent(GameObject* newParent);
+	bool IsChildOf(GameObject* parent);
+	void DeleteChild(GameObject* child);
 
 	Component* AddComponent(ComponentTypes component);
 	Component* GetComponent(ComponentTypes type);
+	GameObject* AddChildren(GameObject* children);
+	GameObject* GetParent();
 	
 
 public:
 
+	std::string name;
+
+	GameObject* parent;
+	std::vector<GameObject*> Children;
+
 	bool selected = false;
-	bool active;
+	bool active = true;
+	bool deleteGameObject;
 
 	std::vector<Component*> components;
 	ComponentTransform* transform = nullptr;
-
-	std::string name;
-	GameObject* parent;
-	std::vector<GameObject*> Children;
 };
 #endif // !__GAMEOBJECT_H__
 

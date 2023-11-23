@@ -1,7 +1,10 @@
 #pragma once
 #include "Component.h"
+#include "Globals.h"
+
 #include "External/MathGeoLib/include/MathGeoLib.h"
 #include "External/MathGeoLib/include/Math/float3.h"
+#include "External/imgui/imgui.h"
 
 class ComponentTransform : public Component {
 public:

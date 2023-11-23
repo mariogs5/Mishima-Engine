@@ -1,14 +1,12 @@
 #include "ComponentTransform.h"
 
-#include "External/imgui/imgui.h"
-
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
 	type = ComponentTypes::TRANSFORM;
 	UpdateMatrix();
 }
 
-ComponentTransform::ComponentTransform(GameObject* parent, float3 position, float3 scale, Quat rotation) : Component(parent), newScale(scale), newRotation(rotation), newPosition(position) {}
+ComponentTransform::ComponentTransform(GameObject* parent, float3 position, float3 scale, Quat rotation) : Component(parent), newScale(scale), newRotation(rotation), newPosition(position) {};
 
 void ComponentTransform::Enable() 
 {
@@ -31,9 +29,19 @@ void ComponentTransform ::EditorInspector()
 {
 	if (ImGui::CollapsingHeader("Component Transform"))
 	{
-		ImGui::InputFloat3("Transform", (float*)&newPosition);
-		ImGui::InputFloat3("Scale", (float*)&newScale);
-		ImGui::InputFloat4("Rotation", (float*)&newRotation);
+		float3 euler_rotation = newRotation.ToEulerXYZ();
+		float3 euler_degree = euler_rotation * RADTODEG;
+		ImGui::DragFloat3("Position:", (float*)&newPosition);
+		ImGui::DragFloat3("Scale:", (float*)&newScale);
+		bool rot_change = ImGui::DragFloat3("Rotation:", (float*)&euler_degree);
+
+		if (rot_change)
+		{
+			euler_rotation = euler_degree * DEGTORAD;
+			newRotation = Quat::FromEulerXYZ(euler_rotation.x, euler_rotation.y, euler_rotation.z);
+		}
+
+		UpdateMatrix();
 	}
 }
 
