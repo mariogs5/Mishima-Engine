@@ -11,17 +11,11 @@ ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 	type = ComponentTypes::MESH;
 };
 
-void ComponentMesh::Enable() {
+void ComponentMesh::Enable() {}
 
-}
+void ComponentMesh::Disable() {}
 
-void ComponentMesh::Disable() {
-
-}
-
-void ComponentMesh::Update() {
-
-}
+void ComponentMesh::Update() {}
 
 void ComponentMesh::SetMesh(Mesh* mesh)
 {
@@ -35,5 +29,10 @@ void ComponentMesh::SetPath(std::string path)
 
 void ComponentMesh::EditorInspector() 
 {
-	//Todo
+	/*if (ImGui::CollapsingHeader("Component Mesh"))
+	{
+		ImGui::Text("Path: %s", paths),
+			ImGui::Text("Index: %d", mesh->indices.size());
+		ImGui::Text("Vertices: %d", mesh->ourVertex.size());
+	}*/
 }
