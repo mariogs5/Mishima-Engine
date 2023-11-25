@@ -204,7 +204,7 @@ void ModuleEditor::MainMenuBar()
 
             if (ImGui::MenuItem("Delete Models"))
             {
-                App->renderer3D->Models.clear();
+                //App->renderer3D->Models.clear();
             }
 
             ImGui::EndMenu();

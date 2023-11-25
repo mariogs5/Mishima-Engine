@@ -5,6 +5,8 @@
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
+#include "ModuleScene.h"
+#include "ModuleMesh.h"
 
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -116,10 +118,22 @@ bool ModuleRenderer3D::Init()
 		glEnable(GL_COLOR_MATERIAL);
 
 		glewInit();
+
+		//Init Devil
+		InitDevil();
 	}
 
+	//Preguntar
+
+	/*BindBuffers();
+
+	ilInit();
+
+	CreateMainBuffer();*/
+
+
 	// DevIL init
-	myTexture.DevILInit();
+	//myTexture.DevILInit();
 
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -127,9 +141,9 @@ bool ModuleRenderer3D::Init()
 	Grid.axis = true;
 
 	// Baker house 
-	myModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+	/*myModel.loadModel("Assets/Primitives/BakerHouse.fbx");
 	myTexture.LoadTexture("Assets/Primitives/Baker_House.png");
-	Models.push_back(myModel);
+	Models.push_back(myModel);*/
 
 	return ret;
 }
@@ -164,112 +178,112 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 	}*/
 
 	// Drag and Drop Models & Textures
-	if (App->input->loadDirectory) {
+	//if (App->input->loadDirectory) {
 
-		if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "fbx") == 0) {
+	//	if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "fbx") == 0) {
 
-			Model tempModel;
-			tempModel.loadModel(App->input->dropped_filedir);
-			Models.push_back(tempModel);
-			LOG("FBX load successful");
-			App->input->loadDirectory = false;
-		}
-		if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "FBX") == 0) {
+	//		Model tempModel;
+	//		tempModel.loadModel(App->input->dropped_filedir);
+	//		Models.push_back(tempModel);
+	//		LOG("FBX load successful");
+	//		App->input->loadDirectory = false;
+	//	}
+	//	if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "FBX") == 0) {
 
-			Model tempModel;
-			tempModel.loadModel(App->input->dropped_filedir);
-			Models.push_back(tempModel);
-			LOG("FBX load successful");
-			App->input->loadDirectory = false;
-		}
-		if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "png") == 0) {
+	//		Model tempModel;
+	//		tempModel.loadModel(App->input->dropped_filedir);
+	//		Models.push_back(tempModel);
+	//		LOG("FBX load successful");
+	//		App->input->loadDirectory = false;
+	//	}
+	//	if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "png") == 0) {
 
-			Texture tempTexture;
-			tempTexture.LoadTexture(App->input->dropped_filedir);
-			//Textures.push_back(tempTexture);
-			LOG("Texture load successful");
-			App->input->loadDirectory = false;
-		}
-		else {
+	//		Texture tempTexture;
+	//		tempTexture.LoadTexture(App->input->dropped_filedir);
+	//		//Textures.push_back(tempTexture);
+	//		LOG("Texture load successful");
+	//		App->input->loadDirectory = false;
+	//	}
+	//	else {
 
-			App->input->loadDirectory = false;
-		}
-	}
+	//		App->input->loadDirectory = false;
+	//	}
+	//}
 
 	// Primitive Cube
-	if (primCube) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/Cube.fbx");
-		Models.push_back(tempModel);
-		primCube = false;
-	}
+	//if (primCube) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/Cube.fbx");
+	//	Models.push_back(tempModel);
+	//	primCube = false;
+	//}
 
-	// Primitive Sphere
-	if (primSphere) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/Sphere.fbx");
-		Models.push_back(tempModel);
-		primSphere = false;
-	}
+	//// Primitive Sphere
+	//if (primSphere) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/Sphere.fbx");
+	//	Models.push_back(tempModel);
+	//	primSphere = false;
+	//}
 
-	// Primitive Cylinder
-	if (primCylinder) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/Cylinder.fbx");
-		Models.push_back(tempModel);
-		primCylinder = false;
-	}
+	//// Primitive Cylinder
+	//if (primCylinder) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/Cylinder.fbx");
+	//	Models.push_back(tempModel);
+	//	primCylinder = false;
+	//}
 
-	// Primitive Cone
-	if (primCone) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/Cone.fbx");
-		Models.push_back(tempModel);
-		primCone = false;
-	}
+	//// Primitive Cone
+	//if (primCone) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/Cone.fbx");
+	//	Models.push_back(tempModel);
+	//	primCone = false;
+	//}
 
-	// Primitive Torus
-	if (primTorus) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/Torus.fbx");
-		Models.push_back(tempModel);
-		primTorus = false;
-	}
+	//// Primitive Torus
+	//if (primTorus) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/Torus.fbx");
+	//	Models.push_back(tempModel);
+	//	primTorus = false;
+	//}
 
-	// Primitive BakerHouse
-	if (primBakerHouse) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
-		Models.push_back(tempModel);
-		primBakerHouse = false;
-	}
+	//// Primitive BakerHouse
+	//if (primBakerHouse) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
+	//	Models.push_back(tempModel);
+	//	primBakerHouse = false;
+	//}
 
-	// Primitive Aranara
-	if (primAranara) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/aranara.fbx");
-		Models.push_back(tempModel);
-		primAranara = false;
-	}
+	//// Primitive Aranara
+	//if (primAranara) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/aranara.fbx");
+	//	Models.push_back(tempModel);
+	//	primAranara = false;
+	//}
 
-	// Primitive Zhongli
-	if (primZhongli) {
-		Model tempModel;
-		tempModel.loadModel("Assets/Primitives/ze+hongli.fbx");
-		Models.push_back(tempModel);
-		primZhongli = false;
-	}
+	//// Primitive Zhongli
+	//if (primZhongli) {
+	//	Model tempModel;
+	//	tempModel.loadModel("Assets/Primitives/ze+hongli.fbx");
+	//	Models.push_back(tempModel);
+	//	primZhongli = false;
+	//}
 
 	Grid.Render();
 
-	myTexture.ActivateTexture();
+	//myTexture.ActivateTexture();
 
-	for (int i = 0; i < Models.size(); i++) 
+	/*for (int i = 0; i < Models.size(); i++) 
 	{
 		Models[i].Draw();
 	}
 
-	myTexture.DeActivateTexture();
+	myTexture.DeActivateTexture();*/
 	//Draw Test
 	/*glLineWidth(2.0f);
 	glBegin(GL_TRIANGLES);
@@ -292,7 +306,7 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
-	Models.clear();
+	//Models.clear();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	SDL_GL_DeleteContext(context);
@@ -300,6 +314,138 @@ bool ModuleRenderer3D::CleanUp()
 	return true;
 }
 
+void ModuleRenderer3D::InitDevil()
+{
+	ilInit();
+	iluInit();
+	ilutInit();
+	ilutRenderer(ILUT_OPENGL);
+	LOG("Devil has initialised successfully");
+}
+
+void ModuleRenderer3D::DrawBoundingBox(float3* vertices, float3 color)
+{
+	uint indices[24] = {
+		0,2,2,
+		6,6,4,
+		4,0,0,
+		1,1,3,
+		3,2,4,
+		5,6,7,
+		5,7,3,
+		7,1,5
+	};
+	glBegin(GL_LINES);
+	glColor3fv(color.ptr());
+
+	for (size_t i = 0; i < (sizeof(indices) / sizeof(indices[0])); i++) {
+
+		glVertex3fv(vertices[indices[i]].ptr());
+
+	}
+
+	glColor3f(255.f, 255.f, 255.f);
+	glEnd();
+}
+
+//void ModuleRenderer3D::CreateMainBuffer()
+//{
+//	scene_render_texture = new RenderTexture();
+//	scene_render_texture->Create(SCREEN_WIDTH, SCREEN_HEIGHT);
+//
+//	game_render_texture = new RenderTexture();
+//	game_render_texture->Create(SCREEN_WIDTH, SCREEN_HEIGHT);
+//}
+//
+//void ModuleRenderer3D::DeleteMainBuffer()
+//{
+//	delete(scene_render_texture);
+//	delete(game_render_texture);
+//}
+
+//GLuint ModuleRenderer3D::GetSceneRenderTexture()
+//{
+//	return scene_render_texture->GetTexture();
+//}
+//
+//GLuint ModuleRenderer3D::GetGameRenderTexture()
+//{
+//	return game_render_texture->GetTexture();
+//}
+
+void ModuleRenderer3D::DebugDrawBox(const float3* corners, Color color, bool lines, const float& line_size)
+{
+	GLint previous[2];
+	if (lines)
+	{
+		glGetIntegerv(GL_POLYGON_MODE, previous);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+
+	glColor3f(color.r, color.g, color.b);
+
+	glLineWidth(line_size);
+
+	glBegin(GL_QUADS);
+
+	glVertex3fv((GLfloat*)&corners[1]);
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[7]);
+	glVertex3fv((GLfloat*)&corners[3]);
+
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[2]);
+	glVertex3fv((GLfloat*)&corners[6]);
+
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[6]);
+	glVertex3fv((GLfloat*)&corners[7]);
+
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[1]);
+	glVertex3fv((GLfloat*)&corners[3]);
+	glVertex3fv((GLfloat*)&corners[2]);
+
+	glVertex3fv((GLfloat*)&corners[3]);
+	glVertex3fv((GLfloat*)&corners[7]);
+	glVertex3fv((GLfloat*)&corners[6]);
+	glVertex3fv((GLfloat*)&corners[2]);
+
+	glVertex3fv((GLfloat*)&corners[0]);
+	glVertex3fv((GLfloat*)&corners[4]);
+	glVertex3fv((GLfloat*)&corners[5]);
+	glVertex3fv((GLfloat*)&corners[1]);
+
+	glEnd();
+
+	if (lines)
+		glPolygonMode(GL_FRONT_AND_BACK, previous[0]);
+
+	glLineWidth(1.0f);
+
+	glColor3f(255, 255, 255);
+}
+
+void ModuleRenderer3D::BindBuffers()
+{
+	//Todo: Hacer binnd de todos los meshes arreglar
+	for (int i = 0; i < App->mesh->ourMeshes.size(); i++) {
+
+		glGenBuffers(1, &App->mesh->ourMeshes[i]->VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, App->mesh->ourMeshes[i]->VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ModuleMesh::Vertex) * App->mesh->ourMeshes[i]->ourVertex.size(), &App->mesh->ourMeshes[i]->ourVertex[0], GL_STATIC_DRAW);
+
+		glGenBuffers(1, &App->mesh->ourMeshes[i]->EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, App->mesh->ourMeshes[i]->EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * App->mesh->ourMeshes[i]->indices.size(), &App->mesh->ourMeshes[i]->indices[0], GL_STATIC_DRAW);
+
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+}
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {

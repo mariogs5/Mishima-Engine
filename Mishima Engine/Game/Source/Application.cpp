@@ -6,6 +6,8 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleEditor.h"
+#include "ModuleMesh.h"
+#include "ModuleTexture.h"
 #include "ModuleScene.h"
 
 extern Application* externalapp = nullptr;
@@ -20,6 +22,8 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	editor = new ModuleEditor(this);
 	scene = new ModuleScene(this);
+	mesh = new ModuleMesh(this);
+	texture = new ModuleTexture(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -29,6 +33,8 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
+	AddModule(mesh);
+	AddModule(texture);
 	AddModule(scene);
 
 	// Renderer last!

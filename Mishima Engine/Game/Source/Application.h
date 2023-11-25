@@ -10,6 +10,8 @@ class ModuleRenderer3D;
 class ModuleCamera3D;
 class ModuleEditor;
 class ModuleScene;
+class ModuleMesh;
+class ModuleTexture;
 
 #include<vector>
 
@@ -22,6 +24,8 @@ public:
 	ModuleCamera3D* camera;
 	ModuleEditor* editor;
 	ModuleScene* scene;
+	ModuleMesh* mesh;
+	ModuleTexture* texture;
 
 private:
 

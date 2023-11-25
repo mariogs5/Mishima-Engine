@@ -1,5 +1,7 @@
 #pragma once
 #include "Component.h"
+#include "Globals.h"
+#include <string>
 
 struct Texture;
 

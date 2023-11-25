@@ -11,20 +11,20 @@
 #include <iostream>
 #include "vector"
 
-class Texture {
-public:
-    Texture(){}
-
-    //Texture import
-    void DevILInit();
-    void LoadTexture(std::string path);
-    void ActivateTexture();
-    void DeActivateTexture();
-
-
-private:
-    unsigned int width;
-    unsigned int height;
-    std::string path;
-    unsigned int textureID;
-};
+//class Texture {
+//public:
+//    Texture(){}
+//
+//    //Texture import
+//    void DevILInit();
+//    void LoadTexture(std::string path);
+//    void ActivateTexture();
+//    void DeActivateTexture();
+//
+//
+//private:
+//    unsigned int width;
+//    unsigned int height;
+//    std::string path;
+//    unsigned int textureID;
+//};
