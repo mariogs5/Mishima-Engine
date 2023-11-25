@@ -125,11 +125,15 @@ bool ModuleRenderer3D::Init()
 
 	//Preguntar
 
-	/*BindBuffers();
-
 	ilInit();
 
-	CreateMainBuffer();*/
+	App->mesh->LoadMesh("Assets/Primitives/BakerHouse.fbx");
+	App->texture->LoadTexture("Assets/Primitives/Baker_House.png");
+	BindBuffers();
+
+
+	//CreateMainBuffer();
+
 
 
 	// DevIL init

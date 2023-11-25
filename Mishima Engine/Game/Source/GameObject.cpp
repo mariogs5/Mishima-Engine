@@ -72,11 +72,11 @@ bool GameObject::SetParent(GameObject* newParent)
 			return false;
 		}
 		parent->DeleteChild(this);
+
 	}
 
 	parent = newParent;
 	newParent->Children.push_back(this);
-
 	return true;
 }
 

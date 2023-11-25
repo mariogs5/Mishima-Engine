@@ -29,10 +29,7 @@ void ComponentMesh::SetPath(std::string path)
 
 void ComponentMesh::EditorInspector() 
 {
-	/*if (ImGui::CollapsingHeader("Component Mesh"))
+	if (ImGui::CollapsingHeader("Component Mesh"))
 	{
-		ImGui::Text("Path: %s", paths),
-			ImGui::Text("Index: %d", mesh->indices.size());
-		ImGui::Text("Vertices: %d", mesh->ourVertex.size());
-	}*/
+	}
 }

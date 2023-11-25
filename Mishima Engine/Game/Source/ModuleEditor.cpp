@@ -10,6 +10,8 @@
 #include "External/Assimp/include/version.h"
 #include "External/DevIL/include/il.h"
 
+#include "GameObject.h"
+
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -59,6 +61,9 @@ bool ModuleEditor::Init()
     vectorMS.reserve(30); //MS vector
     vectorDT.reserve(30); //DT vector
 
+    //Prueba crear GameObject
+    App->scene->CreateGameObject("juan");
+
 	return ret;
 
 }
@@ -99,6 +104,21 @@ void ModuleEditor::DrawEditor()
     if (configWindow) 
     {
         ConfigurationWindow();
+    }
+
+    if (inspectorWindow) 
+    {
+        InspectorWindow();
+    }
+
+
+    if (hierarchyWindow) 
+    {
+        ImGui::Begin("Hierarchy");
+
+        DrawHierarchy();
+
+        ImGui::End();
     }
 
     //-------------------------------------------End of Editor Code---------------------------------------------------------------------------//
@@ -211,6 +231,141 @@ void ModuleEditor::MainMenuBar()
         }
         ImGui::EndMainMenuBar();
     }
+}
+
+void ModuleEditor::InspectorWindow()
+{
+    if (inspectorWindow)
+    {
+        ImGui::Begin("Inspector", &inspectorWindow);
+
+        if (GameObject_selected != nullptr)
+        {
+            ImGui::Checkbox("Active", &GameObject_selected->active);
+            ImGui::SameLine;
+            strcpy(newName, GameObject_selected->name.c_str());
+            if (ImGui::InputText("##juan", &newName[0], sizeof(newName)))
+            {
+                GameObject_selected->name = newName;
+            }
+
+            if (ImGui::Button("Delete")) {
+
+                GameObject_selected->deleteGameObject = true;
+                delete GameObject_selected;
+
+            }
+
+            ImGui::Separator();
+
+            for (uint m = 0; m < GameObject_selected->components.size(); m++)
+            {
+                GameObject_selected->components[m]->EditorInspector();
+            }
+
+            ImGui::Dummy(ImVec2(0, 15));
+            ImGui::Text("     ");
+            ImGui::SameLine();
+            // Inicia el combo
+            if (ImGui::BeginCombo("", "AddComponent"))
+            {
+                showAddComponent = true;
+                if (showAddComponent)
+                {//Pregunta profe
+                    if (ImGui::Selectable("ComponentTexture"))
+                    {
+                        if (GameObject_selected->GetComponent(ComponentTypes::TEXTURE) == nullptr)
+                        {
+                            GameObject_selected->AddComponent(ComponentTypes::TEXTURE);
+                        }
+                    }
+                }
+                // Finaliza el combo
+                ImGui::EndCombo();
+            }
+        }
+
+        ImGui::End();
+    }
+}
+
+void ModuleEditor::DrawHierarchyLevel(GameObject* currentObject, int num)
+{
+    ImGuiTreeNodeFlags flag_TNode = ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTreeNodeFlags_OpenOnArrow;
+
+    bool isNodeOpen;
+    bool isSelected = GameObject_selected == currentObject;
+
+    if (currentObject->Children.size() != 0) {
+        isNodeOpen = ImGui::TreeNodeEx((void*)(intptr_t)num, flag_TNode, currentObject->name.c_str(), num);
+    }
+
+    else {
+        flag_TNode |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+        ImGui::TreeNodeEx((void*)(intptr_t)num, flag_TNode, currentObject->name.c_str(), num);
+        isNodeOpen = false;
+    }
+
+    if (ImGui::BeginDragDropSource())
+    {
+        ImGui::SetDragDropPayload("GameObject", currentObject, sizeof(GameObject*));
+        draggedGameObject = currentObject;
+        ImGui::Text("Dragging GameObject");
+        ImGui::EndDragDropSource();
+    }
+
+    if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem))
+    {
+        hoveredGameObj = currentObject;
+        if (ImGui::IsMouseClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
+        {
+            GameObject_selected = currentObject;
+        }
+    }
+
+    if (ImGui::IsWindowHovered())
+    {
+        if (!ImGui::IsAnyItemHovered())
+        {
+            if (ImGui::IsMouseClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
+            {
+                GameObject_selected = nullptr;
+            }
+        }
+    }
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("GameObject")) {
+
+            draggedGameObject->SetParent(hoveredGameObj);
+
+        }
+        ImGui::EndDragDropTarget();
+    }
+
+    if (isNodeOpen)
+    {
+        if (!currentObject->Children.empty()) {
+            for (unsigned int i = 0; i < currentObject->Children.size(); i++)
+            {
+                DrawHierarchyLevel(currentObject->Children[i], i);
+            }
+        }
+        ImGui::TreePop();
+    }
+
+}
+
+void ModuleEditor::DrawHierarchy()
+{
+    std::vector<GameObject*> lista_games = App->scene->rootObject->Children;
+
+    for (uint i = 0; i < lista_games.size(); i++)
+    {
+        DrawHierarchyLevel(lista_games[i], i);
+    }
+
 }
 
 void ModuleEditor :: ConfigurationWindow()

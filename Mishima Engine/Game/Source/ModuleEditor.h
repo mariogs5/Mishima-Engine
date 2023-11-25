@@ -3,7 +3,10 @@
 #ifndef MODULE_EDITOR
 #define MODULE_EDITOR
 
+#include "Application.h"
+#include "ModuleScene.h"
 #include "Module.h"
+#include "Globals.h"
 #include "GameObject.h"
 #include "../Source/External/imgui/imgui.h"
 #include "../Source/External/imgui/bakends/imgui_impl_sdl2.h"
@@ -11,9 +14,13 @@
 
 #include <fstream>
 
+#include "GameObject.h"
+
 #include <iostream>
 #include <vector>
 #include <string>
+
+#define MAX_NAME_CHARACTERS 32
 
 class ModuleEditor : public Module
 {
@@ -36,6 +43,13 @@ public:
 	void UpdateMS(const float currentMS);
 	void UpdateDT(const float currentDT);
 
+	//Component Inspector
+	void InspectorWindow();
+
+	//Hierarchy
+	void DrawHierarchyLevel(GameObject* currentObject, int num);
+	void DrawHierarchy();
+
 	// Console
 	void PrintConsole(const char file[]);
 
@@ -50,6 +64,16 @@ public:
 
 private:
 
+	//Inspector
+	GameObject* GameObject_selected = nullptr;
+	GameObject* hoveredGameObj = nullptr;
+	GameObject* draggedGameObject = nullptr;
+
+	char newName[MAX_NAME_CHARACTERS];
+
+	bool showAddComponent = false;
+
+	//Github Links
 	void ModuleEditor::BrowserLink(const char* url);
 
 	bool UpdateAditionalWindows = false;
@@ -65,6 +89,8 @@ private:
 	// ImGui windows
 	bool configWindow = true;
 	bool consoleWindow = true;
+	bool inspectorWindow = true;
+	bool hierarchyWindow = true;
 
 	//Open GL settings
 	bool culling;
