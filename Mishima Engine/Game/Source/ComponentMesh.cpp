@@ -17,7 +17,7 @@ void ComponentMesh::Disable() {}
 
 void ComponentMesh::Update() {}
 
-void ComponentMesh::SetMesh(Mesh* mesh)
+void ComponentMesh::SetMesh(ModuleMesh::Mesh* mesh)
 {
 	this->mesh = mesh;
 }

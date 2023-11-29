@@ -17,7 +17,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	GameObject* CreateGameObject(std::string name);
+	GameObject* CreateGameObject(std::string name, GameObject* parent);
 
 	GameObject* LoadMeshAndTexture(std::string path_mesh, std::string path_tex);
 

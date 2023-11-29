@@ -9,6 +9,7 @@
 #include "ModuleScene.h"
 #include "External/MathGeoLib/include/Math/float3.h"
 #include "GameObject.h"
+
 #pragma comment (lib, "Game/Source/External/Assimp/libx86/assimp.lib")
 
 ModuleMesh::ModuleMesh(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -31,78 +32,20 @@ GameObject* ModuleMesh::LoadMesh(const char* file_path)
 {
 	const aiScene* imported_scene = aiImportFile(file_path, aiProcess_Triangulate | aiProcess_FlipUVs);
 
-	newMesh = App->scene->CreateGameObject(name + std::to_string(num));
-	num++;
-	Mesh* mesh_obj = new Mesh();
 	if (imported_scene->HasMeshes() && imported_scene != nullptr)
 	{
-		for (int i = 0; i < imported_scene->mNumMeshes; i++)
-		{
-			for (unsigned int o = 0; o < imported_scene->mMeshes[i]->mNumVertices; o++)
-			{
-				Vertex vertex_data;
+		GameObject* parentObject = App->scene->CreateGameObject("GameObject", App->scene->rootObject);
 
-				float3 vertex_position;
-				vertex_position.x = imported_scene->mMeshes[i]->mVertices[o].x;
-				vertex_position.y = imported_scene->mMeshes[i]->mVertices[o].y;
-				vertex_position.z = imported_scene->mMeshes[i]->mVertices[o].z;
-				vertex_data.Position = vertex_position;
-				LOG("New mesh with %d vertices", imported_scene->mMeshes[i]->mNumVertices);
+		GetSceneInfo(imported_scene->mRootNode, imported_scene, file_path, parentObject);
 
-				if (imported_scene->mMeshes[i]->HasNormals())
-				{
-					vertex_data.Normal.x = imported_scene->mMeshes[i]->mNormals[o].x;
-					vertex_data.Normal.y = imported_scene->mMeshes[i]->mNormals[o].y;
-					vertex_data.Normal.z = imported_scene->mMeshes[i]->mNormals[o].z;
-				}
-
-				if (imported_scene->mMeshes[i]->HasTextureCoords(0))
-				{
-					vertex_data.TexCoords.x = imported_scene->mMeshes[i]->mTextureCoords[0][o].x;
-					vertex_data.TexCoords.y = imported_scene->mMeshes[i]->mTextureCoords[0][o].y;
-				}
-				else
-				{
-					vertex_data.TexCoords.x = 0.0f;
-					vertex_data.TexCoords.y = 0.0f;
-				}
-
-				mesh_obj->ourVertex.push_back(vertex_data);
-			}
-
-			if (imported_scene->mMeshes[i]->HasFaces())
-			{
-				mesh_obj->indices.resize(imported_scene->mMeshes[i]->mNumFaces * 3);
-
-				for (uint y = 0; y < imported_scene->mMeshes[i]->mNumFaces; y++)
-				{
-					if (imported_scene->mMeshes[i]->mFaces[y].mNumIndices != 3)
-					{
-						LOG("WARNING, geometry face with != 3 indices!");
-					}
-					else
-					{
-						memcpy(&mesh_obj->indices[y * 3], imported_scene->mMeshes[i]->mFaces[y].mIndices, 3 * sizeof(unsigned int));
-					}
-				}
-			}
-
-			ComponentMesh* mesh_component = (ComponentMesh*)newMesh->AddComponent(ComponentTypes::MESH);
-			//mesh_component->SetMesh(mesh_obj);
-			mesh_component->SetPath(file_path);
-			ourMeshes.push_back(mesh_obj);
-
-
-		}
-		/*InitBoundingBoxes(mesh_obj);*/
 		aiReleaseImport(imported_scene);
 
-	}
-	else {
-		LOG("Error loading scene % s", file_path);
+		return parentObject;
 	}
 
-	return newMesh;
+	LOG("Error loading scene % s", file_path);
+
+	return nullptr;
 }
 
 
@@ -138,4 +81,83 @@ void ModuleMesh::DrawNormals() {
 	}
 
 	glEnd(); // End drawing lines
+}
+
+void ModuleMesh::GetSceneInfo(aiNode* node, const aiScene* scene, const char* file_path, GameObject* gameObject)
+{
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		GetSceneInfo(node->mChildren[i], scene, file_path, gameObject);
+	}
+
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
+	{
+		ProcessMesh(scene->mMeshes[node->mMeshes[i]], file_path, gameObject);
+	}
+}
+
+ModuleMesh::Mesh ModuleMesh::ProcessMesh(aiMesh* mesh, const char* file_path, GameObject* gameObject)
+{
+	Mesh* myMesh = new Mesh();
+
+	// Extract the file name from the file_path
+	const char* fileNameStart = strrchr(file_path, '/');
+	const char* fileName = (fileNameStart != nullptr) ? fileNameStart + 1 : file_path;
+
+	GameObject* newMesh = App->scene->CreateGameObject(fileName, gameObject);
+
+	for (unsigned int j = 0; j < mesh->mNumVertices; j++)
+	{
+		Vertex vertex;
+		float3 vector;
+		vector.x = mesh->mVertices[j].x;
+		vector.y = mesh->mVertices[j].y;
+		vector.z = mesh->mVertices[j].z;
+		vertex.Position = vector;
+
+		if (mesh->HasNormals())
+		{
+			vertex.Normal.x = mesh->mNormals[j].x;
+			vertex.Normal.y = mesh->mNormals[j].y;
+			vertex.Normal.z = mesh->mNormals[j].z;
+
+		}
+		if (mesh->HasTextureCoords(0))
+		{
+			vertex.TexCoords.x = mesh->mTextureCoords[0][j].x;
+			vertex.TexCoords.y = mesh->mTextureCoords[0][j].y;
+		}
+		else
+		{
+			vertex.TexCoords.x = 0.0f;
+			vertex.TexCoords.y = 0.0f;
+		}
+
+		myMesh->ourVertex.push_back(vertex);
+	}
+
+	if (mesh->HasFaces())
+	{
+		myMesh->indices.resize(mesh->mNumFaces * 3);	//assume each face is a triangle
+
+		for (uint y = 0; y < mesh->mNumFaces; y++)
+		{
+			if (mesh->mFaces[y].mNumIndices != 3)
+			{
+				LOG("WARNING, geometry face with != 3 indices!");
+			}
+			else
+			{
+				memcpy(&myMesh->indices[y * 3], mesh->mFaces[y].mIndices, 3 * sizeof(unsigned int));
+			}
+		}
+	}
+
+	ComponentMesh* mesh_component = (ComponentMesh*)newMesh->AddComponent(ComponentTypes::MESH);
+	mesh_component->SetMesh(myMesh);
+	mesh_component->SetPath(file_path);
+
+	ourMeshes.push_back(myMesh);
+
+	return *myMesh;
 }

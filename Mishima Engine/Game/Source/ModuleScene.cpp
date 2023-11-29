@@ -34,18 +34,30 @@ bool ModuleScene::CleanUp()
 	return true;
 }
 
-GameObject* ModuleScene::CreateGameObject(std::string name)
+GameObject* ModuleScene::CreateGameObject(std::string name, GameObject* parent)
 {
-	GameObject* newGameObject = new GameObject(name);
-	gameobjects.push_back(newGameObject);
-	newGameObject->SetParent(rootObject);
-	return newGameObject;
+	GameObject* newObject = new GameObject(name);
+
+	if (parent == nullptr)
+	{
+		newObject->SetParent(rootObject);
+
+	}
+	else
+	{
+		parent->AddChildren(newObject);
+	}
+	gameobjects.push_back(newObject);
+	return newObject;
 }
 
 GameObject* ModuleScene::LoadMeshAndTexture(std::string path_mesh, std::string path_tex)
 {
 	GameObject* gameObject = App->mesh->LoadMesh(path_mesh.c_str());
-	App->texture->LoadTextureToGameObject(gameObject, path_tex);
+	for (std::vector<GameObject*>::iterator it = gameObject->Children.begin(); it != gameObject->Children.end(); it++)
+	{
+		App->texture->LoadTextureToGameObject((*it), path_tex);
+	}
 
 	return gameObject;
 }

@@ -62,7 +62,7 @@ bool ModuleEditor::Init()
     vectorDT.reserve(30); //DT vector
 
     //Prueba crear GameObject
-    App->scene->CreateGameObject("juan");
+    //App->scene->CreateGameObject("juan");
 
 	return ret;
 

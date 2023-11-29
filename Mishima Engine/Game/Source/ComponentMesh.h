@@ -1,12 +1,12 @@
 #pragma once
 #include "Component.h"
+#include "ModuleMesh.h"
 #include <vector>
 #include <string>
-struct Mesh;
 
 class ComponentMesh :public Component {
 public:
-	Mesh* mesh;
+	ModuleMesh::Mesh* mesh;
 	std::string path;
 
 	void Enable() override;
@@ -14,10 +14,9 @@ public:
 	void Disable() override;
 	void EditorInspector() override;
 
-	Mesh* GetMesh() const { return mesh; };
 	std::string  GetPath() const { return path; };
 
-	void SetMesh(Mesh* mesh);
+	void SetMesh(ModuleMesh::Mesh* mesh);
 	void SetPath(std::string path);
 
 	ComponentMesh(GameObject* parent);

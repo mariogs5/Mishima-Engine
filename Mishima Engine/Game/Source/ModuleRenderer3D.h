@@ -105,4 +105,6 @@ public:
 	
 	//You won't need this after using Frustum
 	mat4x4 ProjectionMatrix;
+
+	std::vector<GameObject*> gameObject_list;
 };

@@ -127,14 +127,27 @@ bool ModuleRenderer3D::Init()
 
 	ilInit();
 
-	App->mesh->LoadMesh("Assets/Primitives/BakerHouse.fbx");
-	App->texture->LoadTexture("Assets/Primitives/Baker_House.png");
+	glEnable(GL_TEXTURE_2D);
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &checkTexture);
+	glBindTexture(GL_TEXTURE_2D, checkTexture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checkerImage);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
+
+	App->scene->LoadMeshAndTexture("Assets/Primitives/BakerHouse.fbx", "Assets/Primitives/Baker_House.png");
+	//App->mesh->LoadMesh("Assets/Primitives/BakerHouse.fbx");
+	//App->texture->LoadTexture("Assets/Primitives/Baker_House.png");
 	BindBuffers();
 
 
 	//CreateMainBuffer();
 
-
+	gameObject_list = App->scene->GetGameObjects();
 
 	// DevIL init
 	//myTexture.DevILInit();
@@ -173,6 +186,76 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+
+	for (uint n = 0; n < gameObject_list.size(); n++)
+	{
+		GameObject* gameobject = gameObject_list[n];
+		ComponentMesh* juan = (ComponentMesh*)gameobject->GetComponent(ComponentTypes::MESH);
+
+		if (!gameobject->active)
+		{
+			continue;
+		}
+
+		for (uint m = 0; m < gameobject->components.size(); m++)
+		{
+			Component* component = gameobject->components[m];
+
+			if (component->type != ComponentTypes::MESH)
+			{
+				continue;
+			}
+			ComponentMesh* componentMesh = (ComponentMesh*)component;
+
+			float4x4 matrix = float4x4::FromTRS(float3(5, 1, 1), Quat::identity, float3(1, 1, 1));
+
+			glPushMatrix();
+			glMultMatrixf(gameobject->transform->GetTransformMatrix().Transposed().ptr());
+			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_TEXTURE_COORD_ARRAY);
+			//Bind Mesh
+			glBindBuffer(GL_ARRAY_BUFFER, componentMesh->mesh->VBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, componentMesh->mesh->EBO);
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glVertexPointer(3, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)0);
+
+			//Bind Textures
+			if (gameobject->GetComponent(ComponentTypes::TEXTURE) != nullptr)
+			{
+				const Texture* mTexture = dynamic_cast<ComponentTexture*>(gameobject->GetComponent(ComponentTypes::TEXTURE))->GetTexture();
+
+				if (mTexture != nullptr)
+				{
+
+
+					glBindTexture(GL_TEXTURE_2D, mTexture->textID);
+				}
+			}
+			else
+			{
+				glBindTexture(GL_TEXTURE_2D, checkTexture);
+			}
+
+			glNormalPointer(GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, Normal));
+			glTexCoordPointer(2, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, TexCoords));
+
+			glDrawElements(GL_TRIANGLES, componentMesh->mesh->indices.size(), GL_UNSIGNED_INT, NULL);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			glDisable(GL_TEXTURE_2D);
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisable(GL_TEXTURE_COORD_ARRAY);
+			glPopMatrix();
+		}
+	}
+	if (activeNormals)
+	{
+		App->mesh->DrawNormals();
+	}
 	/*if (App->input->loadDirectory) {
 
 		Model tempModel;
@@ -309,6 +392,12 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+
+	for (int i = 0; i < App->mesh->ourMeshes.size(); i++) {
+
+		glDeleteBuffers(1, &App->mesh->ourMeshes[i]->VBO);
+		glDeleteBuffers(1, &App->mesh->ourMeshes[i]->EBO);
+	}
 
 	//Models.clear();
 	glBindTexture(GL_TEXTURE_2D, 0);

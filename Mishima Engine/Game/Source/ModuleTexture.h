@@ -29,7 +29,7 @@ struct Texture
 class ModuleTexture : public Module
 {
 public:
-
+	
 	ModuleTexture(Application* app, bool start_enabled = true);
 	~ModuleTexture() {}
 	bool Start();
