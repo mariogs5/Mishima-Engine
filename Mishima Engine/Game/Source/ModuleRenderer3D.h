@@ -55,6 +55,7 @@ public:
 	void DeleteMainBuffer();
 	GLuint GetSceneRenderTexture();
 	GLuint GetGameRenderTexture();
+	void DrawGameObjects();
 
 	//void RenderFromCamera(Camera3D* camera, bool debug_draw_enabled);
 

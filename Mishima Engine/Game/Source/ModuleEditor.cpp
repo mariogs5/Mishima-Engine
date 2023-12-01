@@ -267,7 +267,7 @@ void ModuleEditor::InspectorWindow()
             ImGui::Text("     ");
             ImGui::SameLine();
             // Inicia el combo
-            if (ImGui::BeginCombo("", "AddComponent"))
+            if (ImGui::BeginCombo("dsads", "AddComponent"))
             {
                 showAddComponent = true;
                 if (showAddComponent)

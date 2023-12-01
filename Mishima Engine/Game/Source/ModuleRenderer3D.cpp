@@ -186,72 +186,8 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-
-	for (uint n = 0; n < gameObject_list.size(); n++)
-	{
-		GameObject* gameobject = gameObject_list[n];
-		ComponentMesh* juan = (ComponentMesh*)gameobject->GetComponent(ComponentTypes::MESH);
-
-		if (!gameobject->active)
-		{
-			continue;
-		}
-
-		for (uint m = 0; m < gameobject->components.size(); m++)
-		{
-			Component* component = gameobject->components[m];
-
-			if (component->type != ComponentTypes::MESH)
-			{
-				continue;
-			}
-			ComponentMesh* componentMesh = (ComponentMesh*)component;
-
-			float4x4 matrix = float4x4::FromTRS(float3(5, 1, 1), Quat::identity, float3(1, 1, 1));
-
-			glPushMatrix();
-			glMultMatrixf(gameobject->transform->GetTransformMatrix().Transposed().ptr());
-			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_TEXTURE_COORD_ARRAY);
-			//Bind Mesh
-			glBindBuffer(GL_ARRAY_BUFFER, componentMesh->mesh->VBO);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, componentMesh->mesh->EBO);
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glVertexPointer(3, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)0);
-
-			//Bind Textures
-			if (gameobject->GetComponent(ComponentTypes::TEXTURE) != nullptr)
-			{
-				const Texture* mTexture = dynamic_cast<ComponentTexture*>(gameobject->GetComponent(ComponentTypes::TEXTURE))->GetTexture();
-
-				if (mTexture != nullptr)
-				{
-
-
-					glBindTexture(GL_TEXTURE_2D, mTexture->textID);
-				}
-			}
-			else
-			{
-				glBindTexture(GL_TEXTURE_2D, checkTexture);
-			}
-
-			glNormalPointer(GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, Normal));
-			glTexCoordPointer(2, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, TexCoords));
-
-			glDrawElements(GL_TRIANGLES, componentMesh->mesh->indices.size(), GL_UNSIGNED_INT, NULL);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-			glDisable(GL_TEXTURE_2D);
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glDisable(GL_TEXTURE_COORD_ARRAY);
-			glPopMatrix();
-		}
-	}
+	DrawGameObjects();
+	
 	if (activeNormals)
 	{
 		App->mesh->DrawNormals();
@@ -537,6 +473,75 @@ void ModuleRenderer3D::BindBuffers()
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	}
+}
+
+void ModuleRenderer3D::DrawGameObjects() 
+{
+	for (uint n = 0; n < gameObject_list.size(); n++)
+	{
+		GameObject* gameobject = gameObject_list[n];
+		ComponentMesh* juan = (ComponentMesh*)gameobject->GetComponent(ComponentTypes::MESH);
+
+		if (!gameobject->active)
+		{
+			continue;
+		}
+
+		for (uint m = 0; m < gameobject->components.size(); m++)
+		{
+			Component* component = gameobject->components[m];
+
+			if (component->type != ComponentTypes::MESH)
+			{
+				continue;
+			}
+			ComponentMesh* componentMesh = (ComponentMesh*)component;
+
+			float4x4 matrix = float4x4::FromTRS(float3(5, 1, 1), Quat::identity, float3(1, 1, 1));
+
+			glPushMatrix();
+			glMultMatrixf(gameobject->transform->GetTransformMatrix().Transposed().ptr());
+			glEnable(GL_TEXTURE_2D);
+			glEnable(GL_TEXTURE_COORD_ARRAY);
+			//Bind Mesh
+			glBindBuffer(GL_ARRAY_BUFFER, componentMesh->mesh->VBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, componentMesh->mesh->EBO);
+			glEnableClientState(GL_VERTEX_ARRAY);
+			glEnableClientState(GL_NORMAL_ARRAY);
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glVertexPointer(3, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)0);
+
+			//Bind Textures
+			if (gameobject->GetComponent(ComponentTypes::TEXTURE) != nullptr)
+			{
+				const Texture* mTexture = dynamic_cast<ComponentTexture*>(gameobject->GetComponent(ComponentTypes::TEXTURE))->GetTexture();
+
+				if (mTexture != nullptr)
+				{
+
+
+					glBindTexture(GL_TEXTURE_2D, mTexture->textID);
+				}
+			}
+			else
+			{
+				glBindTexture(GL_TEXTURE_2D, checkTexture);
+			}
+
+			glNormalPointer(GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, Normal));
+			glTexCoordPointer(2, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, TexCoords));
+
+			glDrawElements(GL_TRIANGLES, componentMesh->mesh->indices.size(), GL_UNSIGNED_INT, NULL);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			glDisable(GL_TEXTURE_2D);
+			glDisableClientState(GL_VERTEX_ARRAY);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glDisable(GL_TEXTURE_COORD_ARRAY);
+			glPopMatrix();
+		}
 	}
 }
 
