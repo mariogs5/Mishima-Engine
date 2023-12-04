@@ -244,7 +244,7 @@ void ModuleEditor::InspectorWindow()
             ImGui::Checkbox("Active", &GameObject_selected->active);
             ImGui::SameLine;
             strcpy(newName, GameObject_selected->name.c_str());
-            if (ImGui::InputText("##juan", &newName[0], sizeof(newName)))
+            if (ImGui::InputText(" ", &newName[0], sizeof(newName)))
             {
                 GameObject_selected->name = newName;
             }
@@ -264,10 +264,10 @@ void ModuleEditor::InspectorWindow()
             }
 
             ImGui::Dummy(ImVec2(0, 15));
-            ImGui::Text("     ");
+            ImGui::Text(" ");
             ImGui::SameLine();
             // Inicia el combo
-            if (ImGui::BeginCombo("dsads", "AddComponent"))
+            if (ImGui::BeginCombo(" ", "AddComponent"))
             {
                 showAddComponent = true;
                 if (showAddComponent)
