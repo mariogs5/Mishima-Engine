@@ -85,6 +85,12 @@ void ModuleMesh::DrawNormals() {
 
 void ModuleMesh::GetSceneInfo(aiNode* node, const aiScene* scene, const char* file_path, GameObject* gameObject)
 {
+	node->mTransformation.Decompose(scaling, rotation, translation);
+
+	Scaling = { scaling.x, scaling.y, scaling.z };
+	Rot = { rotation.x, rotation.y, rotation.z, rotation.w };
+	Translation = { translation.x,translation.y,translation.z };
+
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
 		GetSceneInfo(node->mChildren[i], scene, file_path, gameObject);
@@ -96,7 +102,7 @@ void ModuleMesh::GetSceneInfo(aiNode* node, const aiScene* scene, const char* fi
 	}
 }
 
-ModuleMesh::Mesh ModuleMesh::ProcessMesh(aiMesh* mesh, const char* file_path, GameObject* gameObject)
+ModuleMesh::Mesh ModuleMesh::ProcessMesh(aiMesh* mesh, const char* file_path, GameObject* gameObject, float3 scale, float3 translation, Quat rot)
 {
 	Mesh* myMesh = new Mesh();
 

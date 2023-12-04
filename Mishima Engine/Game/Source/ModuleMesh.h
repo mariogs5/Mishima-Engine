@@ -6,6 +6,7 @@
 
 #include "External/MathGeoLib/include/MathGeoLib.h"
 #include "External/MathGeoLib/include/Math/float3.h"
+#include "External/MathGeoLib/include/Math/Quat.h"
 
 #include "External/Assimp/include/cimport.h"
 #include "External/Assimp/include/scene.h"
@@ -44,14 +45,20 @@ public:
 	void DrawNormals();
 
 	void GetSceneInfo(aiNode* node, const aiScene* scene, const char* file_path, GameObject* gameObject);
-	Mesh ProcessMesh(aiMesh* mesh, const char* file_path, GameObject* gameObject);
+	Mesh ProcessMesh(aiMesh* mesh, const char* file_path, GameObject* gameObject, float3 scale, float3 translation, Quat rot);
 
-	
 	std::vector<Mesh*> ourMeshes;
 	std::string name = "EmptyObject_";
 	int num = 0;
 
 	GameObject* newMesh;
+
+	aiVector3D translation, scaling;
+	aiQuaternion rotation;
+
+	float3 Translation;
+	float3 Scaling;
+	Quat Rot;
 };
 
 #endif //MODULE_MESH
