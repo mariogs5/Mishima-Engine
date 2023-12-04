@@ -140,7 +140,8 @@ bool ModuleRenderer3D::Init()
 	glDisable(GL_TEXTURE_2D);
 
 	App->scene->LoadMeshAndTexture("Assets/Primitives/BakerHouse.fbx", "Assets/Primitives/Baker_House.png");
-	//App->mesh->LoadMesh("Assets/Primitives/BakerHouse.fbx");
+	//App->scene->LoadMeshAndTexture("Assets/Primitives/street.fbx", "Assets/Primitives/Baker_House.png");
+	//App->mesh->LoadMesh("Assets/Primitives/street.fbx");
 	//App->texture->LoadTexture("Assets/Primitives/Baker_House.png");
 	BindBuffers();
 
