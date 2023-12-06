@@ -4,6 +4,8 @@
 #include "../Source/External/MathGeoLib/include/Math/float3.h"
 #include "../Source/External/MathGeoLib/include/Math/float4x4.h"
 
+#include "ComponentCamera.h"
+
 //todo: REMOVE this before 1st delivery!!
 #include "glmath.h"
 
@@ -27,6 +29,8 @@ private:
 	void CalculateViewMatrix();
 
 public:
+
+	//ComponentCamera* editorCamera;
 	
 	//You won't need this after using Frustum
 	float3 X, Y, Z, Position, Reference;

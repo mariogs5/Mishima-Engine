@@ -45,7 +45,7 @@ public:
 	void DrawNormals();
 
 	void GetSceneInfo(aiNode* node, const aiScene* scene, const char* file_path, GameObject* gameObject);
-	Mesh ProcessMesh(aiMesh* mesh, const char* file_path, GameObject* gameObject, float3 scale, float3 translation, Quat rot);
+	Mesh ProcessMesh(aiMesh* mesh, aiNode* node, const char* file_path, GameObject* gameObject);
 
 	std::vector<Mesh*> ourMeshes;
 	std::string name = "EmptyObject_";

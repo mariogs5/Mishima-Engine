@@ -15,6 +15,11 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	ViewMatrix = IdentityMatrix;
 
 	CalculateViewMatrix();
+
+	//New Camera
+	/*editorCamera = new ComponentCamera(nullptr);
+	editorCamera->SetPosition({ 0.0f, 10.0f, 5.0f });*/
+	
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -67,7 +72,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	// Mouse motion ----------------
 
-	if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT || App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	if(App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = -App->input->GetMouseYMotion();
@@ -118,11 +123,48 @@ update_status ModuleCamera3D::Update(float dt)
 		Reference = Position;
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
 		Reference = float3(0.0f, 0.0f, 0.0f);
 
 		LookAt(Reference);
+
+		int dx = -App->input->GetMouseXMotion();
+		int dy = -App->input->GetMouseYMotion();
+
+		float Sensitivity = 0.35f * dt;
+
+		Position -= Reference;
+
+		if (dx != 0)
+		{
+			float DeltaX = (float)dx * Sensitivity;
+
+			float3 rotationAxis(0.0f, 1.0f, 0.0f);
+			Quat rotationQuat = Quat::RotateAxisAngle(rotationAxis, DeltaX);
+
+			X = rotationQuat * X;
+			Y = rotationQuat * Y;
+			Z = rotationQuat * Z;
+		}
+
+		if (dy != 0)
+		{
+			float DeltaY = (float)dy * Sensitivity;
+
+			Quat rotationQuat = Quat::RotateAxisAngle(X, DeltaY);
+
+			Y = rotationQuat * Y;
+			Z = rotationQuat * Z;
+
+			if (Y.y < 0.0f)
+			{
+				Z = float3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+				Y = Z.Cross(X);
+			}
+		}
+
+		Position = Reference + Z * Position.Length();
 	}
 	else {
 

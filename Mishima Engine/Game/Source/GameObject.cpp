@@ -143,9 +143,9 @@ Component* GameObject::AddComponent(ComponentTypes component)
 	case(ComponentTypes::MESH):
 		ret = new ComponentMesh(this);
 		break;
-	/*case(ComponentTypes::CAMERA):
+	case(ComponentTypes::CAMERA):
 		ret = new ComponentCamera(this);
-		break;*/
+		break;
 	}
 	components.push_back(ret);
 	return ret;
