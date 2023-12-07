@@ -6,6 +6,7 @@
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
+	// Old Camera
 	X = float3(1.0f, 0.0f, 0.0f);
 	Y = float3(0.0f, 1.0f, 0.0f);
 	Z = float3(0.0f, 0.0f, 1.0f);
@@ -16,9 +17,11 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	CalculateViewMatrix();
 
-	//New Camera
-	/*editorCamera = new ComponentCamera(nullptr);
-	editorCamera->SetPosition({ 0.0f, 10.0f, 5.0f });*/
+	// New Camera
+	LOG("Editor Camera created");
+	EditorCamera = new ComponentCamera(nullptr);
+	EditorCamera->SetPosition({ 0.0f, 10.0f, 5.0f });
+	EditorCamera->LookAt({ 0.0f, 0.0f, 0.0f });
 	
 }
 
@@ -46,8 +49,9 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	// Implement a debug camera with keys and mouse
-	// Now we can make this movememnt frame rate independant!
+	//----------------------------- New Camera -----------------------------//
+
+	//----------------------------- Old Camera -----------------------------//
 	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		float3 newPos(0, 0, 0);

@@ -24,13 +24,16 @@ public:
 	void Move(const float3&Movement);
 	float* GetViewMatrix();
 
+	//-------- Camera Motion --------//
+	void fpsMovement(ComponentCamera& camera);
+
 private:
 
 	void CalculateViewMatrix();
 
 public:
 
-	//ComponentCamera* editorCamera;
+	ComponentCamera* EditorCamera;
 	
 	//You won't need this after using Frustum
 	float3 X, Y, Z, Position, Reference;

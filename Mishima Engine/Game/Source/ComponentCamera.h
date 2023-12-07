@@ -44,6 +44,16 @@ public:
 	float3 GetPosition() const;
 	void MoveCamera(float3 newPos);
 
+	//-------- Camera Vectors --------//
+	void ChangeZvector(float3 z);
+	void ChangeYvector(float3 y);
+
+	float3 GetXvector();
+	float3 GetZvector();
+	float3 GetYvector();
+
+	//-------- Camera View --------//
+	void LookAt(float3& reference);
 
 private:
 
