@@ -45,8 +45,8 @@ public:
 	void MoveCamera(float3 newPos);
 
 	//-------- Camera Vectors --------//
-	void ChangeZvector(float3 z);
-	void ChangeYvector(float3 y);
+	void SetZvector(float3 z);
+	void SetYvector(float3 y);
 
 	float3 GetXvector();
 	float3 GetZvector();

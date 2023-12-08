@@ -114,6 +114,16 @@ float ComponentCamera::GetVerticalFov() const
 
 //--------------------------- Camera Vectors ---------------------------\\
 
+void ComponentCamera::SetZvector(float3 z)
+{
+	frustum.front = z;
+}
+
+void ComponentCamera::SetYvector(float3 y)
+{
+	frustum.up = y;
+}
+
 float3 ComponentCamera::GetXvector()
 {
 	return frustum.WorldRight();
@@ -134,12 +144,12 @@ float3 ComponentCamera::GetZvector()
 void ComponentCamera::LookAt(float3& reference) 
 {
 	float3 Zvector = (reference - GetPosition()).Normalized();
-	ChangeZvector(Zvector);
+	SetZvector(Zvector);
 
 	float3 Xvector = float3(0, 1, 0).Cross(GetZvector()).Normalized();
 
 	float3 Yvector = GetZvector().Cross(Xvector).Normalized();
-	ChangeYvector(Yvector);
+	SetYvector(Yvector);
 }
 
 //--------------------------- Inspector ---------------------------\\

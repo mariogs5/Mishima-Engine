@@ -4,6 +4,7 @@
 #include "../Source/External/MathGeoLib/include/Math/float3.h"
 #include "../Source/External/MathGeoLib/include/Math/float4x4.h"
 
+#include "GameObject.h"
 #include "ComponentCamera.h"
 
 //todo: REMOVE this before 1st delivery!!
@@ -25,7 +26,9 @@ public:
 	float* GetViewMatrix();
 
 	//-------- Camera Motion --------//
-	void fpsMovement(ComponentCamera& camera);
+	void fpsMovement(ComponentCamera* camera, float3 newPos, float speed);
+	void CameraRotation(ComponentCamera* camera, float dt);
+	void CameraZoom(ComponentCamera* camera, float3 newPos, float speed);
 
 private:
 
@@ -33,8 +36,12 @@ private:
 
 public:
 
+	float speed;
+
+	//-------- New Camera --------//
 	ComponentCamera* EditorCamera;
 	
+
 	//You won't need this after using Frustum
 	float3 X, Y, Z, Position, Reference;
 
