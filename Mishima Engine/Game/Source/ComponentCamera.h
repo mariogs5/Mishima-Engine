@@ -58,14 +58,29 @@ public:
 	//-------- Camera View --------//
 	void LookAt(float3& reference);
 
-private:
+	//-------- Frame Buffer --------//
+	void LoadFrameBuffer();
+	void ActivateFrameBuffer();
+	void DeactivateFrameBuffer();
+	void DestroyFrameBuffer();
+
+	GLuint FBO;
+	GLuint TCB;
+	GLuint RBO;
+
+	//-------- Frustrum Box --------//
+	void FrustrumBox();
 
 	Frustum frustum;
 
+	bool frustrumCulling = true;
+
+private:
+
 	float verticalFOV = 60.0f;
 
-	float farPlane = 200.f;
-	float nearPlane = 0.1f;
+	float farPlane = 1000.f;
+	float nearPlane = 1.0f;
 
 	float4x4 ViewMatrix = float4x4::identity;
 	float4x4 ViewMatrixInverse = float4x4::identity;

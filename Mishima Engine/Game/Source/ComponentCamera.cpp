@@ -159,12 +159,71 @@ void ComponentCamera::LookAt(float3& reference)
 	SetYvector(Yvector);
 }
 
+//--------------------------- Camera View ---------------------------\\
+
+void ComponentCamera::FrustrumBox()
+{
+	float3 vertices[8];
+	frustum.GetCornerPoints(vertices);
+	externalapp->renderer3D->DrawBox(vertices, float3(255, 0, 0));
+}
+
+//--------------------------- Frame Buffer ---------------------------\\
+
+void ComponentCamera::LoadFrameBuffer()
+{
+	glGenFramebuffers(1, &FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+	glGenTextures(1, &TCB);
+	glBindTexture(GL_TEXTURE_2D, TCB);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, TCB, 0);
+
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void ComponentCamera::ActivateFrameBuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void ComponentCamera::DeactivateFrameBuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void ComponentCamera::DestroyFrameBuffer()
+{
+	glDeleteRenderbuffers(1, &RBO);
+	glDeleteTextures(1, &TCB);
+	glDeleteFramebuffers(1, &FBO);
+}
+
 //--------------------------- Inspector ---------------------------\\
 
 void ComponentCamera::EditorInspector()
 {
 	if (ImGui::CollapsingHeader("Component Camera"))
 	{
+		ImGui::Checkbox("Frustrum Culling", &frustrumCulling);
+
+		float* cameraPos = frustum.pos.ptr();
+
+		ImGui::DragFloat3("Position", cameraPos, 0.1f);
+
 		if (ImGui::DragFloat("Near plane", &nearPlane, 0.2f, 0.01f, 1000))
 		{
 			SetNearPlane(nearPlane);
@@ -174,10 +233,5 @@ void ComponentCamera::EditorInspector()
 		{
 			SetFarPlane(farPlane);
 		}
-
-		/*if (ImGui::DragFloat("Field of view", &fov, 1, 1, 179.9f))
-		{
-			camera->SetFOV(fov);
-		}*/
 	}
 }

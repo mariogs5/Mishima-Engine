@@ -163,6 +163,13 @@ bool ModuleRenderer3D::Init()
 	myTexture.LoadTexture("Assets/Primitives/Baker_House.png");
 	Models.push_back(myModel);*/
 
+	//-------- Bounding Boxes --------//
+	App->mesh->InitBoundingBoxes();
+
+	//-------- Frame Buffer --------//
+	App->camera->EditorCamera->LoadFrameBuffer();
+	App->scene->gameCameraComponent->LoadFrameBuffer();
+
 	return ret;
 }
 
@@ -191,138 +198,33 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
+	App->camera->EditorCamera->ActivateFrameBuffer();
+	App->camera->EditorCamera->Update();
+
+	App->scene->gameCameraComponent->FrustrumBox();
+
 	DrawGameObjects();
 	
 	if (activeNormals)
 	{
 		App->mesh->DrawNormals();
 	}
-	/*if (App->input->loadDirectory) {
-
-		Model tempModel;
-		tempModel.loadModel(App->input->dropped_filedir);
-		Models.push_back(tempModel);
-		App->input->loadDirectory = false;
-	}*/
-
-	// Drag and Drop Models & Textures
-	//if (App->input->loadDirectory) {
-
-	//	if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "fbx") == 0) {
-
-	//		Model tempModel;
-	//		tempModel.loadModel(App->input->dropped_filedir);
-	//		Models.push_back(tempModel);
-	//		LOG("FBX load successful");
-	//		App->input->loadDirectory = false;
-	//	}
-	//	if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "FBX") == 0) {
-
-	//		Model tempModel;
-	//		tempModel.loadModel(App->input->dropped_filedir);
-	//		Models.push_back(tempModel);
-	//		LOG("FBX load successful");
-	//		App->input->loadDirectory = false;
-	//	}
-	//	if (std::strcmp(GetFileExtension(App->input->dropped_filedir), "png") == 0) {
-
-	//		Texture tempTexture;
-	//		tempTexture.LoadTexture(App->input->dropped_filedir);
-	//		//Textures.push_back(tempTexture);
-	//		LOG("Texture load successful");
-	//		App->input->loadDirectory = false;
-	//	}
-	//	else {
-
-	//		App->input->loadDirectory = false;
-	//	}
-	//}
-
-	// Primitive Cube
-	//if (primCube) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/Cube.fbx");
-	//	Models.push_back(tempModel);
-	//	primCube = false;
-	//}
-
-	//// Primitive Sphere
-	//if (primSphere) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/Sphere.fbx");
-	//	Models.push_back(tempModel);
-	//	primSphere = false;
-	//}
-
-	//// Primitive Cylinder
-	//if (primCylinder) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/Cylinder.fbx");
-	//	Models.push_back(tempModel);
-	//	primCylinder = false;
-	//}
-
-	//// Primitive Cone
-	//if (primCone) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/Cone.fbx");
-	//	Models.push_back(tempModel);
-	//	primCone = false;
-	//}
-
-	//// Primitive Torus
-	//if (primTorus) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/Torus.fbx");
-	//	Models.push_back(tempModel);
-	//	primTorus = false;
-	//}
-
-	//// Primitive BakerHouse
-	//if (primBakerHouse) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/BakerHouse.fbx");
-	//	Models.push_back(tempModel);
-	//	primBakerHouse = false;
-	//}
-
-	//// Primitive Aranara
-	//if (primAranara) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/aranara.fbx");
-	//	Models.push_back(tempModel);
-	//	primAranara = false;
-	//}
-
-	//// Primitive Zhongli
-	//if (primZhongli) {
-	//	Model tempModel;
-	//	tempModel.loadModel("Assets/Primitives/ze+hongli.fbx");
-	//	Models.push_back(tempModel);
-	//	primZhongli = false;
-	//}
 
 	Grid.Render();
 
-	//myTexture.ActivateTexture();
+	App->camera->EditorCamera->DeactivateFrameBuffer();
 
-	/*for (int i = 0; i < Models.size(); i++) 
+	App->scene->gameCameraComponent->ActivateFrameBuffer();
+	App->scene->gameCameraComponent->Update();
+
+	DrawGameObjects();
+
+	if (activeNormals)
 	{
-		Models[i].Draw();
+		App->mesh->DrawNormals();
 	}
 
-	myTexture.DeActivateTexture();*/
-	//Draw Test
-	/*glLineWidth(2.0f);
-	glBegin(GL_TRIANGLES);
-	glVertex3d(0, 0, 0);
-	glVertex3d(1, 0, 0);
-	glVertex3d(0, 1, 0);
-	glEnd();*/
-
-	//Mostrar una Esfera (sin acabar)
-	/*CSphere s(1.0f, 20, 20);
-	s.Render();*/
+	App->scene->gameCameraComponent->DeactivateFrameBuffer();
 
 	App->editor->DrawEditor();
 	SDL_GL_SwapWindow(App->window->window);
@@ -344,6 +246,9 @@ bool ModuleRenderer3D::CleanUp()
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	SDL_GL_DeleteContext(context);
+
+	App->camera->EditorCamera->DestroyFrameBuffer();
+	App->scene->gameCameraComponent->DestroyFrameBuffer();
 
 	return true;
 }
@@ -382,30 +287,37 @@ void ModuleRenderer3D::DrawBox(float3* vertices, float3 color)
 	glEnd();
 }
 
-//void ModuleRenderer3D::CreateMainBuffer()
-//{
-//	scene_render_texture = new RenderTexture();
-//	scene_render_texture->Create(SCREEN_WIDTH, SCREEN_HEIGHT);
-//
-//	game_render_texture = new RenderTexture();
-//	game_render_texture->Create(SCREEN_WIDTH, SCREEN_HEIGHT);
-//}
-//
-//void ModuleRenderer3D::DeleteMainBuffer()
-//{
-//	delete(scene_render_texture);
-//	delete(game_render_texture);
-//}
+bool ModuleRenderer3D::InsideFrustrum(const ComponentCamera* camera, const AABB& aabb)
+{
+	if (camera->frustrumCulling) 
+	{
+		Plane frustumPlanes[6];
+		camera->frustum.GetPlanes(frustumPlanes);
 
-//GLuint ModuleRenderer3D::GetSceneRenderTexture()
-//{
-//	return scene_render_texture->GetTexture();
-//}
-//
-//GLuint ModuleRenderer3D::GetGameRenderTexture()
-//{
-//	return game_render_texture->GetTexture();
-//}
+		float3 cornerPoints[8];
+		aabb.GetCornerPoints(cornerPoints);
+
+		for (int i = 0; i < 6; ++i) {
+
+			uint pointsInside = 8;
+
+			for (int j = 0; j < 8; ++j)
+			{
+				if (frustumPlanes[i].IsOnPositiveSide(cornerPoints[j]))
+				{
+					--pointsInside;
+				}
+			}
+
+			if (pointsInside == 0)
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
 
 void ModuleRenderer3D::DebugDrawBox(const float3* corners, Color color, bool lines, const float& line_size)
 {
@@ -496,73 +408,70 @@ void ModuleRenderer3D::DrawGameObjects()
 		for (uint m = 0; m < gameobject->components.size(); m++)
 		{
 			Component* component = gameobject->components[m];
-
+		
 			if (component->type != ComponentTypes::MESH)
 			{
 				continue;
 			}
+
 			ComponentMesh* componentMesh = (ComponentMesh*)component;
 
-			float4x4 matrix = float4x4::FromTRS(float3(5, 1, 1), Quat::identity, float3(1, 1, 1));
-
-			glPushMatrix();
-			glMultMatrixf(gameobject->transform->GetTransformMatrix().Transposed().ptr());
-			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_TEXTURE_COORD_ARRAY);
-			//Bind Mesh
-			glBindBuffer(GL_ARRAY_BUFFER, componentMesh->mesh->VBO);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, componentMesh->mesh->EBO);
-			glEnableClientState(GL_VERTEX_ARRAY);
-			glEnableClientState(GL_NORMAL_ARRAY);
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glVertexPointer(3, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)0);
-
-			//Bind Textures
-			if (gameobject->GetComponent(ComponentTypes::TEXTURE) != nullptr)
+			if (InsideFrustrum(App->scene->gameCameraComponent, componentMesh->mesh->GlobalAABB)) 
 			{
-				const Texture* mTexture = dynamic_cast<ComponentTexture*>(gameobject->GetComponent(ComponentTypes::TEXTURE))->GetTexture();
+				float4x4 matrix = float4x4::FromTRS(float3(5, 1, 1), Quat::identity, float3(1, 1, 1));
 
-				if (mTexture != nullptr)
+				glPushMatrix();
+				glMultMatrixf(gameobject->transform->GetTransformMatrix().Transposed().ptr());
+				glEnable(GL_TEXTURE_2D);
+				glEnable(GL_TEXTURE_COORD_ARRAY);
+				//Bind Mesh
+				glBindBuffer(GL_ARRAY_BUFFER, componentMesh->mesh->VBO);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, componentMesh->mesh->EBO);
+				glEnableClientState(GL_VERTEX_ARRAY);
+				glEnableClientState(GL_NORMAL_ARRAY);
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glVertexPointer(3, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)0);
+
+				//Bind Textures
+				if (gameobject->GetComponent(ComponentTypes::TEXTURE) != nullptr)
 				{
+					const Texture* mTexture = dynamic_cast<ComponentTexture*>(gameobject->GetComponent(ComponentTypes::TEXTURE))->GetTexture();
+
+					if (mTexture != nullptr)
+					{
 
 
-					glBindTexture(GL_TEXTURE_2D, mTexture->textID);
+						glBindTexture(GL_TEXTURE_2D, mTexture->textID);
+					}
 				}
+				else
+				{
+					glBindTexture(GL_TEXTURE_2D, checkTexture);
+				}
+
+				glNormalPointer(GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, Normal));
+				glTexCoordPointer(2, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, TexCoords));
+
+				glDrawElements(GL_TRIANGLES, componentMesh->mesh->indices.size(), GL_UNSIGNED_INT, NULL);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+				glDisable(GL_TEXTURE_2D);
+				glDisableClientState(GL_VERTEX_ARRAY);
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glDisable(GL_TEXTURE_COORD_ARRAY);
+				glPopMatrix();
+				App->mesh->UpdateBoundingBoxes(gameobject->transform->GetTransformMatrix(), *componentMesh->mesh);
+				App->mesh->RenderBoundingBoxes(*componentMesh->mesh);
 			}
-			else
-			{
-				glBindTexture(GL_TEXTURE_2D, checkTexture);
-			}
-
-			glNormalPointer(GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, Normal));
-			glTexCoordPointer(2, GL_FLOAT, sizeof(ModuleMesh::Vertex), (void*)offsetof(ModuleMesh::Vertex, TexCoords));
-
-			glDrawElements(GL_TRIANGLES, componentMesh->mesh->indices.size(), GL_UNSIGNED_INT, NULL);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-			glDisable(GL_TEXTURE_2D);
-			glDisableClientState(GL_VERTEX_ARRAY);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			glDisable(GL_TEXTURE_COORD_ARRAY);
-			glPopMatrix();
 		}
 	}
 }
 
 void ModuleRenderer3D::OnResize(int width, int height)
 {
-	glViewport(0, 0, width, height);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	//todo: USE MATHGEOLIB here BEFORE 1st delivery! (TIP: Use MathGeoLib/Geometry/Frustum.h, view and projection matrices are managed internally.)
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
-	glLoadMatrixf(ProjectionMatrix.M);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	App->camera->EditorCamera->SetAspectRatio((float)width / (float)height);
+	App->scene->gameCameraComponent->SetAspectRatio((float)width / (float)height);
 }
 
 const char* ModuleRenderer3D::GetFileExtension(const char* filePath) {

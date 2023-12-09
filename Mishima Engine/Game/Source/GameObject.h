@@ -31,6 +31,7 @@ public:
 	void DeleteChild(GameObject* child);
 
 	Component* AddComponent(ComponentTypes component);
+	void AddComponent(Component* component);
 	Component* GetComponent(ComponentTypes type);
 	GameObject* AddChildren(GameObject* children);
 	GameObject* GetParent();

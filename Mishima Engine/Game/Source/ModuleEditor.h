@@ -55,6 +55,10 @@ public:
 
 	void DrawHierarchy(std::vector<GameObject*> list);
 
+	// Windows
+	void SceneWindow();
+	void GameWindow();
+
 	//Fullscreen
 	bool fullscreen = false;
 
@@ -91,6 +95,8 @@ private:
 	bool consoleWindow = true;
 	bool inspectorWindow = true;
 	bool hierarchyWindow = true;
+	bool sceneWindow = true;
+	bool gameWindow = true;
 
 	//Open GL settings
 	bool culling;

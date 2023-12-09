@@ -23,7 +23,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	EditorCamera = new ComponentCamera(nullptr);
 	EditorCamera->SetPosition(float3(0.0f, 10.0f, 5.0f));
 	EditorCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
-	EditorCamera->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
+	EditorCamera->SetAspectRatio((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
 }
 
 ModuleCamera3D::~ModuleCamera3D()

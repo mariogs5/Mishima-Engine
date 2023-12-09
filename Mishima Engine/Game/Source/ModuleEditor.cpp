@@ -121,6 +121,16 @@ void ModuleEditor::DrawEditor()
         ImGui::End();
     }
 
+    if (sceneWindow) {
+
+        SceneWindow();
+    }
+
+    if (gameWindow) {
+
+        GameWindow();
+    }
+    
     //-------------------------------------------End of Editor Code---------------------------------------------------------------------------//
 
     // Rendering
@@ -150,6 +160,34 @@ bool ModuleEditor::CleanUp()
 }
 
 // imgui Funcions
+
+void ModuleEditor::SceneWindow()
+{
+    if(sceneWindow)
+    {
+        ImGui::Begin("Scene", &sceneWindow);
+
+        ImVec2 size = ImGui::GetContentRegionAvail();
+        App->camera->EditorCamera->SetAspectRatio(size.x / size.y);
+        ImGui::Image((ImTextureID)App->camera->EditorCamera->TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+
+        ImGui::End();
+    }
+}
+void ModuleEditor::GameWindow()
+{
+    if (gameWindow)
+    {
+        ImGui::Begin("Game", &gameWindow);
+
+        ImVec2 size = ImGui::GetContentRegionAvail();
+        App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
+        ImGui::Image((ImTextureID)App->scene->gameCameraComponent->TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+
+        ImGui::End();
+    }
+}
+
 void ModuleEditor::MainMenuBar()
 {
     if (ImGui::BeginMainMenuBar())

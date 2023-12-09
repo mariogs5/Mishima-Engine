@@ -51,6 +51,7 @@ public:
 
 	//-------- Frustrum & Bounding Box --------//
 	void DrawBox(float3* vertices, float3 color);
+	bool InsideFrustrum(const ComponentCamera* camera, const AABB& aabb);
 
 	//-------- Editor/Game Windows --------//
 	void CreateMainBuffer();

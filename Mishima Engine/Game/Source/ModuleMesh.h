@@ -17,6 +17,9 @@
 
 #include "External/Glew/include/glew.h"
 
+#include "External/MathGeoLib/include/Geometry/AABB.h"
+#include "External/MathGeoLib/include/Geometry/OBB.h"
+
 class GameObject;
 
 class ModuleMesh : public Module
@@ -33,6 +36,9 @@ public:
 		std::vector<unsigned int> indices;
 		std::vector<Vertex> ourVertex;
 		unsigned int VBO = 0, EBO = 0;
+		AABB GlobalAABB;
+		AABB aabb;
+		OBB obb;
 	};
 
 	ModuleMesh(Application* app, bool start_enabled = true);
@@ -40,9 +46,15 @@ public:
 	GameObject* LoadMesh(const char* file_path);
 
 	~ModuleMesh();
+	bool Init();
 	update_status Update();
 	bool CleanUp();
 	void DrawNormals();
+
+	//-------- Bounding Boxes --------//
+	void InitBoundingBoxes();
+	void UpdateBoundingBoxes(float4x4& transformMatrix, Mesh& moveMesh);
+	void RenderBoundingBoxes(Mesh& moveMesh);
 
 	void GetSceneInfo(aiNode* node, const aiScene* scene, const char* file_path, GameObject* gameObject);
 	Mesh ProcessMesh(aiMesh* mesh, aiNode* node, const char* file_path, GameObject* gameObject);

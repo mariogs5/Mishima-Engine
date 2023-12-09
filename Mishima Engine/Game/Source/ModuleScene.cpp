@@ -6,8 +6,7 @@
 
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app,start_enabled)
-{
-}
+{}
 
 ModuleScene::~ModuleScene(){}
 
@@ -16,7 +15,18 @@ bool ModuleScene::Init()
 	LOG("Loading base assets");
 
 	rootObject = new GameObject("Scene");
+
+	gameCamera = CreateGameObject("Game Camera", rootObject);
+
 	gameobjects.push_back(rootObject);
+
+	gameCameraComponent = new ComponentCamera(gameCamera);
+
+	gameCameraComponent->SetPosition(float3(0.0f, 10.0f, 30.0f));
+	gameCameraComponent->LookAt(float3(0.f, 0.f, 0.f));
+	gameCameraComponent->SetAspectRatio((float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
+
+	gameCamera->AddComponent(gameCameraComponent);
 
 	return true;
 }
@@ -24,6 +34,7 @@ bool ModuleScene::Init()
 update_status ModuleScene::Update()
 {
 	UpdateGameObjects();
+
 	return update_status();
 }
 

@@ -13,7 +13,14 @@
 #pragma comment (lib, "Game/Source/External/Assimp/libx86/assimp.lib")
 
 ModuleMesh::ModuleMesh(Application* app, bool start_enabled) : Module(app, start_enabled)
-{}
+{
+
+}
+
+bool ModuleMesh::Init()
+{
+	return true;
+}
 
 ModuleMesh::~ModuleMesh()
 {}
@@ -26,6 +33,46 @@ update_status ModuleMesh::Update()
 bool ModuleMesh::CleanUp()
 {
 	return true;
+}
+
+//-------- Bounding Boxes --------//
+void ModuleMesh::InitBoundingBoxes() 
+{
+	for (int i = 0; i < ourMeshes.size(); i++) 
+	{
+		ourMeshes[i]->obb.SetNegativeInfinity();
+		ourMeshes[i]->GlobalAABB.SetNegativeInfinity();
+
+		std::vector<float3> floatArray;
+
+		floatArray.reserve(ourMeshes[i]->ourVertex.size());
+
+		for (const auto& vertex : ourMeshes[i]->ourVertex) {
+
+			floatArray.push_back(vertex.Position);
+		}
+		ourMeshes[i]->aabb.SetFrom(&floatArray[0], floatArray.size());
+	}
+}
+
+void ModuleMesh::UpdateBoundingBoxes(float4x4& transformMatrix, Mesh& moveMesh)
+{
+	moveMesh.obb = moveMesh.aabb;
+	moveMesh.obb.Transform(transformMatrix);
+
+	moveMesh.GlobalAABB.SetNegativeInfinity();
+	moveMesh.GlobalAABB.Enclose(moveMesh.obb);
+}
+
+void ModuleMesh::RenderBoundingBoxes(Mesh& moveMesh)
+{
+	float3 verticesOBB[8];
+	moveMesh.obb.GetCornerPoints(verticesOBB);
+	externalapp->renderer3D->DrawBox(verticesOBB, float3(255, 0, 0));
+
+	float3 verticesAABB[8];
+	moveMesh.GlobalAABB.GetCornerPoints(verticesAABB);
+	externalapp->renderer3D->DrawBox(verticesAABB, float3(0, 0, 255));
 }
 
 GameObject* ModuleMesh::LoadMesh(const char* file_path)

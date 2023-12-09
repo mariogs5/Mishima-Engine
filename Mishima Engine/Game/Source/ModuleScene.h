@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include <vector>
 
-class ModuleScene:public Module 
+class ModuleScene:public Module
 {
 public:
 
@@ -25,10 +25,13 @@ public:
 	std::vector<GameObject*> GetGameObjects();
 
 	void UpdateGameObjects();
-	
+
 	std::vector<GameObject*> gameobjects;
 	GameObject* rootObject = nullptr;
 
+	GameObject* gameCamera;
+	ComponentCamera* gameCameraComponent;
+	std::vector<ComponentCamera*> cameras;
 };
 #endif // !MODULE_SCENE
 

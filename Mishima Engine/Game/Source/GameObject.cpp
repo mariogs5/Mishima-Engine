@@ -122,9 +122,13 @@ GameObject* GameObject::AddChildren(GameObject* children)
 	return children;
 }
 
+void GameObject::AddComponent(Component* component)
+{
+	components.push_back(component);
+}
+
 Component* GameObject::AddComponent(ComponentTypes component) 
 {
-
 	Component* ret = nullptr;
 
 	switch (component)
