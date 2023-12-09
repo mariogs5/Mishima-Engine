@@ -173,13 +173,17 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
+	//glLoadMatrixf(App->camera->GetViewMatrix());
 	glLoadMatrixf(App->camera->GetViewMatrix());
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	//lights[0].SetPos(App->camera->Position.z, App->camera->Position.z, App->camera->Position.z);
+	lights[0].SetPos(App->camera->EditorCamera->GetPosition().x, App->camera->EditorCamera->GetPosition().y, App->camera->EditorCamera->GetPosition().z);
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
+
+	App->camera->EditorCamera->Update();
 
 	return UPDATE_CONTINUE;
 }
@@ -353,7 +357,7 @@ void ModuleRenderer3D::InitDevil()
 	LOG("Devil has initialised successfully");
 }
 
-void ModuleRenderer3D::DrawBoundingBox(float3* vertices, float3 color)
+void ModuleRenderer3D::DrawBox(float3* vertices, float3 color)
 {
 	uint indices[24] = {
 		0,2,2,

@@ -88,6 +88,13 @@ float ComponentCamera::GetFarPlane() const
 	return frustum.farPlaneDistance;
 }
 
+//--------------------------- Aspect Ratio ---------------------------\\
+
+void ComponentCamera::SetAspectRatio(float AspectRatio)
+{
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * AspectRatio);
+}
+
 //--------------------------- Horizontal FOV ---------------------------\\
 
 void ComponentCamera::SetHorizontalFov(float horizontal_fov) 

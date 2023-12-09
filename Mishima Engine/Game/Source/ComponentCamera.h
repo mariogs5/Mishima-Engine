@@ -27,6 +27,9 @@ public:
 	void SetVerticalFov(float vertical_fov);
 	float GetVerticalFov() const;
 
+	//-------- Aspect Ratio --------//
+	void SetAspectRatio(float AspectRatio);
+
 	//-------- Horizontal FOV --------//
 	void SetHorizontalFov(float horitzontal_fov);
 	float GetHorizontalFov() const;
@@ -60,7 +63,6 @@ private:
 	Frustum frustum;
 
 	float verticalFOV = 60.0f;
-	float horizontalFOV = 91.0f;
 
 	float farPlane = 200.f;
 	float nearPlane = 0.1f;

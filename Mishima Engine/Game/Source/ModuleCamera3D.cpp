@@ -4,10 +4,12 @@
 #include "ModuleInput.h"
 #include "../Source/External/MathGeoLib/include/Math/Quat.h"
 
+#include "ComponentCamera.h"
+
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	// Old Camera
-	X = float3(1.0f, 0.0f, 0.0f);
+	/*X = float3(1.0f, 0.0f, 0.0f);
 	Y = float3(0.0f, 1.0f, 0.0f);
 	Z = float3(0.0f, 0.0f, 1.0f);
 
@@ -15,14 +17,13 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	Reference = float3(0.0f, 0.0f, 0.0f);
 	ViewMatrix = IdentityMatrix;
 
-	CalculateViewMatrix();
+	CalculateViewMatrix();*/
 
 	// New Camera
-	LOG("Editor Camera created");
 	EditorCamera = new ComponentCamera(nullptr);
 	EditorCamera->SetPosition(float3(0.0f, 10.0f, 5.0f));
 	EditorCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
-	
+	EditorCamera->SetAspectRatio(SCREEN_WIDTH / SCREEN_HEIGHT);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -52,15 +53,9 @@ update_status ModuleCamera3D::Update(float dt)
 	//----------------------------- New Camera -----------------------------//
 
 	float3 newPos(0, 0, 0);
-	speed = 3.0f * dt;
+	speed = 10.0f * dt;
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 8.0f * dt;
-
-	//-------- FPS Movement --------//
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
-	{
-		fpsMovement(EditorCamera, newPos, speed);
-	}
+		speed = 20.0f * dt;
 
 	//-------- Camera Rotation --------//
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
@@ -70,7 +65,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
-		EditorCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
+		//EditorCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
 		CameraRotation(EditorCamera, dt);
 	}
 	//-------- Camera Zoom --------//
@@ -78,6 +73,14 @@ update_status ModuleCamera3D::Update(float dt)
 	{
 		CameraZoom(EditorCamera, newPos, speed);
 	}
+
+	//-------- FPS Movement --------//
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_IDLE && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_IDLE && App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+	{
+		fpsMovement(EditorCamera, newPos, speed);
+		
+	}
+	EditorCamera->MoveCamera(newPos);
 
 	//-------- Center Camera --------//
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) 
@@ -311,13 +314,13 @@ void ModuleCamera3D::CalculateViewMatrix()
 
 //----------------------------- New Camera -----------------------------//
 
-void ModuleCamera3D::fpsMovement(ComponentCamera* camera, float3 newPos, float speed)
+void ModuleCamera3D::fpsMovement(ComponentCamera* camera, float3& newPos, float speed)
 {
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) newPos += camera->GetYvector() * speed;
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) newPos -= camera->GetYvector() * speed;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= camera->GetZvector() * speed;
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += camera->GetZvector() * speed;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos += camera->GetZvector() * speed;
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos -= camera->GetZvector() * speed;
 
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= camera->GetXvector() * speed;
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += camera->GetXvector() * speed;
@@ -358,8 +361,8 @@ void ModuleCamera3D::CameraRotation(ComponentCamera* camera, float dt)
 	}
 }
 
-void ModuleCamera3D::CameraZoom(ComponentCamera* camera, float3 newPos, float speed)
+void ModuleCamera3D::CameraZoom(ComponentCamera* camera, float3& newPos, float speed)
 {
-	if (App->input->GetMouseZ() > 0) newPos -= camera->GetZvector() * speed;
-	if (App->input->GetMouseZ() < 0) newPos += camera->GetZvector() * speed;
+	if (App->input->GetMouseZ() > 0) newPos += camera->GetZvector() * speed;
+	if (App->input->GetMouseZ() < 0) newPos -= camera->GetZvector() * speed;
 }

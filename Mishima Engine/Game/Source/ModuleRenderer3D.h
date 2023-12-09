@@ -49,15 +49,19 @@ public:
 
 	void InitDevil();
 
-	void DrawBoundingBox(float3* vertices, float3 color);
+	//-------- Frustrum & Bounding Box --------//
+	void DrawBox(float3* vertices, float3 color);
 
+	//-------- Editor/Game Windows --------//
 	void CreateMainBuffer();
 	void DeleteMainBuffer();
 	GLuint GetSceneRenderTexture();
 	GLuint GetGameRenderTexture();
+
+	//-------- GameObjects --------//
 	void DrawGameObjects();
 
-	//void RenderFromCamera(Camera3D* camera, bool debug_draw_enabled);
+	void RenderFromCamera(ComponentCamera* camera, bool debug_draw_enabled);
 
 	void DebugDrawBox(const float3* corners, Color color, bool lines, const float& line_size);
 	void DebugDraw(const Frustum& frustum, Color color, bool lines, const float& line_size);
