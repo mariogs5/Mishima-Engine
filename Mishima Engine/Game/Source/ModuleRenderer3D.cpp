@@ -123,8 +123,6 @@ bool ModuleRenderer3D::Init()
 		InitDevil();
 	}
 
-	//Preguntar
-
 	ilInit();
 
 	glEnable(GL_TEXTURE_2D);
@@ -145,23 +143,12 @@ bool ModuleRenderer3D::Init()
 	//App->texture->LoadTexture("Assets/Primitives/Baker_House.png");
 	BindBuffers();
 
-
-	//CreateMainBuffer();
-
 	gameObject_list = App->scene->GetGameObjects();
-
-	// DevIL init
-	//myTexture.DevILInit();
 
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	Grid.axis = true;
-
-	// Baker house 
-	/*myModel.loadModel("Assets/Primitives/BakerHouse.fbx");
-	myTexture.LoadTexture("Assets/Primitives/Baker_House.png");
-	Models.push_back(myModel);*/
 
 	//-------- Bounding Boxes --------//
 	App->mesh->InitBoundingBoxes();
@@ -177,11 +164,6 @@ bool ModuleRenderer3D::Init()
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-
-	glMatrixMode(GL_MODELVIEW);
-	//glLoadMatrixf(App->camera->GetViewMatrix());
-	glLoadMatrixf(App->camera->GetViewMatrix());
 
 	// light 0 on cam pos
 	//lights[0].SetPos(App->camera->Position.z, App->camera->Position.z, App->camera->Position.z);
@@ -319,61 +301,6 @@ bool ModuleRenderer3D::InsideFrustrum(const ComponentCamera* camera, const AABB&
 	return true;
 }
 
-void ModuleRenderer3D::DebugDrawBox(const float3* corners, Color color, bool lines, const float& line_size)
-{
-	GLint previous[2];
-	if (lines)
-	{
-		glGetIntegerv(GL_POLYGON_MODE, previous);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-
-	glColor3f(color.r, color.g, color.b);
-
-	glLineWidth(line_size);
-
-	glBegin(GL_QUADS);
-
-	glVertex3fv((GLfloat*)&corners[1]);
-	glVertex3fv((GLfloat*)&corners[5]);
-	glVertex3fv((GLfloat*)&corners[7]);
-	glVertex3fv((GLfloat*)&corners[3]);
-
-	glVertex3fv((GLfloat*)&corners[4]);
-	glVertex3fv((GLfloat*)&corners[0]);
-	glVertex3fv((GLfloat*)&corners[2]);
-	glVertex3fv((GLfloat*)&corners[6]);
-
-	glVertex3fv((GLfloat*)&corners[5]);
-	glVertex3fv((GLfloat*)&corners[4]);
-	glVertex3fv((GLfloat*)&corners[6]);
-	glVertex3fv((GLfloat*)&corners[7]);
-
-	glVertex3fv((GLfloat*)&corners[0]);
-	glVertex3fv((GLfloat*)&corners[1]);
-	glVertex3fv((GLfloat*)&corners[3]);
-	glVertex3fv((GLfloat*)&corners[2]);
-
-	glVertex3fv((GLfloat*)&corners[3]);
-	glVertex3fv((GLfloat*)&corners[7]);
-	glVertex3fv((GLfloat*)&corners[6]);
-	glVertex3fv((GLfloat*)&corners[2]);
-
-	glVertex3fv((GLfloat*)&corners[0]);
-	glVertex3fv((GLfloat*)&corners[4]);
-	glVertex3fv((GLfloat*)&corners[5]);
-	glVertex3fv((GLfloat*)&corners[1]);
-
-	glEnd();
-
-	if (lines)
-		glPolygonMode(GL_FRONT_AND_BACK, previous[0]);
-
-	glLineWidth(1.0f);
-
-	glColor3f(255, 255, 255);
-}
-
 void ModuleRenderer3D::BindBuffers()
 {
 	//Todo: Hacer binnd de todos los meshes arreglar
@@ -398,7 +325,6 @@ void ModuleRenderer3D::DrawGameObjects()
 	for (uint n = 0; n < gameObject_list.size(); n++)
 	{
 		GameObject* gameobject = gameObject_list[n];
-		ComponentMesh* juan = (ComponentMesh*)gameobject->GetComponent(ComponentTypes::MESH);
 
 		if (!gameobject->active)
 		{

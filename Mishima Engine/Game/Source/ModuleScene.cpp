@@ -2,8 +2,10 @@
 #include "ModuleScene.h"
 #include "GameObject.h"
 #include "ModuleMesh.h"
+#include "ComponentMesh.h"
 #include "ModuleTexture.h"
-
+#include "ModuleRenderer3D.h"
+#include "ModuleEditor.h"
 
 ModuleScene::ModuleScene(Application* app, bool start_enabled) : Module(app,start_enabled)
 {}
@@ -92,6 +94,89 @@ void ModuleScene::UpdateGameObjects()
 	{
 		GameObject* update = *it;
 		update->Update();
+	}
+}
+
+void ModuleScene::GameObjectPicking(const LineSegment& ray)
+{
+	std::map<float, ComponentMesh*> meshCandidates;
+	
+	for (auto it = App->renderer3D->gameObject_list.begin(); it != App->renderer3D->gameObject_list.end(); ++it) 
+	{
+		for (auto jt = (*it)->components.begin(); jt != (*it)->components.end(); ++jt)
+		{
+			if ((*jt)->type == MESH) 
+			{
+				ComponentMesh* meshToTest = (ComponentMesh*)(*jt);
+
+				float closest;
+				float furthest;
+
+				if (ray.Intersects(meshToTest->mesh->GlobalAABB, closest, furthest)) {
+
+					meshCandidates[closest] = meshToTest;
+				}
+			}
+		}
+	}
+
+	std::vector<ComponentMesh*> meshesSorted;
+
+	for (auto& candidate : meshCandidates) 
+	{
+		meshesSorted.push_back(candidate.second);
+	}
+	
+	for (ComponentMesh* mesh : meshesSorted) 
+	{
+		if (mesh != nullptr && mesh->parent != nullptr) 
+		{
+			App->editor->GameObject_selected = nullptr;
+		}
+	}
+
+	for (ComponentMesh* mesh : meshesSorted) {
+
+		if (mesh != nullptr) {
+
+			LineSegment localRay = ray;
+
+			localRay.Transform(mesh->parent->transform->GetTransformMatrix());
+
+			for (uint j = 0; j < mesh->mesh->indices.size(); j += 3) {
+
+				uint triangle_indices[3] = { mesh->mesh->indices[j],mesh->mesh->indices[j + 1],mesh->mesh->indices[j + 2] };
+
+				float3 point_a(mesh->mesh->ourVertex[triangle_indices[0]].Position);
+				float3 point_b(mesh->mesh->ourVertex[triangle_indices[1]].Position);
+				float3 point_c(mesh->mesh->ourVertex[triangle_indices[2]].Position);
+
+				Triangle triangle(point_a, point_b, point_c);
+
+				if (localRay.Intersects(triangle, nullptr, nullptr)) {
+
+					if (mesh->parent != nullptr) 
+					{
+						App->editor->GameObject_selected = mesh->parent;
+
+						for (auto it = App->renderer3D->gameObject_list.begin(); it != App->renderer3D->gameObject_list.end(); ++it) 
+						{
+							if ((*it) != mesh->parent) {
+
+								(*it)->selected = false;
+							}
+						}
+					}
+					return;
+				}
+			}
+		}
+	}
+
+	for (auto it = App->renderer3D->gameObject_list.begin(); it != App->renderer3D->gameObject_list.end(); ++it) 
+	{
+		(*it)->selected = false;
+		App->editor->GameObject_selected = nullptr;
 	}
 }
 

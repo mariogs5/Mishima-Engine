@@ -163,29 +163,43 @@ bool ModuleEditor::CleanUp()
 
 void ModuleEditor::SceneWindow()
 {
-    if(sceneWindow)
+    ImGui::Begin("Scene", &sceneWindow);
+
+    ImVec2 size = ImGui::GetContentRegionAvail();
+    App->camera->EditorCamera->SetAspectRatio(size.x / size.y);
+    ImGui::Image((ImTextureID)App->camera->EditorCamera->TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+
+    ImVec2 MouseWindowPosition = ImGui::GetMousePos();
+    ImVec2 SceneWindowPos = ImGui::GetWindowPos();
+    ImVec2 SceneWindowSize = ImGui::GetWindowSize();
+    ImVec2 SceneContentRegionMax = ImGui::GetContentRegionMax();
+
+    float sceneFrameHeightOffset = ImGui::GetFrameHeight() / 2.0f;
+
+    if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
     {
-        ImGui::Begin("Scene", &sceneWindow);
+        ImVec2 normalizedPoint = NormalizeWindowPickingPoint(SceneWindowPos.x, SceneWindowPos.y + (sceneFrameHeightOffset * 2), SceneWindowSize.x, SceneWindowSize.y - (sceneFrameHeightOffset * 2), MouseWindowPosition);
 
-        ImVec2 size = ImGui::GetContentRegionAvail();
-        App->camera->EditorCamera->SetAspectRatio(size.x / size.y);
-        ImGui::Image((ImTextureID)App->camera->EditorCamera->TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+        normalizedPoint.x = (normalizedPoint.x - 0.5f) / 0.5f;
+        normalizedPoint.y = -((normalizedPoint.y - 0.5f) / 0.5f);
 
-        ImGui::End();
+        if ((normalizedPoint.x >= -1 && normalizedPoint.x <= 1) && (normalizedPoint.y >= -1 && normalizedPoint.y <= 1))
+        {
+            App->camera->MousePicking(normalizedPoint.x, normalizedPoint.y);
+        }
     }
+
+    ImGui::End();
 }
 void ModuleEditor::GameWindow()
 {
-    if (gameWindow)
-    {
-        ImGui::Begin("Game", &gameWindow);
+    ImGui::Begin("Game", &gameWindow);
 
-        ImVec2 size = ImGui::GetContentRegionAvail();
-        App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
-        ImGui::Image((ImTextureID)App->scene->gameCameraComponent->TCB, size, ImVec2(0, 1), ImVec2(1, 0));
+    ImVec2 size = ImGui::GetContentRegionAvail();
+    App->scene->gameCameraComponent->SetAspectRatio(size.x / size.y);
+    ImGui::Image((ImTextureID)App->scene->gameCameraComponent->TCB, size, ImVec2(0, 1), ImVec2(1, 0));
 
-        ImGui::End();
-    }
+    ImGui::End();
 }
 
 void ModuleEditor::MainMenuBar()
@@ -719,6 +733,15 @@ std::string ModuleEditor::ReadMyFile(const std::string& filename)
     std::string fileContents((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
     file.close();
+
     return fileContents;
 }
 
+ImVec2 ModuleEditor::NormalizeWindowPickingPoint(const float& x, const float& y, const float& w, const float& h, const ImVec2& clickPoint)
+{
+    ImVec2 normalizedWindowPickingPoint;
+    normalizedWindowPickingPoint.x = (clickPoint.x - x) / ((x + w) - x);
+    normalizedWindowPickingPoint.y = (clickPoint.y - y) / ((y + h) - y);
+
+    return normalizedWindowPickingPoint;
+}

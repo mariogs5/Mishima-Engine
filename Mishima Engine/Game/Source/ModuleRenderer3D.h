@@ -19,13 +19,7 @@
 #include "ModuleMesh.h"
 #include "ModuleTexture.h"
 
-#include "Model.h"
-#include "Texture.h"
-
 #include <string.h>
-
-//todo: REMOVE this before 1st delivery!!
-#include "glmath.h"
 
 #define MAX_LIGHTS 8
 
@@ -53,18 +47,11 @@ public:
 	void DrawBox(float3* vertices, float3 color);
 	bool InsideFrustrum(const ComponentCamera* camera, const AABB& aabb);
 
-	//-------- Editor/Game Windows --------//
-	void CreateMainBuffer();
-	void DeleteMainBuffer();
-	GLuint GetSceneRenderTexture();
-	GLuint GetGameRenderTexture();
-
 	//-------- GameObjects --------//
 	void DrawGameObjects();
 
 	void RenderFromCamera(ComponentCamera* camera, bool debug_draw_enabled);
 
-	void DebugDrawBox(const float3* corners, Color color, bool lines, const float& line_size);
 	void DebugDraw(const Frustum& frustum, Color color, bool lines, const float& line_size);
 
 	const char* GetFileExtension(const char* filePath);
@@ -79,11 +66,6 @@ public:
 	bool primZhongli = false;
 
 public:
-
-	//Texture myTexture;
-	/*Model myModel;
-	std::vector<Texture> Textures;
-	std::vector<Model> Models;*/
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
@@ -105,12 +87,6 @@ public:
 	GLuint checkTexture;
 	GLuint textureWidth, textureHeight;
 	GLubyte checkerImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
-
-	//RenderTexture* scene_render_texture;
-	//RenderTexture* game_render_texture;
-	
-	//You won't need this after using Frustum
-	mat4x4 ProjectionMatrix;
 
 	std::vector<GameObject*> gameObject_list;
 };

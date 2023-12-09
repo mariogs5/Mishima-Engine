@@ -6,8 +6,6 @@
 
 #include "GameObject.h"
 
-//todo: REMOVE this before 1st delivery!!
-#include "glmath.h"
 class ComponentCamera;
 
 class ModuleCamera3D : public Module
@@ -23,16 +21,15 @@ public:
 	void Look(const float3 &Position, const float3&Reference, bool RotateAroundReference = false);
 	void LookAt(const float3&Spot);
 	void Move(const float3&Movement);
-	float* GetViewMatrix();
 
 	//-------- Camera Motion --------//
 	void fpsMovement(ComponentCamera* camera, float3& newPos, float speed);
 	void CameraRotation(ComponentCamera* camera, float dt);
 	void CameraZoom(ComponentCamera* camera, float3& newPos, float speed);
 
-private:
-
-	void CalculateViewMatrix();
+	//-------- Mouse Picking --------//
+	void MousePicking(float mouseXNorm, float mouseYNorm);
+	LineSegment MouseRay;
 
 public:
 
@@ -40,13 +37,4 @@ public:
 
 	//-------- New Camera --------//
 	ComponentCamera* EditorCamera;
-	
-
-	//You won't need this after using Frustum
-	float3 X, Y, Z, Position, Reference;
-
-private:
-
-	mat4x4 ViewMatrix;
-	//Frustum mMainCamera; Some help here :)
 };

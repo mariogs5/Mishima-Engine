@@ -5,6 +5,8 @@
 #include "Globals.h"
 #include "GameObject.h"
 #include <vector>
+#include <map>
+
 
 class ModuleScene:public Module
 {
@@ -25,6 +27,8 @@ public:
 	std::vector<GameObject*> GetGameObjects();
 
 	void UpdateGameObjects();
+
+	void GameObjectPicking(const LineSegment& ray);
 
 	std::vector<GameObject*> gameobjects;
 	GameObject* rootObject = nullptr;

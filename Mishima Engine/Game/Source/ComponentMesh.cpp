@@ -1,11 +1,11 @@
 #include "ComponentMesh.h"
 #include "GameObject.h"
 
-
 #include "External/imgui/imgui.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
+	this->parent = parent;
 	mesh = nullptr;
 	path = "";
 	type = ComponentTypes::MESH;

@@ -15,6 +15,7 @@
 #include <fstream>
 
 #include "GameObject.h"
+#include "ModuleCamera3D.h"
 
 #include <iostream>
 #include <vector>
@@ -59,6 +60,9 @@ public:
 	void SceneWindow();
 	void GameWindow();
 
+	// Mouse Picking
+	ImVec2 NormalizeWindowPickingPoint(const float& x, const float& y, const float& w, const float& h, const ImVec2& clickPoint);
+
 	//Fullscreen
 	bool fullscreen = false;
 
@@ -66,10 +70,11 @@ public:
 	std::string ReadMyFile(const std::string& filename);
 	std::string License;
 
+	GameObject* GameObject_selected = nullptr;
+
 private:
 
 	//Inspector
-	GameObject* GameObject_selected = nullptr;
 	GameObject* hoveredGameObj = nullptr;
 	GameObject* draggedGameObject = nullptr;
 
