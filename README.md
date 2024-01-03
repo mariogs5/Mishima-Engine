@@ -1,4 +1,4 @@
-# Mishima Engine
+# Mishia Engine
 
 Mishima Engine is a humble engine created for the Game Engine subject.
 
