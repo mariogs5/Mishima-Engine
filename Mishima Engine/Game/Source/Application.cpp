@@ -9,6 +9,7 @@
 #include "ModuleMesh.h"
 #include "ModuleTexture.h"
 #include "ModuleScene.h"
+#include "ModuleAudio.h"
 
 extern Application* externalapp = nullptr;
 
@@ -24,6 +25,7 @@ Application::Application()
 	scene = new ModuleScene(this);
 	mesh = new ModuleMesh(this);
 	texture = new ModuleTexture(this);
+	audio = new ModuleAudio(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order

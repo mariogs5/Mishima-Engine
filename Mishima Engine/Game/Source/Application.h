@@ -12,6 +12,7 @@ class ModuleEditor;
 class ModuleScene;
 class ModuleMesh;
 class ModuleTexture;
+class ModuleAudio;
 
 #include<vector>
 
@@ -26,6 +27,7 @@ public:
 	ModuleScene* scene;
 	ModuleMesh* mesh;
 	ModuleTexture* texture;
+	ModuleAudio* audio;
 
 private:
 
