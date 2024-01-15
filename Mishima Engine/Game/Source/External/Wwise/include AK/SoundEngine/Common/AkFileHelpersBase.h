@@ -27,8 +27,8 @@ written agreement between you and Audiokinetic Inc.
 #ifndef _AK_FILE_HELPERS_BASE_H
 #define _AK_FILE_HELPERS_BASE_H
 
-#include <AK/SoundEngine/Common/AkTypes.h>
-#include <AK/Tools/Common/AkPlatformFuncs.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkTypes.h>
+#include <../../Wwise/include AK/Tools/Common/AkPlatformFuncs.h>
 
 /// Provides platform-agnostic helper functions
 class CAkFileHelpersBase

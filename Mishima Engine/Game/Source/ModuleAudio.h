@@ -10,6 +10,7 @@
 #include <../include AK/SoundEngine/Common/IAkStreamMgr.h> 
 #include <../include AK/Tools/Common/AkPlatformFuncs.h>
 #include <../include AK/SoundEngine/Win32/AkDefaultIOHookDeferred.h>
+#include <../include AK/SoundEngine/Win32/AkFilePackageLowLevelIOBlocking.h>
 #include <../include AK/SoundEngine/Common/AkSoundEngine.h>
 #include <../include AK/MusicEngine/Common/AkMusicEngine.h>   
 #include <../include AK/SpatialAudio/Common/AkSpatialAudio.h>
@@ -28,7 +29,9 @@ public:
 	update_status Update(float dt) override;
 	bool CleanUp();
 
+	//------------------ Wwise Funcions ------------------//
 	bool InitAudioEngine();
+	void ProcessAudio();
 
 public:
 	CAkFilePackageLowLevelIODeferred g_lowLevelIO;

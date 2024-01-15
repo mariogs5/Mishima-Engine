@@ -1,5 +1,11 @@
 #include "ModuleAudio.h"
 
+#include <string>
+
+#include <iostream>
+#include <filesystem>
+#include <fstream>
+
 ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled) 
 {
 
@@ -34,6 +40,7 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
+//------------------ Init Audio Engine ------------------//
 bool ModuleAudio::InitAudioEngine() 
 {
 	//------------------ Memmory Manager ------------------//
@@ -91,13 +98,14 @@ bool ModuleAudio::InitAudioEngine()
 	//------------------ Spatial Audio ------------------//
 	AkSpatialAudioInitSettings settings;
 
-	if (AK::SpatialAudio::Init(&settings) != AK_Success)
+	if (AK::SpatialAudio::Init(settings) != AK_Success)
 	{
 		assert(!"Could not initialize the Spatial Audio.");
 		return false;
 	}
 
 	//------------------ Inializing communications ------------------//
+#ifndef AK_OPTIMIZED
 	AkCommSettings commSettings;
 	AK::Comm::GetDefaultInitSettings(commSettings);
 	if (AK::Comm::Init(commSettings) != AK_Success)
@@ -105,5 +113,13 @@ bool ModuleAudio::InitAudioEngine()
 		assert(!"Could not initialize communication.");
 		return false;
 	}
+#endif
+
 	return true;
+}
+
+//------------------ Process Audio ------------------//
+void ModuleAudio::ProcessAudio() 
+{
+	AK::SoundEngine::RenderAudio();
 }

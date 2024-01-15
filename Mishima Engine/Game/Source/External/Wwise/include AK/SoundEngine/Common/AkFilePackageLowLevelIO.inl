@@ -49,8 +49,8 @@ written agreement between you and Audiokinetic Inc.
 //////////////////////////////////////////////////////////////////////
 
 #include "AkFilePackageLowLevelIO.h"
-#include "AK/SoundEngine/Win32/AkFileHelpers.h"
-#include <AK/Tools/Common/AkPlatformFuncs.h>
+#include "../../Wwise/include AK/SoundEngine/Win32/AkFileHelpers.h"
+#include <../../Wwise/include AK/Tools/Common/AkPlatformFuncs.h>
 
 template <class T_LLIOHOOK_FILELOC, class T_PACKAGE>
 CAkFilePackageLowLevelIO<T_LLIOHOOK_FILELOC,T_PACKAGE>::CAkFilePackageLowLevelIO()
