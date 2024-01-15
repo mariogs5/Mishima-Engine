@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 // AkSoundEngineExport.h
@@ -32,7 +33,7 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AK_SOUNDENGINE_EXPORT_H_
 #define _AK_SOUNDENGINE_EXPORT_H_
 
-#include <AK/AkPlatforms.h>
+#include <../../Wwise/include AK/AkPlatforms.h>
 
 #ifndef AK_DLLEXPORT
 #define AK_DLLEXPORT
@@ -40,10 +41,6 @@ the specific language governing permissions and limitations under the License.
 
 #ifndef AK_DLLIMPORT
 #define AK_DLLIMPORT
-#endif
-
-#ifndef AK_ATTR_USED
-#define AK_ATTR_USED
 #endif
 
 #ifdef AKSOUNDENGINE_DLL

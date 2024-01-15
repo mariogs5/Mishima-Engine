@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 /// \file 
@@ -30,7 +31,7 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AK_FP_UTILS_H_
 #define _AK_FP_UTILS_H_
 
-#include <AK/SoundEngine/Common/AkTypes.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkTypes.h>
 
 #define AK_FSEL( __a__, __b__, __c__) (((__a__) >= 0) ? (__b__) : (__c__))
 

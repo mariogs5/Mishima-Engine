@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 // AkSimd.h
@@ -29,19 +30,13 @@ the specific language governing permissions and limitations under the License.
 /// \file 
 /// Simd definitions.
 
-#pragma once
+#ifndef _AK_SIMD_H_
+#define _AK_SIMD_H_
 
 #include <AK/SoundEngine/Common/AkTypes.h>
 
-/// Get the element at index __num__ in vector __vName
-#define AKSIMD_GETELEMENT_V4F32( __vName, __num__ )			((AkReal32*)&(__vName))[(__num__)]
-#define AKSIMD_GETELEMENT_V2F32( __vName, __num__ )			((AkReal32*)&(__vName))[(__num__)]
-#define AKSIMD_GETELEMENT_V2F64( __vName, __num__ )			((AkReal64*)&(__vName))[(__num__)]
-#define AKSIMD_GETELEMENT_V4I32( __vName, __num__ )			((AkInt32*)&(__vName))[(__num__)]
-#define AKSIMD_GETELEMENT_V2I64( __vName, __num__ )			((AkInt64*)&(__vName))[(__num__)]
-
-//////////////////////////////////////////////////////////////////////////
 // Platform-specific section.
+//----------------------------------------------------------------------------------------------------
 
 #if defined( AK_WIN ) || defined( AK_XBOX )
 	
@@ -50,7 +45,11 @@ the specific language governing permissions and limitations under the License.
 #elif defined( AK_APPLE )
 
 	#include <TargetConditionals.h>
-	#include <AK/SoundEngine/Platforms/Mac/AkSimd.h>
+	#if TARGET_OS_IPHONE
+		#include <AK/SoundEngine/Platforms/iOS/AkSimd.h>
+	#else
+		#include <AK/SoundEngine/Platforms/Mac/AkSimd.h>
+	#endif
 
 #elif defined( AK_ANDROID )
 
@@ -83,9 +82,6 @@ the specific language governing permissions and limitations under the License.
 #else
 	#error Unsupported platform, or platform-specific SIMD not defined
 #endif
-
-//////////////////////////////////////////////////////////////////////////
-// Other helpers
 
 #ifndef AKSIMD_ASSERTFLUSHZEROMODE
 	#define AKSIMD_ASSERTFLUSHZEROMODE
@@ -130,3 +126,4 @@ AkForceInline void AKSIMD_TRANSPOSE4X4_V4F32(AKSIMD_V4F32 &A, AKSIMD_V4F32 &B, A
 	D = AKSIMD_SHUFFLE_V4F32(tmp2, tmp4, AKSIMD_SHUFFLE(3, 1, 3, 1));
 }
 
+#endif  //_AK_DATA_TYPES_H_

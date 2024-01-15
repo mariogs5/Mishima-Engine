@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 // AkLock.h
@@ -32,10 +33,10 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AK_TOOLS_COMMON_AKLOCK_H
 #define _AK_TOOLS_COMMON_AKLOCK_H
 
-#include <AK/AkPlatforms.h>
+#include <../../Wwise/include AK/AkPlatforms.h>
 
 #if defined(AK_WIN) || defined(AK_XBOX)
-#include <AK/Tools/Win32/AkLock.h>
+#include <../../Wwise/include AK/Tools/Win32/AkLock.h>
 
 #elif defined (AK_APPLE) 
 #include <AK/Tools/POSIX/AkLock.h>

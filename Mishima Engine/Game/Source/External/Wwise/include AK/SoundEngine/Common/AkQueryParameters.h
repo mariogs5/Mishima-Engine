@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 // AkQueryParameters.h
@@ -78,16 +79,16 @@ namespace AK
 	namespace SoundEngine
 	{
 		/// Query namespace
-		/// \remarks The functions in this namespace are thread-safe, unless stated otherwise. We recommend that you use these functions in development builds only, because they can cause CPU spikes.
+		/// \remarks The functions in this namespace are thread-safe, unless stated otherwise.
 		///
 		/// \akwarning
-		/// The functions in this namespace might stall for several milliseconds before returning
-		/// because they cannot execute while the main sound engine tick is running. 
-		/// They should therefore not be called from any game-critical thread, such as the main game loop. 
-		/// However, if the function definition states that it does not require the main audio lock, no delay should occur.
+		/// Unless noted otherwise in the function definition that it will not acquire the main audio lock, the functions in this namespace 
+		/// might stall for several milliseconds before returning (as they cannot execute while the 
+		/// main sound engine thread is busy). They should therefore not be called from any 
+		/// game critical thread, such as the main game loop.
 		///
-		/// There might be a significant delay between a Sound Engine call, such as PostEvent, and
-		/// the information being returned in a Query, such as GetIsGameObjectActive. 
+		/// There might be a significant delay between a Sound Engine call (such as PostEvent) and
+		/// the information being reflected in a Query (such as GetIsGameObjectActive). 
 		/// \endakwarning
 
 		namespace Query
@@ -126,7 +127,7 @@ namespace AK
 			/// \sa 
 			/// - \ref soundengine_listeners_settingpos
 			AK_EXTERNAPIFUNC( AKRESULT, GetListenerPosition )( 
-				AkGameObjectID in_uListenerID, 					///< Listener game object ID. 
+				AkGameObjectID in_uIndex, 						///< Listener index (0: first listener, 7: 8th listener)
 				AkListenerPosition& out_rPosition			///< Position set
 				);
 
@@ -136,7 +137,7 @@ namespace AK
 			/// - AK::SoundEngine::SetListenerSpatialization().
 			/// - \ref soundengine_listeners_spatial
 			AK_EXTERNAPIFUNC( AKRESULT, GetListenerSpatialization )(
-				AkGameObjectID in_uListenerID,				///< Listener game object ID. 
+				AkUInt32 in_uIndex,							///< Listener index (0: first listener, 7: 8th listener)
 				bool& out_rbSpatialized,					///< Spatialization enabled
 				AK::SpeakerVolumes::VectorPtr & out_pVolumeOffsets,	///< Per-speaker vector of volume offsets, in decibels. Use the functions of AK::SpeakerVolumes::Vector to interpret it.
 				AkChannelConfig &out_channelConfig			///< Channel configuration associated with out_rpVolumeOffsets. 
@@ -175,7 +176,7 @@ namespace AK
 			///		If the game object is unknown or unavailable, AK_INVALID_GAME_OBJECT can be passed in in_gameObjectID, and the game object will be looked up via in_playingID.  
 			///		However in this case, it is not possible to retrieve a game object value as a fall back value if the playing id does not exist.  It is best to pass in the game object if possible.
 			///		
-			/// \return AK_Success if succeeded, AK_IDNotFound if the RTPC does not exist
+			/// \return AK_Success if succeeded, AK_IDNotFound if the game object was not registered, or AK_Fail if the RTPC value could not be obtained
 			/// \sa 
 			/// - \ref soundengine_rtpc
 			/// - RTPCValue_type
@@ -198,7 +199,7 @@ namespace AK
 			///		If the game object is unknown or unavailable, AK_INVALID_GAME_OBJECT can be passed in in_gameObjectID, and the game object will be looked up via in_playingID.  
 			///		However in this case, it is not possible to retrieve a game object value as a fall back value if the playing id does not exist.  It is best to pass in the game object if possible.
 			///		
-			/// \return AK_Success if succeeded, AK_IDNotFound if the RTPC does not exist
+			/// \return AK_Success if succeeded, AK_IDNotFound if the game object was not registered or the rtpc name could not be found, or AK_Fail if the RTPC value could not be obtained
 			/// \sa 
 			/// - \ref soundengine_rtpc
 			/// - RTPCValue_type
@@ -221,7 +222,7 @@ namespace AK
 			///		If the game object is unknown or unavailable, AK_INVALID_GAME_OBJECT can be passed in in_gameObjectID, and the game object will be looked up via in_playingID.  
 			///		However in this case, it is not possible to retrieve a game object value as a fall back value if the playing id does not exist.  It is best to pass in the game object if possible.
 			///		
-			/// \return AK_Success if succeeded, AK_IDNotFound if the RTPC does not exist
+			/// \return AK_Success if succeeded, AK_IDNotFound if the game object was not registered or the rtpc name could not be found, or AK_Fail if the RTPC value could not be obtained
 			/// \sa 
 			/// - \ref soundengine_rtpc
 			/// - RTPCValue_type
@@ -301,11 +302,13 @@ namespace AK
 			//@{
 
 			/// Get the environmental ratios used by the specified game object.
+			/// To clear the game object's environments, in_uNumEnvValues must be 0.
 			/// \sa 
 			/// - \ref soundengine_environments
 			/// - \ref soundengine_environments_dynamic_aux_bus_routing
 			/// - \ref soundengine_environments_id_vs_string
-			/// \return AK_Success if succeeded, or AK_InvalidParameter if io_ruNumSendValues is 0 or out_paEnvironmentValues is NULL, or AK_PartialSuccess if more environments exist than io_ruNumSendValues
+			/// \return AK_Success if succeeded, or AK_InvalidParameter if io_ruNumEnvValues is 0 or out_paEnvironmentValues is NULL, or AK_PartialSuccess if more environments exist than io_ruNumEnvValues
+			/// AK_InvalidParameter
 			AK_EXTERNAPIFUNC( AKRESULT, GetGameObjectAuxSendValues )( 
 				AkGameObjectID		in_gameObjectID,		///< Associated game object ID
 				AkAuxSendValue*		out_paAuxSendValues,	///< Variable-size array of AkAuxSendValue structures

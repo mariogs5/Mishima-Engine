@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 #ifndef _FNVHASH_H
@@ -42,14 +43,12 @@ the specific language governing permissions and limitations under the License.
 //
 //////////////////////////////////////////////////////////////////
 
-#include <AK/SoundEngine/Common/AkNumeralTypes.h>
-
 namespace AK
 {
 	struct Hash32
 	{
-		typedef AkUInt32 HashType;
-		typedef AkUInt32 SizeType;
+		typedef unsigned int HashType;
+		typedef unsigned int SizeType;
 		static inline unsigned int Bits() {return 32;}
 		static inline HashType Prime() {return 16777619;}
 		static const HashType s_offsetBasis = 2166136261U;
@@ -62,8 +61,8 @@ namespace AK
 	
 	struct Hash64
 	{
-		typedef AkUInt64 HashType;
-		typedef AkUInt64 SizeType;
+		typedef unsigned long long HashType;
+		typedef unsigned long long SizeType;
 		static inline unsigned int Bits() {return 64;}
 		static inline HashType Prime() {return 1099511628211ULL;}
 		static const HashType s_offsetBasis = 14695981039346656037ULL;

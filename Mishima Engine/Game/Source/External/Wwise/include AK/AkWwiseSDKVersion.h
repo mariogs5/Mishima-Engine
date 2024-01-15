@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 #ifndef _AKWWISESDKVERSION_H_
@@ -37,25 +38,25 @@ the specific language governing permissions and limitations under the License.
 //@{
 
 /// Wwise SDK major version
-#define AK_WWISESDK_VERSION_MAJOR				2023
+#define AK_WWISESDK_VERSION_MAJOR				2021
 
 /// Wwise SDK minor version
 #define AK_WWISESDK_VERSION_MINOR				1
 
 /// Wwise SDK sub-minor version
-#define AK_WWISESDK_VERSION_SUBMINOR			0
+#define AK_WWISESDK_VERSION_SUBMINOR			5
 
 /// Wwise SDK build number
-#define AK_WWISESDK_VERSION_BUILD				8367
+#define AK_WWISESDK_VERSION_BUILD				7749
 
 /// Wwise SDK build date (year)
-#define AK_WWISESDK_BUILD_YEAR					2023
+#define AK_WWISESDK_BUILD_YEAR					2021
 
 /// Wwise SDK build date (month)
 #define AK_WWISESDK_BUILD_MONTH					11
 
 /// Wwise SDK build date (day)
-#define AK_WWISESDK_BUILD_DAY					15
+#define AK_WWISESDK_BUILD_DAY					24
 
 //@}
 
@@ -85,15 +86,15 @@ the specific language governing permissions and limitations under the License.
 											AK_WWISESDK_VERSION_NICKNAME_POSTFIX
 
 /// Wwise SDK branch
-#define AK_WWISESDK_BRANCH					"wwise_v2023.1"
+#define AK_WWISESDK_BRANCH					"wwise_v2021.1"
 
 /// @name Wwise SDK Copyright Notice
 
 //@{
 	/// Wwise SDK copyright notice
-	#define AK_WWISESDK_COPYRIGHT 				"(C) 2006-2023. Audiokinetic Inc. All rights reserved."
+	#define AK_WWISESDK_COPYRIGHT 				"(C) 2006-2021. Audiokinetic Inc. All rights reserved."
 	/// Wwise SDK copyright notice
-	#define AK_WWISESDK_COPYRIGHT_CONSOLE 		"(C) 2006-2023. Audiokinetic Inc. All rights reserved."
+	#define AK_WWISESDK_COPYRIGHT_CONSOLE 		"(C) 2006-2021. Audiokinetic Inc. All rights reserved."
 //@}
 
 #define AK_WWISESDK_VERSION_COMBINED ((AK_WWISESDK_VERSION_MAJOR<<8) | AK_WWISESDK_VERSION_MINOR)

@@ -6,7 +6,8 @@
   subject to the terms and conditions outlined in the Source Code
   Addendum and the End User License Agreement for Wwise(R).
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
  ***********************************************************************/
 
 //////////////////////////////////////////////////////////////////////
@@ -116,18 +117,6 @@ namespace AkMath
 		const AKSIMD_V4F32 v0_z = AKSIMD_SHUFFLE_V4F32(v0_xyz, v0_xyz, AKSIMD_SHUFFLE(2, 2, 2, 2));
 		const AKSIMD_V4F32 v0_w = AKSIMD_SHUFFLE_V4F32(v0_xyz, v0_xyz, AKSIMD_SHUFFLE(2, 2, 2, 2));
 		return DotPoduct4_4x4(v0_x, v0_y, v0_z, v0_w, v1_x, v1_y, v1_z, v1_w);
-	}
-
-	// 3-element cross product of 4 vectors, returned as XXXX, YYYY, ZZZZ
-	AkForceInline void CrossProduct3_4x4(
-		const AKSIMD_V4F32& u_x, const AKSIMD_V4F32& u_y, const AKSIMD_V4F32& u_z,
-		const AKSIMD_V4F32& v_x, const AKSIMD_V4F32& v_y, const AKSIMD_V4F32& v_z,
-		AKSIMD_V4F32& uXv_x, AKSIMD_V4F32& uXv_y, AKSIMD_V4F32& uXv_z
-	)
-	{
-		uXv_x = AKSIMD_SUB_V4F32(AKSIMD_MUL_V4F32(u_y, v_z), AKSIMD_MUL_V4F32(u_z, v_y));
-		uXv_y = AKSIMD_SUB_V4F32(AKSIMD_MUL_V4F32(u_z, v_x), AKSIMD_MUL_V4F32(u_x, v_z));
-		uXv_z = AKSIMD_SUB_V4F32(AKSIMD_MUL_V4F32(u_x, v_y), AKSIMD_MUL_V4F32(u_y, v_x));
 	}
 
 	// Trig functions approximation (based on the Fast versions found in AkMath.h)

@@ -9,7 +9,8 @@ may use this file in accordance with the end user license agreement provided
 with the software or, alternatively, in accordance with the terms contained in a
 written agreement between you and Audiokinetic Inc.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+Version: v2021.1.5  Build: 7749
+Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 #pragma once
@@ -50,7 +51,7 @@ namespace AK
 			inline AkVariant(const std::string& in_val) : AkVariantBase(in_val) {}
 
 			template<typename RapidJsonValueType, typename RapidJsonAllocator, typename RapidJsonSizeType>
-			bool toRapidJsonValue(RapidJsonValueType& out_rapidJson, RapidJsonAllocator& in_allocator) const
+			bool toRapidJsonValue(RapidJsonValueType out_rapidJson, RapidJsonAllocator in_allocator) const
 			{
 				switch (GetType())
 				{

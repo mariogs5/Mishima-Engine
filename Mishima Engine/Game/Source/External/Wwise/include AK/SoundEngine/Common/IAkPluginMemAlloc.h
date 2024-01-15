@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 /// \file
@@ -30,8 +31,8 @@ the specific language governing permissions and limitations under the License.
 #ifndef _IAKPLUGINMEMALLOC_H_
 #define _IAKPLUGINMEMALLOC_H_
 
-#include <AK/SoundEngine/Common/AkTypes.h>
-#include <AK/SoundEngine/Common/AkMemoryMgr.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkTypes.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkMemoryMgr.h>
 
 namespace AK
 {
@@ -202,11 +203,13 @@ public:
 	AkForceInline void Init(AK::IAkPluginMemAlloc* in_pAllocator) { m_pAllocator = in_pAllocator; }
 protected:
 	AkForceInline void* Alloc(size_t in_uSize) { return AK_PLUGIN_ALLOC(m_pAllocator, in_uSize); }
-	AkForceInline void* ReAlloc(void* in_pCurrent, size_t /*in_uOldSize*/, size_t in_uNewSize) { return AK_PLUGIN_REALLOC(m_pAllocator, in_pCurrent, in_uNewSize); }
+	AkForceInline void* ReAlloc(void* in_pCurrent, size_t in_uOldSize, size_t in_uNewSize) { return AK_PLUGIN_REALLOC(m_pAllocator, in_pCurrent, in_uNewSize); }
 	AkForceInline void Free(void* in_pAddress) { AK_PLUGIN_FREE(m_pAllocator, in_pAddress); }
 	AkForceInline void TransferMem(void*& io_pDest, AkPluginArrayAllocator& in_src, void* in_pSrc)
 	{
-		// The expected io_pDest should be NULL here.
+#ifdef AKASSERT
+		AKASSERT(io_pDest == NULL);
+#endif
 		io_pDest = in_pSrc;
 		m_pAllocator = in_src.GetAllocator();
 	}

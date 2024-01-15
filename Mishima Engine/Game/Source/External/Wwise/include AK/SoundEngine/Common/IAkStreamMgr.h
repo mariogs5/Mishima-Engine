@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 /// \file 
@@ -30,7 +31,7 @@ the specific language governing permissions and limitations under the License.
 #ifndef _IAK_STREAM_MGR_H_
 #define _IAK_STREAM_MGR_H_
 
-#include <AK/SoundEngine/Common/AkMemoryMgr.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkMemoryMgr.h>
 
 //-----------------------------------------------------------------------------
 // Defines. 
@@ -80,15 +81,7 @@ enum AkOpenMode
 struct AkFileSystemFlags
 {
 	AkFileSystemFlags()
-		: uCompanyID(0)
-		, uCodecID(0)
-		, uCustomParamSize(0)
-		, pCustomParam(0)
-		, bIsLanguageSpecific(false)
-		, bIsAutomaticStream(false)
-		, uCacheID(AK_INVALID_FILE_ID)
-		, uNumBytesPrefetch(0)
-		, uDirectoryHash(AK_INVALID_UNIQUE_ID) {}
+		: uCacheID( AK_INVALID_FILE_ID ) {}
 
 	AkFileSystemFlags( AkUInt32 in_uCompanyID, AkUInt32 in_uCodecID, AkUInt32 in_uCustomParamSize, void * in_pCustomParam, bool in_bIsLanguageSpecific, AkFileID in_uCacheID )
 		: uCompanyID( in_uCompanyID )
@@ -96,9 +89,8 @@ struct AkFileSystemFlags
 		, uCustomParamSize( in_uCustomParamSize )
 		, pCustomParam( in_pCustomParam )
 		, bIsLanguageSpecific( in_bIsLanguageSpecific )
-		, uCacheID( in_uCacheID )
-		, uNumBytesPrefetch( 0 )
-		, uDirectoryHash( AK_INVALID_UNIQUE_ID ) {}
+		, uCacheID( in_uCacheID ) 
+		, uNumBytesPrefetch( 0 ) {}
 
     AkUInt32            uCompanyID;         ///< Company ID (Wwise uses AKCOMPANYID_AUDIOKINETIC, defined in AkTypes.h, for soundbanks and standard streaming files, and AKCOMPANYID_AUDIOKINETIC_EXTERNAL for streaming external sources).
     AkUInt32            uCodecID;           ///< File/codec type ID (defined in AkTypes.h)
@@ -112,7 +104,6 @@ struct AkFileSystemFlags
 	AkUInt32			uNumBytesPrefetch;	///< Indicates the number of bytes from the beginning of the file that should be streamed into cache via a caching stream. This field is only relevant when opening caching streams via 
 											///< AK::IAkStreamMgr::PinFileInCache() and AK::SoundEngine::PinEventInStreamCache().  When using AK::SoundEngine::PinEventInStreamCache(), 
 											///< it is initialized to the prefetch size stored in the sound bank, but may be changed by the file location resolver, or set to 0 to cancel caching.
-	AkUInt32            uDirectoryHash;     ///< If the implementation uses a hashed directory structure, this is the hash value that should be employed for determining the directory structure
 };
 
 /// Stream information.
@@ -125,7 +116,6 @@ struct AkStreamInfo
     const AkOSChar *	pszName;            ///< User-defined stream name (specified through AK::IAkStdStream::SetStreamName() or AK::IAkAutoStream::SetStreamName())
     AkUInt64            uSize;              ///< Total stream/file size in bytes
 	bool				bIsOpen;			///< True when the file is open (implementations may defer file opening)
-	bool                bIsLanguageSpecific;///< True when the file was found in a language specific location
 };
 
 /// Automatic streams heuristics.
@@ -196,7 +186,9 @@ struct AkStreamRecord
     AkDeviceID          deviceID;           ///< Device ID
     AkUtf16				szStreamName[AK_MONITOR_STREAMNAME_MAXLENGTH];       ///< Stream name
     AkUInt32            uStringSize;        ///< Stream name string's size (number of characters)
-    AkUInt64            uFileSize;          ///< File size	
+    AkUInt64            uFileSize;          ///< File size
+	AkUInt32			uCustomParamSize;	///< File descriptor's uCustomParamSize
+    AkUInt32			uCustomParam;		///< File descriptor's pCustomParam (on 32 bits)
     bool                bIsAutoStream;      ///< True for auto streams
 	bool				bIsCachingStream;	///< True for caching streams
 };
@@ -216,53 +208,6 @@ struct AkStreamData
 	AkUInt32            uMemoryReferenced;			///< Amount of streaming memory referenced by this stream
 	AkReal32			fEstimatedThroughput;		///< Estimated throughput heuristic
 	bool				bActive;			///< True if this stream has been active (that is, was ready for I/O or had at least one pending I/O transfer, uncached or not) in the previous frame
-};
-
-
-/// Contains parameters for the IAkFileLocationResolver::Open() call and related functions.
-/// Files can be designated with a file name or a file ID. Only one of the two members should be valid.
-/// \note pszFileName is stored on the stack and will be valid only through the function call.
-struct AkFileOpenData
-{
-	AkFileOpenData()
-		: pszFileName(NULL)
-		, fileID(AK_INVALID_FILE_ID)
-		, pFlags(NULL)
-		, eOpenMode(AK_OpenModeRead) {}
-
-	AkFileOpenData(const AkOSChar* in_pszFileName, AkOpenMode in_eOpenMode = AK_OpenModeRead, AkFileSystemFlags* in_pFlags = NULL)
-		: pszFileName(in_pszFileName)
-		, fileID(AK_INVALID_FILE_ID)
-		, pFlags(in_pFlags)
-		, eOpenMode(in_eOpenMode) {}
-
-	AkFileOpenData(AkFileID in_idFile, AkOpenMode in_eOpenMode = AK_OpenModeRead, AkFileSystemFlags* in_pFlags = NULL)
-		: pszFileName(NULL)
-		, fileID(in_idFile)
-		, pFlags(in_pFlags)
-		, eOpenMode(in_eOpenMode) {}
-
-	AkFileOpenData(const AkOSChar* in_pszFileName, AkFileSystemFlags* in_pFlags)
-		: pszFileName(in_pszFileName)
-		, fileID(AK_INVALID_FILE_ID)
-		, pFlags(in_pFlags)
-		, eOpenMode(AK_OpenModeRead) {}
-
-	AkFileOpenData(AkFileID in_idFile, AkFileSystemFlags* in_pFlags)
-		: pszFileName(NULL)
-		, fileID(in_idFile)
-		, pFlags(in_pFlags)
-		, eOpenMode(AK_OpenModeRead) {}
-
-	bool IsValid() const
-	{
-		return (pszFileName != NULL) != (fileID != AK_INVALID_FILE_ID); //Only one of pszFileName and fileID should be set.
-	}
-
-	const AkOSChar*     pszFileName;    ///< File name. Only one of pszFileName or fileID should be valid (pszFileName null while fileID is not AK_INVALID_FILE_ID, or vice versa)
-	AkFileID			fileID;			///< File ID. Only one of pszFileName or fileID should be valid (pszFileName null while fileID is not AK_INVALID_FILE_ID, or vice versa)
-	AkFileSystemFlags*  pFlags;			///< Flags for opening, null when unused
-	AkOpenMode			eOpenMode;		///< Open mode.
 };
 
 #pragma pack(pop)
@@ -508,7 +453,9 @@ namespace AK
 		/// - \ref streamingdevicemanager
         virtual AKRESULT SetPosition(
             AkInt64         in_iMoveOffset,     ///< Seek offset
-            AkMoveMethod    in_eMoveMethod      ///< Seek method, from the beginning, end, or current file position
+            AkMoveMethod    in_eMoveMethod,     ///< Seek method, from the beginning, end, or current file position
+            AkInt64 *       out_piRealOffset    ///< The actual seek offset may differ from the expected value when the block size is bigger than 1.
+                                                ///< In that case, the seek offset floors to the sector boundary. Can pass NULL.
             ) = 0;
 
         /// Cancel the current operation.
@@ -520,15 +467,15 @@ namespace AK
 
         //@}
 
-         /// \name Access to data and status.
+        /// \name Access to data and status.
         //@{
         /// Get user data (and accessed size).
         /// \return The address of data provided by user
-        /// \sa
-        /// - \ref streamingdevicemanager
-        virtual void* GetData(
-            AkUInt32& out_uSize           ///< Size actually read or written
-        ) = 0;
+		/// \sa
+		/// - \ref streamingdevicemanager
+        virtual void *   GetData( 
+            AkUInt32 &      out_uSize           ///< Size actually read or written
+            ) = 0;
 
         /// Get the stream's status.
         /// \return The stream status.
@@ -604,6 +551,18 @@ namespace AK
 			AkUInt32		in_uMinBufferSize	///< Minimum buffer size that can be handed out to client.
 			) = 0;
 
+		/// Set the minimum size to buffer ahead in an automated stream.
+		///
+		/// This function was made available to allow systems that cannot only rely on AkAutoStmHeuristics::fThroughput to predict what will be the best target size of an automatic stream.
+		/// The system will predict the minimum size to buffer and will consider this value as the minimal size to be the target.
+		/// \sa
+		/// - AkAutoStmBufSettings
+		/// - \ref streamingdevicemanager
+		/// - \ref AkAutoStmHeuristics
+		virtual AKRESULT  SetMinTargetBufferSize(
+			AkUInt32		in_uMinTargetBufferSize	///< Minimum size to buffer ahead in an automated stream. (in bytes)
+		) = 0;
+
         /// Give the stream a name (appears in the Wwise profiler).
 		/// \sa
 		/// - \ref streamingdevicemanager
@@ -677,7 +636,9 @@ namespace AK
 		/// - \ref streamingdevicemanager
         virtual AKRESULT SetPosition(
             AkInt64         in_iMoveOffset,     ///< Seek offset
-            AkMoveMethod    in_eMoveMethod      ///< Seek method, from the beginning, end or current file position|
+            AkMoveMethod    in_eMoveMethod,     ///< Seek method, from the beginning, end or current file position
+            AkInt64 *       out_piRealOffset    ///< The actual seek offset may differ from the expected value when the low-level's block size is greater than 1.
+                                                ///< In that case, the real absolute position rounds down to the block boundary. Can pass NULL.
             ) = 0;
 
         //@}
@@ -762,26 +723,57 @@ namespace AK
 		/// \sa
 		/// - \ref streamingdevicemanager
         virtual AKRESULT CreateStd(
-            const AkFileOpenData& in_FileOpen,	    ///< File name or file ID (only one should be valid), open flags, open mode
+            const AkOSChar*     in_pszFileName,     ///< Application-defined string (title only, or full path, or code...)
+            AkFileSystemFlags * in_pFSFlags,        ///< Special file system flags. Can pass NULL
+            AkOpenMode          in_eOpenMode,       ///< Open mode (read, write, ...)
             IAkStdStream *&     out_pStream,		///< Returned interface to a standard stream. If the function does not return AK_Success, this pointer is left untouched.
 			bool				in_bSyncOpen		///< If true, force the Stream Manager to open file synchronously. Otherwise, it is left to its discretion.
-            ) = 0;      
+            ) = 0;
+
+        /// Create a standard stream (ID overload).
+        /// \return AK_Success if the stream was created successfully
+        /// \remarks The ID overload of AK::StreamMgr::IAkFileLocationResolver::Open() will be called.
+		/// \sa
+		/// - \ref streamingdevicemanager
+        virtual AKRESULT CreateStd(
+            AkFileID            in_fileID,          ///< Application-defined ID
+            AkFileSystemFlags * in_pFSFlags,        ///< Special file system flags (can pass NULL)
+            AkOpenMode          in_eOpenMode,       ///< Open mode (read, write, ...)
+            IAkStdStream *&     out_pStream,		///< Returned interface to a standard stream. If the function does not return AK_Success, this pointer is left untouched.
+			bool				in_bSyncOpen		///< If true, force the Stream Manager to open file synchronously. Otherwise, it is left to its discretion.
+            ) = 0;
+
         
         // Automatic stream create methods.
-        /// Create an automatic stream.
+
+        /// Create an automatic stream (string overload).
         /// \return AK_Success if the stream was created successfully
-        /// \remarks Automatic streams can only be in Read mode.
         /// \remarks The stream needs to be started explicitly with AK::IAkAutoStream::Start().
-		/// \remarks This call will eventually delegate the operation to AK::StreamMgr::IAkFileLocationResolver::Open().
+		/// \remarks The string overload of AK::StreamMgr::IAkFileLocationResolver::Open() will be called.
 		/// \sa
 		/// - \ref streamingdevicemanager
         virtual AKRESULT CreateAuto(
-            const AkFileOpenData&       in_FileOpen,	    ///< File name or file ID (only one should be valid), open flags, open mode
+            const AkOSChar*             in_pszFileName,     ///< Application-defined string (title only, or full path, or code...)
+            AkFileSystemFlags *         in_pFSFlags,        ///< Special file system flags (can pass NULL)
             const AkAutoStmHeuristics & in_heuristics,      ///< Streaming heuristics
             AkAutoStmBufSettings *      in_pBufferSettings, ///< Stream buffer settings (it is recommended to pass NULL in order to use the default settings)
             IAkAutoStream *&            out_pStream,		///< Returned interface to an automatic stream. If the function does not return AK_Success, this pointer is left untouched.
-			bool						in_bSyncOpen,		///< If true, force the Stream Manager to open file synchronously. Otherwise, it is left to its discretion.
-            bool						in_bCaching = false	///< Does this stream stay in cache
+			bool						in_bSyncOpen		///< If true, force the Stream Manager to open file synchronously. Otherwise, it is left to its discretion.
+            ) = 0;
+
+        /// Create an automatic stream (ID overload).
+        /// \return AK_Success if the stream was created successfully
+        /// \remarks The stream needs to be started explicitly with IAkAutoStream::Start().
+        /// \remarks The ID overload of AK::StreamMgr::IAkFileLocationResolver::Open() will be called.
+		/// \sa
+		/// - \ref streamingdevicemanager
+        virtual AKRESULT CreateAuto(
+            AkFileID                    in_fileID,          ///< Application-defined ID
+            AkFileSystemFlags *         in_pFSFlags,        ///< Special file system flags (can pass NULL)
+            const AkAutoStmHeuristics & in_heuristics,      ///< Streaming heuristics
+            AkAutoStmBufSettings *      in_pBufferSettings, ///< Stream buffer settings (it is recommended to pass NULL to use the default settings)
+			IAkAutoStream *&            out_pStream,		///< Returned interface to an automatic stream. If the function does not return AK_Success, this pointer is left untouched.
+			bool						in_bSyncOpen		///< If true, force the Stream Manager to open file synchronously. Otherwise, it is left to its discretion.
             ) = 0;
 
 		/// Create an automatic stream (in-memory buffer overload).

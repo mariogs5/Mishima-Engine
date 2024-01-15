@@ -21,17 +21,18 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+Version: v2021.1.5  Build: 7749
+Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 #ifndef _AK_REFLECT_GAMEDATA_H_
 #define _AK_REFLECT_GAMEDATA_H_
 
-#include <AK/SoundEngine/Common/AkTypes.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkTypes.h>
 
 #define AK_MAX_NUM_TEXTURE 4
 
-/// Data used to describe one image source in Reflect.
+/// Data used to describe one image source in Wwise Reflect.
 struct AkImageSourceName
 {
 	AkImageSourceName()
@@ -54,7 +55,7 @@ struct AkImageSourceName
 	}
 
 	AkUInt32 uNumChar;							///< Number of characters in image source name.
-	const char * pName;							///< Optional image source name. Appears in Reflect's editor when profiling.
+	const char * pName;							///< Optional image source name. Appears in Wwise Reflect's editor when profiling.
 };
 
 struct AkImageSourceTexture
@@ -83,7 +84,7 @@ struct AkImageSourceParams
 		sourcePosition.Z = 0.f;
 	}
 
-	AkImageSourceParams(AkVector64 in_sourcePosition, AkReal32 in_fDistanceScalingFactor, AkReal32 in_fLevel)
+	AkImageSourceParams(AkVector in_sourcePosition, AkReal32 in_fDistanceScalingFactor, AkReal32 in_fLevel)
 		: sourcePosition(in_sourcePosition)
 		, fDistanceScalingFactor(in_fDistanceScalingFactor)
 		, fLevel(in_fLevel)
@@ -93,7 +94,7 @@ struct AkImageSourceParams
 	{
 	}
 
-	AkVector64 sourcePosition;					///< Image source position, relative to the world.
+	AkVector sourcePosition;					///< Image source position, relative to the world.
 	AkReal32 fDistanceScalingFactor;			///< Image source distance scaling. This number effectively scales the sourcePosition vector with respect to the listener and, consequently, scales distance and preserves orientation.
 	AkReal32 fLevel;							///< Game-controlled level for this source, linear.
 	AkReal32 fDiffraction;						///< Diffraction amount, normalized to the range [0,1].
@@ -110,7 +111,7 @@ struct AkReflectImageSource
 		, name()
 	{}
 
-	AkReflectImageSource(AkImageSourceID in_uID, AkVector64 in_sourcePosition, AkReal32 in_fDistanceScalingFactor, AkReal32 in_fLevel)
+	AkReflectImageSource(AkImageSourceID in_uID, AkVector in_sourcePosition, AkReal32 in_fDistanceScalingFactor, AkReal32 in_fLevel)
 		: uID(in_uID) 
 		, params(in_sourcePosition, in_fDistanceScalingFactor, in_fLevel)
 		, texture()
@@ -124,12 +125,12 @@ struct AkReflectImageSource
 	}
 
 	AkImageSourceID uID;						///< Image source ID (for matching delay lines across frames)
-	AkImageSourceParams params;					///< Image source properties
-	AkImageSourceTexture texture;				///< Image source's acoustic textures. Note that changing any of these textures across frames for a given image source, identified by uID, may result in a discontinuity in the audio signal.
-	AkImageSourceName name;						///< Image source name, for profiling.
+	AkImageSourceParams params;
+	AkImageSourceTexture texture;
+	AkImageSourceName name;
 };
 
-/// Data structure sent by the game to an instance of the Reflect plug-in.
+/// Data structure sent by the game to an instance of the Wwise Reflect plug-in.
 struct AkReflectGameData
 {
 	AkGameObjectID listenerID;					///< ID of the listener used to compute spatialization and distance evaluation from within the targeted Reflect plug-in instance. It needs to be one of the listeners that are listening to the game object associated with the targeted plug-in instance. See AK::SoundEngine::SetListeners and AK::SoundEngine::SetGameObjectAuxSendValues.

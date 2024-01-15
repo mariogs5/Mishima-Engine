@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 // AkTypes.h
@@ -29,10 +30,10 @@ the specific language governing permissions and limitations under the License.
 /// \file
 /// Data type definitions.
 
-#pragma once
+#ifndef _AK_DATA_TYPES_PLATFORM_H_
+#define _AK_DATA_TYPES_PLATFORM_H_
 
-#include <AK/SoundEngine/Common/AkNumeralTypes.h>
-
+#include <stdint.h>
 #include <limits.h>
 
 #ifndef __cplusplus
@@ -56,7 +57,14 @@ the specific language governing permissions and limitations under the License.
 #ifdef WINAPI_FAMILY
 	#include <winapifamily.h>
 	#if !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
-#error "The current WINAPI_FAMILY_PARTITION is not supported."
+		#define AK_USE_UWP_API
+		#define AK_USE_METRO_API // deprecated
+		#ifdef __cplusplus_winrt
+			#define AK_UWP_CPP_CX // To test for UWP code which uses Microsoft's C++/CX extended language (not all projects do)
+		#endif
+		#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PC_APP)
+			#define AK_WIN_UNIVERSAL_APP
+		#endif
 	#endif
 #endif
 
@@ -71,7 +79,6 @@ the specific language governing permissions and limitations under the License.
 #define AK_71FROMSTEREOMIXER
 #define AK_51FROMSTEREOMIXER
 
-#define AK_SUPPORT_THREADS
 #define AK_SUPPORT_WCHAR						///< Can support wchar
 #define AK_OS_WCHAR								///< Use wchar natively
 
@@ -87,7 +94,11 @@ the specific language governing permissions and limitations under the License.
 #define AK_BUFFER_ALIGNMENT AK_SIMD_ALIGNMENT
 #define AK_XAUDIO2_FLAGS 0
 
+#ifdef AK_USE_UWP_API
+#define AK_WINRT_DEVICENOTIFICATION
+#else
 #define AK_DEVICE_CACHE_SUPPORT					///< Supports output device notifications & cache
+#endif
 
 #if defined AK_CPU_X86 || defined AK_CPU_X86_64 || defined AK_CPU_ARM_NEON
 #define AKSIMD_V4F32_SUPPORTED
@@ -105,18 +116,34 @@ the specific language governing permissions and limitations under the License.
 #define AK_DLLEXPORT __declspec(dllexport)
 #define AK_DLLIMPORT __declspec(dllimport)
 
-typedef wchar_t					AkOSChar;		///< Generic character string
-typedef wchar_t					AkUtf16;		///< Type for 2 byte chars. Used for communication
-												///< with the authoring tool.
+typedef uint8_t			AkUInt8;				///< Unsigned 8-bit integer
+typedef uint16_t		AkUInt16;				///< Unsigned 16-bit integer
+typedef uint32_t		AkUInt32;				///< Unsigned 32-bit integer
+typedef uint64_t		AkUInt64;				///< Unsigned 64-bit integer
+
+typedef intptr_t		AkIntPtr;				///< Integer type for pointers
+typedef uintptr_t		AkUIntPtr;				///< Integer (unsigned) type for pointers
+
+typedef int8_t			AkInt8;					///< Signed 8-bit integer
+typedef int16_t			AkInt16;				///< Signed 16-bit integer
+typedef int32_t			AkInt32;				///< Signed 32-bit integer
+typedef int64_t			AkInt64;				///< Signed 64-bit integer
+
+typedef wchar_t			AkOSChar;				///< Generic character string
+
+typedef float			AkReal32;				///< 32-bit floating point
+typedef double			AkReal64;				///< 64-bit floating point
 
 typedef void *					AkThread;		///< Thread handle
-typedef unsigned long			AkThreadID;		///< Thread ID
+typedef AkUInt32				AkThreadID;		///< Thread ID
 typedef unsigned long (__stdcall *AkThreadRoutine)(	void* lpThreadParameter	); ///< Thread routine
 
 typedef void *					AkEvent;		///< Event handle
 typedef void *					AkSemaphore;	///< Semaphore handle
 
 typedef void *					AkFileHandle;	///< File handle
+typedef wchar_t			AkUtf16;				///< Type for 2 byte chars. Used for communication
+												///< with the authoring tool.
 
 typedef void* AkStackTrace[ 64 ];
 
@@ -135,7 +162,7 @@ typedef AkUInt32			AkFourcc;			///< Riff chunk
 #define AK_BANK_PLATFORM_DATA_ALIGNMENT	(16)	///< Required memory alignment for bank loading by memory address (see LoadBank())
 
 /// Format for printing AkOSChar string using OutputDebugMsgV
-/// Corresponds to "%ls" if AK_OS_WCHAR, else "%s".
+/// Corresponds to "%ls" if AK_OS_WCHAR, else "%s".		
 /// \remark Usage: AKPLATFORM::OutputDebugMsgV(AKTEXT("Print this string: " AK_OSCHAR_FMT "\n", msg));
 #define AK_OSCHAR_FMT "%ls"
 
@@ -143,3 +170,6 @@ typedef AkUInt32			AkFourcc;			///< Riff chunk
 /// \remark This is similar to the TEXT() and _T() macros that can be used to turn string litterals into wchar_t strings
 /// \remark Usage: AKTEXT( "Some Text" )
 #define AKTEXT(x) L ## x
+
+#endif //_AK_DATA_TYPES_PLATFORM_H_
+

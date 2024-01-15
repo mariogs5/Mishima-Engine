@@ -21,7 +21,8 @@ under the Apache License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
 OR CONDITIONS OF ANY KIND, either express or implied. See the Apache License for
 the specific language governing permissions and limitations under the License.
 
-  Copyright (c) 2023 Audiokinetic Inc.
+  Version: v2021.1.5  Build: 7749
+  Copyright (c) 2006-2021 Audiokinetic Inc.
 *******************************************************************************/
 
 // AkCallback.h
@@ -33,8 +34,8 @@ the specific language governing permissions and limitations under the License.
 #ifndef _AK_CALLBACK_H_
 #define _AK_CALLBACK_H_
 
-#include <AK/SoundEngine/Common/AkCommonDefs.h>
-#include <AK/SoundEngine/Common/AkMidiTypes.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkCommonDefs.h>
+#include <../../Wwise/include AK/SoundEngine/Common/AkMidiTypes.h>
 
 namespace AK
 {
@@ -116,8 +117,7 @@ struct AkMarkerCallbackInfo : public AkEventCallbackInfo
 {
 	AkUInt32	uIdentifier;		///< Cue point identifier
 	AkUInt32	uPosition;			///< Position in the cue point (unit: sample frames)
-	const char*	strLabel;			///< Label of the marker (null-terminated)
-	AkUInt32	uLabelSize;			///< Size of the label string (including the terminating null character)
+	const char*	strLabel;			///< Label of the marker, read from the file
 };
 
 /// Callback information structure corresponding to \ref AK_Duration.
@@ -167,6 +167,7 @@ struct AkSpeakerVolumeMatrixCallbackInfo : public AkEventCallbackInfo
 	AkChannelConfig outputConfig;				///< Channel configuration of the output bus.
 	AkReal32 * pfBaseVolume;					///< Base volume, common to all channels.
 	AkReal32 * pfEmitterListenerVolume;			///< Emitter-listener pair-specific gain. When there are multiple emitter-listener pairs, this volume is set to that of the loudest pair, and the relative gain of other pairs is applied directly on the channel volume matrix pVolumes.
+	AK::IAkMixerInputContext * pContext;		///< Context of the current voice/bus about to be mixed into the output bus with specified base volume and volume matrix.
 	AK::IAkMixerPluginContext * pMixerContext;	///< Output mixing bus context. Use it to access a few useful panning and mixing services, as well as the ID of the output bus. NULL if pContext is the master audio bus.
 };
 
@@ -174,7 +175,7 @@ struct AkSpeakerVolumeMatrixCallbackInfo : public AkEventCallbackInfo
 /// Register the callback using AK::SoundEngine::RegisterBusMeteringCallback.
 struct AkBusMeteringCallbackInfo : public AkCallbackInfo
 {
-	AK::AkMetering* pMetering;					///< Struct containing metering information.
+	AK::IAkMetering* pMetering;					///< AK::IAkMetering interface for retrieving metering information.
 	AkChannelConfig	channelConfig;				///< Channel configuration of the bus.
 	AkMeteringFlags eMeteringFlags;				///< Metering flags that were asked for in RegisterBusMeteringCallback(). You may only access corresponding meter values from in_pMeteringInfo. Others will fail.
 };
@@ -183,12 +184,12 @@ struct AkBusMeteringCallbackInfo : public AkCallbackInfo
 /// Register the callback using AK::SoundEngine::RegisterOutputDeviceMeteringCallback.
 struct AkOutputDeviceMeteringCallbackInfo : public AkCallbackInfo
 {
-	AK::AkMetering * pMainMixMetering;					///< Metering information for the main mix
+	AK::IAkMetering * pMainMixMetering;					///< Metering information for the main mix
 	AkChannelConfig	mainMixConfig;						///< Channel configuration of the main mix
-	AK::AkMetering * pPassthroughMetering;				///< Metering information for the passthrough mix (if any; will be null otherwise)
+	AK::IAkMetering * pPassthroughMetering;				///< Metering information for the passthrough mix (if any; will be null otherwise)
 	AkChannelConfig	passthroughMixConfig;				///< Channel configuration of the passthrough mix (if any; will be invalid otherwise)
 	AkUInt32 uNumSystemAudioObjects;					///< Number of System Audio Objects going out of the output device
-	AK::AkMetering ** ppSystemAudioObjectMetering;		///< Metering information for each System Audio Object (number of elements is equal to uNumSystemAudioObjects)
+	AK::IAkMetering ** ppSystemAudioObjectMetering;		///< Metering information for each System Audio Object (number of elements is equal to uNumSystemAudioObjects)
 	AkMeteringFlags eMeteringFlags;						///< Metering flags that were asked for in RegisterOutputDeviceMeteringCallback(). You may only access corresponding meter values from the metering objects. Others will fail.
 };
 
@@ -280,7 +281,7 @@ AK_CALLBACK( void, AkBusCallbackFunc )(
 /// Function called on at every audio frame for the specified registered busses, just after metering has been computed.
 /// \sa 
 /// - AK::SoundEngine::RegisterBusMeteringCallback()
-/// - AK::AkMetering
+/// - AK::IAkMetering
 /// - AkBusMeteringCallbackInfo
 /// - \ref goingfurther_speakermatrixcallback
 AK_CALLBACK( void, AkBusMeteringCallbackFunc )( 
@@ -290,7 +291,7 @@ AK_CALLBACK( void, AkBusMeteringCallbackFunc )(
 /// Function called on at every audio frame for the specified registered output devices, just after metering has been computed.
 /// \sa 
 /// - AK::SoundEngine::RegisterOutputDeviceMeteringCallback()
-/// - AK::AkMetering
+/// - AK::IAkMetering
 /// - AkOutputDeviceMeteringCallbackInfo
 /// - \ref goingfurther_speakermatrixcallback
 AK_CALLBACK( void, AkOutputDeviceMeteringCallbackFunc )(
@@ -346,8 +347,8 @@ enum AkGlobalCallbackLocation
 
 	AkGlobalCallbackLocation_Term = (1 << 7),		///< Sound engine termination.
 
-	AkGlobalCallbackLocation_Monitor = (1 << 8),		///< Send monitor data
-	AkGlobalCallbackLocation_MonitorRecap = (1 << 9),	///< Send monitor data connection to recap.
+	AkGlobalCallbackLocation_Monitor = (1 << 8),		/// Send monitor data
+	AkGlobalCallbackLocation_MonitorRecap = (1 << 9),	/// Send monitor data connection to recap.
 
 	AkGlobalCallbackLocation_Init = (1 << 10),		///< Sound engine initialization.
 
