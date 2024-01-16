@@ -4,7 +4,7 @@ Mishima Engine is a humble game engine created for the Game Engine subject from 
 (CITM UPC) thaught and supervised by [Miquel Suau](https://github.com/MayKoder).
 
 <p align="center">
-  <img src="" alt="MishimaEngineLogo" width="400" height="400"/>
+  <img src="https://cdn.discordapp.com/attachments/529313201444225037/1169034298364538880/41VApAg2qpL.png?ex=65b03808&is=659dc308&hm=949389bf1d26b6486ff474a20569871851dada216b9224da80e9f1b82322e373&" alt="MishimaEngineLogo" width="400" height="400"/>
 </p>
 
 # Team Members:
