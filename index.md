@@ -1,6 +1,6 @@
 # Mishima Engine
 
-Mishima Engine is A humble game engine created for the Game Engine subject from the Videogame Design and Development degree
+Mishima Engine is a humble game engine created for the Game Engine subject from the Videogame Design and Development degree
 (CITM UPC) thaught and supervised by [Miquel Suau](https://github.com/MayKoder).
 
 <p align="center">
