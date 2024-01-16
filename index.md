@@ -1,11 +1,33 @@
 # Mishima Engine
 
-Mishima Engine is a humble engine created for the Game Engine subject from the Videogame Design and Development degree
-(CITM UPC).
+Mishima Engine is a humble game engine created for the Game Engine subject from the Videogame Design and Development degree
+(CITM UPC) thaught and supervised by [Miquel Suau](https://github.com/MayKoder).
+
+<p align="center">
+  <img src="" alt="MishimaEngineLogo" width="400" height="400"/>
+</p>
+
+# Team Members: About Us
+
+### _**Mario Garcia Sutil**_
+
+<img src="" alt="" width=""/>
+
+RESUMEN PERSONAL + TRABAJO EN EL ENGINE
+  
+* **GitHub:** [mariogs5](https://github.com/mariogs5)
+
+### _**Víctor Gil Espallargas**_
+
+<img src="" alt="" width=""/>
+
+RESUMEN PERSONAL + TRABAJO EN EL ENGINE.
+
+* **GitHub:** [Ludo-pixel](https://github.com/Ludo-pixel)
 
 # Repository and Releases
 
-### Repository Link: [Mishima Engine](https://github.com/mariogs5/Mishima-Engine))
+### Repository Link: [Mishima Engine](https://github.com/mariogs5/Mishima-Engine)
 
 ### Last Release Link: [v0.3 - Audio System]()
 
