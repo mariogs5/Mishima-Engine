@@ -69,7 +69,7 @@ Mishima Engine is a humble game engine created for the Game Engine subject from 
 
 # Workflow Video
 
-<iframe width="560" height="315" src="https://youtu.be/8z52u_QCgUU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[Video Link](https://youtu.be/8z52u_QCgUU)
 
 # License
 
