@@ -29,14 +29,6 @@ RESUMEN PERSONAL
 
 # Main Core Sub-Systems & Features
 
-- Wwise Project Implementation.
-- Module Audio to control listeners and audio sources.
-- New GameObjects Components implemented:
-  - Component Listener: is the component that manages which GameObject receives sound.
-  - Component AudioSource: is the component that manages which GameObject emits sound.
-
-**IMPORTANT NOTE:** *Due to several problems the implementation of Wwise in the project has given errors that we have not been able to solve. For this reason the executable of the v1.0 release is the same of the v0.2 release. But if you download the source code you can visualize the implementation of Wwise that we have done within our possibilities.*
-
 - Models and Textures drawn properly with Bounding Box for each mesh.
 - GameObjects creation, transformation and hierarchy.
 - Game Viewport and Scene ViewPort (With an independent camera for each one).
@@ -64,6 +56,14 @@ RESUMEN PERSONAL
 - Unity Like camera.
 
 # High-Level System: Audio System
+
+- Wwise Project Implementation.
+- Module Audio to control listeners and audio sources.
+- New GameObjects Components implemented:
+  - Component Listener: is the component that manages which GameObject receives sound.
+  - Component AudioSource: is the component that manages which GameObject emits sound.
+
+**IMPORTANT NOTE:** *Due to several problems the implementation of Wwise in the project has given errors that we have not been able to solve. For this reason the executable of the v1.0 release is the same of the v0.2 release. But if you download the source code you can visualize the implementation of Wwise that we have done within our possibilities.*
 
 # Repository and Releases
 
