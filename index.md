@@ -7,21 +7,17 @@ Mishima Engine is a humble game engine created for the Game Engine subject from 
   <img src="" alt="MishimaEngineLogo" width="400" height="400"/>
 </p>
 
-# Team Members: About Us
+# Team Members:
 
 ### _**Mario Garcia Sutil**_
 
-<img src="" alt="" width=""/>
-
-RESUMEN PERSONAL + TRABAJO EN EL ENGINE
+RESUMEN PERSONAL + TRABAJO EN EL ENGINE + FOTO
   
 * **GitHub:** [mariogs5](https://github.com/mariogs5)
 
 ### _**Víctor Gil Espallargas**_
 
-<img src="" alt="" width=""/>
-
-RESUMEN PERSONAL + TRABAJO EN EL ENGINE.
+RESUMEN PERSONAL + TRABAJO EN EL ENGINE + FOTO.
 
 * **GitHub:** [Ludo-pixel](https://github.com/Ludo-pixel)
 
