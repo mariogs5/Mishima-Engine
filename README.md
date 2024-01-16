@@ -8,7 +8,14 @@ Mishima Engine is a humble engine created for the Game Engine subject.
 - Mario Garcia Sutil **GitHub:**   [mariogs5](https://github.com/mariogs5)
 - Víctor Gil Espallargues  **GitHub:**   [Ludo-pixel](https://github.com/Ludo-pixel)
 
-## New v0.2 Features:
+## New v1.0 Features (Audio Engine Implementation):
+- Wwise Project Implementation.
+- Module Audio to control listeners and audio sources.
+- New GameObjects Components implemented:
+  - Component Listener: is the component that manages which GameObject receives sound.
+  - Component AudioSource: is the component that manages which GameObject emits sound.
+
+## v0.2 Features:
 
 - Models and Textures drawn properly with Bounding Box for each mesh.
 - GameObjects creation, transformation and hierarchy.
