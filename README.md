@@ -15,6 +15,10 @@ Mishima Engine is a humble engine created for the Game Engine subject.
   - Component Listener: is the component that manages which GameObject receives sound.
   - Component AudioSource: is the component that manages which GameObject emits sound.
 
+Due to several problems the implementation of Wwise in the project has given errors that we have not been able to solve. For this reason the executable of the v1.0 release is the same of the v0.2 release.
+ 
+But if you download the source code you can visualize the implementation of Wwise that we have done within our possibilities.
+
 ## v0.2 Features:
 
 - Models and Textures drawn properly with Bounding Box for each mesh.
