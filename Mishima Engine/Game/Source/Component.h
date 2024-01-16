@@ -10,6 +10,8 @@ enum ComponentTypes
 	MESH,
 	TEXTURE,
 	CAMERA,
+	LISTENER,
+	AUDIOSOURCE,
 };
 
 class Component {

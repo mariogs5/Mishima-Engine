@@ -32,8 +32,13 @@ public:
 	//------------------ Wwise Funcions ------------------//
 	bool InitAudioEngine();
 	void ProcessAudio();
+	void ModuleAudio::SetDefaultListener(const AkGameObjectID id);
+
+	//------------------ ID Funcions ------------------//
+	AkUInt32 ChangeNametoID(std::string name);
 
 public:
-	CAkFilePackageLowLevelIODeferred g_lowLevelIO;
-	
+	CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
+
+	AkUInt32 ListenersNum;
 };

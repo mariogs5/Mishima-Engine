@@ -320,6 +320,9 @@
     <ClInclude Include="Game\Source\ModuleAudio.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Source\ComponentListener.h">
+      <Filter>Sources\GameObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Source\ModuleCamera3D.cpp">
@@ -501,6 +504,9 @@
     </ClCompile>
     <ClCompile Include="Game\Source\ModuleAudio.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Source\ComponentListener.cpp">
+      <Filter>Sources\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

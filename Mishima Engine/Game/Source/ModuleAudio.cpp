@@ -8,7 +8,7 @@
 
 ModuleAudio::ModuleAudio(Application* app, bool start_enabled) : Module(app, start_enabled) 
 {
-
+	ListenersNum = 1;
 }
 
 ModuleAudio::~ModuleAudio(){}
@@ -38,6 +38,17 @@ bool ModuleAudio::CleanUp()
 	LOG("Cleaning ModuleAudio");
 
 	return true;
+}
+
+//------------------ Process Audio ------------------//
+AkUInt32 ModuleAudio::ChangeNametoID(std::string name) 
+{
+	AkUInt32 id;
+
+	int numero = std::stoi(name);
+	id = static_cast<AkUInt32>(numero);
+
+	return id;
 }
 
 //------------------ Init Audio Engine ------------------//
@@ -122,4 +133,10 @@ bool ModuleAudio::InitAudioEngine()
 void ModuleAudio::ProcessAudio() 
 {
 	AK::SoundEngine::RenderAudio();
+}
+
+//------------------ Default Listener ------------------//
+void ModuleAudio::SetDefaultListener(const AkGameObjectID id)
+{
+	AK::SoundEngine::SetDefaultListeners(&id, ListenersNum);
 }
