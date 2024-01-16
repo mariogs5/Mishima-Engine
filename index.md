@@ -27,23 +27,41 @@ RESUMEN PERSONAL + TRABAJO EN EL ENGINE + FOTO.
   <img src="https://cdn.discordapp.com/attachments/529313201444225037/1196889892383371385/IMG-20231118-WA0012.jpg?ex=65b94593&is=65a6d093&hm=6b277832796098078833de3c7782d42e83b82d845229d8a1e30f59fa5a0f1886&" alt="MishimaEngineLogo" width="300" height="400"/>
 </p>
 
-# Main Core Sub-Systems
+# Main Core Sub-Systems & Features
 
-## Geometry
-### Editor
+- Wwise Project Implementation.
+- Module Audio to control listeners and audio sources.
+- New GameObjects Components implemented:
+  - Component Listener: is the component that manages which GameObject receives sound.
+  - Component AudioSource: is the component that manages which GameObject emits sound.
 
+**IMPORTANT NOTE:** *Due to several problems the implementation of Wwise in the project has given errors that we have not been able to solve. For this reason the executable of the v1.0 release is the same of the v0.2 release. But if you download the source code you can visualize the implementation of Wwise that we have done within our possibilities.*
 
-### GameObject Structure & Components
-### Hierarchy & Inspector
-### Console
+- Models and Textures drawn properly with Bounding Box for each mesh.
+- GameObjects creation, transformation and hierarchy.
+- Game Viewport and Scene ViewPort (With an independent camera for each one).
+- Cameras with de folowing characteristics:
+    - All cameras reworked as components.
+    - Implementation of Frustrum Culling (Can be enabled or disabled in the Game camera inspector).
+    - Mouse Picking capable of selecting a mesh through the Scene window and displaying it in the inspector menu.
+    - Same controls for the Scene Camera as shown below except for a bug with the rotation orbiting an object that has been disabled due to errors with the rotation while looking at the object.
 
-## Engine Editor
-### Camera Frustum
-### Scene & Game Framebuffers
-### Custom File Format
-### Serialization
-### Resource Management
-### Time Management
+- ImGui window & docking implementation.
+- Main Bar with the following characteristics: 
+    - File -> Option to shut down the engine
+    - Configuration window:
+        - Check Pc resources in real time.
+        - Modify the Engine window settings.
+        - Check the hardware usage.
+        - About section with all the Engine information.
+        - Modify all the Open Gl settings.
+    - Console Window to see all the Log information.
+    - Models:
+        - Primitives: you can create primitives.
+        - Delete Models: Delete all the Models in the Scene. 
+- Drag & Drop FBX Models.
+- Load an initial texture without UV's.
+- Unity Like camera.
 
 # High-Level System: Audio System
 
