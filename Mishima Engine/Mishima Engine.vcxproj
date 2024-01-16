@@ -83,6 +83,7 @@
     <ClInclude Include="Game\Source\Application.h" />
     <ClInclude Include="Game\Source\Color.h" />
     <ClInclude Include="Game\Source\Component.h" />
+    <ClInclude Include="Game\Source\ComponentAudioSource.h" />
     <ClInclude Include="Game\Source\ComponentCamera.h" />
     <ClInclude Include="Game\Source\ComponentListener.h" />
     <ClInclude Include="Game\Source\ComponentMesh.h" />
@@ -177,6 +178,7 @@
   <ItemGroup>
     <ClCompile Include="Game\Source\Application.cpp" />
     <ClCompile Include="Game\Source\Color.cpp" />
+    <ClCompile Include="Game\Source\ComponentAudioSource.cpp" />
     <ClCompile Include="Game\Source\ComponentCamera.cpp" />
     <ClCompile Include="Game\Source\ComponentListener.cpp" />
     <ClCompile Include="Game\Source\ComponentMesh.cpp" />

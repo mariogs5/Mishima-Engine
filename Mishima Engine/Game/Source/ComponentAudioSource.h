@@ -13,6 +13,8 @@ public:
 	void Disable() override;
 	void EditorInspector() override;
 
+	void PlayAudio();
+
 public:
 	GameObject* ListenerGO;
 	std::string GOname;

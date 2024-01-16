@@ -10,6 +10,7 @@ ComponentAudioSource::ComponentAudioSource(GameObject* parent) : Component(paren
 	id = externalapp->audio->ChangeNametoID(GOname);
 }
 
+//------------------ Default Component Funcions ------------------//
 void ComponentAudioSource::Enable() {}
 
 void ComponentAudioSource::Disable() {}
@@ -22,4 +23,10 @@ void ComponentAudioSource::EditorInspector()
 	{
 		ImGui::Text("GameObjectID:", id);
 	}
+}
+
+//------------------ Play Audio ------------------//
+void ComponentAudioSource::PlayAudio()
+{
+	externalapp->audio->ProcessAudio();
 }
