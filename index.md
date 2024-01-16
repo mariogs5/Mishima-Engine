@@ -23,10 +23,10 @@ RESUMEN PERSONAL + TRABAJO EN EL ENGINE + FOTO.
 
 # Main Core Sub-Systems
 
-## Geometry Viewer
+## Geometry
 ### Editor
-### Graphics Pipeline
-### Drag & Drop
+
+
 ### GameObject Structure & Components
 ### Hierarchy & Inspector
 ### Console
