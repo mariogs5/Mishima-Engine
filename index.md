@@ -21,7 +21,29 @@ RESUMEN PERSONAL + TRABAJO EN EL ENGINE + FOTO.
 
 * **GitHub:** [Ludo-pixel](https://github.com/Ludo-pixel)
 
+# Main Core Sub-Systems
+
+## Geometry Viewer
+### Editor
+### Graphics Pipeline
+### Drag & Drop
+### GameObject Structure & Components
+### Hierarchy & Inspector
+### Console
+
+## Engine Editor
+### Camera Frustum
+### Scene & Game Framebuffers
+### Custom File Format
+### Serialization
+### Resource Management
+### Time Management
+
+# High-Level System: Audio System
+
 # Repository and Releases
+
+# Workflow Video
 
 ### Repository Link: [Mishima Engine](https://github.com/mariogs5/Mishima-Engine)
 
